@@ -2,8 +2,13 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
 <title>COSMOS · 宇宙百科</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="COSMOS">
+<meta name="theme-color" content="#05060A">
+<link rel="manifest" href='data:application/json,{"name":"COSMOS 宇宙百科","short_name":"COSMOS","start_url":".","display":"standalone","background_color":"%2305060A","theme_color":"%2305060A","orientation":"portrait"}'>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
@@ -17,30 +22,27 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 @keyframes tw{0%,100%{opacity:.12;transform:scale(.85)}50%{opacity:.9;transform:scale(1.15)}}
 
 /* ============ 浅色模式 ============ */
-.phone.light{background:#f0f3fa;
-  box-shadow:0 0 0 1px #d8ddea, 0 30px 90px rgba(0,0,0,.35)}
+.phone.light{background:#f0f3fa;box-shadow:0 0 0 1px #d8ddea,0 30px 90px rgba(0,0,0,.35)}
 .phone.light .bg-stars .star{background:#8892b0}
-.phone.light .topbar h1{background:linear-gradient(120deg,#3b2e7a 10%,#6d5ce7 70%,#3a8bd4);
-  -webkit-background-clip:text;background-clip:text}
+.phone.light .topbar h1{background:linear-gradient(120deg,#3b2e7a 10%,#6d5ce7 70%,#3a8bd4);-webkit-background-clip:text;background-clip:text}
 .phone.light .topbar .sub{color:#8b94b8}
 .phone.light .icon-btn{background:rgba(108,92,231,.12);border-color:rgba(108,92,231,.3);color:#6d5ce7}
-.phone.light .cat-card,.phone.light .sub-card{background:rgba(255,255,255,.85);border-color:rgba(0,0,0,.06)}
-.phone.light .cat-card:active,.phone.light .sub-card:active{background:rgba(139,124,246,.12)}
-.phone.light .cat-name,.phone.light .sub-card .nm,.phone.light .list-title{color:#1a1f33}
-.phone.light .cat-count,.phone.light .sub-card .en{color:#6b7394}
+.phone.light .cat-card,.phone.light .sub-card,.phone.light .explore-card{background:rgba(255,255,255,.85);border-color:rgba(0,0,0,.06)}
+.phone.light .cat-card:active,.phone.light .sub-card:active,.phone.light .explore-card:active{background:rgba(139,124,246,.12)}
+.phone.light .cat-name,.phone.light .sub-card .nm,.phone.light .list-title,.phone.light .explore-name{color:#1a1f33}
+.phone.light .cat-count,.phone.light .sub-card .en,.phone.light .explore-desc{color:#6b7394}
 .phone.light .list-header{background:linear-gradient(180deg,#f0f3fa 70%,transparent)}
 .phone.light .search-bar{background:linear-gradient(180deg,#f0f3fa 82%,transparent)}
 .phone.light .search-box{background:rgba(0,0,0,.045);border-color:rgba(0,0,0,.08)}
 .phone.light .search-box input{color:#1a1f33}
 .phone.light .search-box input::placeholder{color:#8b94b8}
-.phone.light .search-box-icon{color:#8b94b8}
 .phone.light .search-cancel{color:#5e6690}
 .phone.light .back-btn{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.1);color:#4d5470}
 .phone.light .season-tab{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.08);color:#5e6690}
 .phone.light .hint-title{color:#5e6690}
 .phone.light .hint-chip{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.08);color:#5e6690}
-.phone.light .detail{background:#f0f3fa}
-.phone.light .d-name,.phone.light .sec{color:#1a1f33}
+.phone.light .detail,.phone.light .tool-overlay{background:#f0f3fa}
+.phone.light .d-name,.phone.light .sec,.phone.light .tool-title{color:#1a1f33}
 .phone.light .d-brief{color:#4d5470}
 .phone.light .d-intro{color:#5e6690}
 .phone.light .stat,.phone.light .layer,.phone.light .extra-row{background:rgba(255,255,255,.85);border-color:rgba(0,0,0,.06)}
@@ -57,7 +59,9 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .phone.light .quiz-opt{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.07);color:#1a1f33}
 .phone.light .quiz-opt.correct{background:rgba(52,211,153,.18);border-color:#34d399;color:#0f766e}
 .phone.light .quiz-opt.wrong{background:rgba(248,113,113,.16);border-color:#f87171;color:#b91c1c}
-.phone.light .fav-entry{background:rgba(255,255,255,.7)}
+.phone.light .dist-row .dist-label{color:#1a1f33}
+.phone.light .dist-scale{color:#6b7394}
+.phone.light .travel-select{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.08);color:#1a1f33}
 
 /* ============ 开场动画 ============ */
 .splash{position:absolute;inset:0;z-index:999;overflow:hidden;
@@ -123,13 +127,11 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
   background:rgba(108,92,231,.12);border:1px solid rgba(108,92,231,.25);color:#a78bfa;
   font-size:17px;cursor:pointer;transition:.18s;flex-shrink:0}
 .icon-btn:active{background:rgba(108,92,231,.28);transform:scale(.94)}
-.icon-btn.active{background:linear-gradient(135deg,#6d5ce7,#9b6cf6);color:#fff;border-color:transparent}
 
 .view{flex:1;overflow-y:auto;padding:0 20px 30px;scrollbar-width:none;display:none}
 .view.active{display:block}
 .view::-webkit-scrollbar{display:none}
 
-/* 今日星空 */
 .today-banner{background:linear-gradient(135deg,rgba(124,92,231,.12),rgba(96,165,250,.08));
   border:1px solid rgba(124,92,231,.22);border-radius:20px;padding:14px 16px;margin:8px 0 18px}
 .today-label{font-size:11px;letter-spacing:2px;color:#a78bfa;margin-bottom:12px;
@@ -142,23 +144,9 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .today-icon{width:38px;height:38px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .today-icon svg{width:38px;height:38px}
 .today-info{min-width:0;flex:1}
-.today-title{font-size:12.5px;color:#e9ebf4;font-weight:600;white-space:nowrap;
-  overflow:hidden;text-overflow:ellipsis}
-.today-sub{font-size:9.5px;color:#5e6690;margin-top:2px;white-space:nowrap;
-  overflow:hidden;text-overflow:ellipsis}
+.today-title{font-size:12.5px;color:#e9ebf4;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.today-sub{font-size:9.5px;color:#5e6690;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-/* 问答入口 */
-.quiz-entry{display:flex;align-items:center;gap:12px;padding:14px 16px;margin:14px 0 18px;
-  background:linear-gradient(135deg,rgba(251,191,36,.12),rgba(244,114,182,.08));
-  border:1px solid rgba(251,191,36,.25);border-radius:18px;cursor:pointer;transition:.18s}
-.quiz-entry:active{transform:scale(.98);background:linear-gradient(135deg,rgba(251,191,36,.2),rgba(244,114,182,.15))}
-.quiz-entry-icon{font-size:26px;flex-shrink:0}
-.quiz-entry-text{flex:1}
-.quiz-entry-title{font-size:14px;font-weight:700;color:#fbbf24;letter-spacing:.5px}
-.quiz-entry-sub{font-size:11px;color:#8b94b8;margin-top:3px}
-.quiz-entry-arrow{color:#fbbf24;font-size:18px}
-
-/* 分类 */
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-top:8px}
 .cat-card{background:rgba(17,21,34,.75);border:1px solid rgba(255,255,255,.06);
   border-radius:22px;padding:18px 12px 16px;display:flex;flex-direction:column;
@@ -168,6 +156,15 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .cat-card .cat-icon{width:68px;height:68px;display:flex;align-items:center;justify-content:center}
 .cat-card .cat-name{font-size:15px;font-weight:700;color:#e9ebf4;letter-spacing:1px}
 .cat-card .cat-count{font-size:11px;color:#5e6690;letter-spacing:1px}
+
+.explore-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:4px 0 14px}
+.explore-card{background:rgba(17,21,34,.75);border:1px solid rgba(255,255,255,.06);
+  border-radius:20px;padding:14px 12px;display:flex;flex-direction:column;
+  align-items:center;gap:8px;cursor:pointer;transition:.18s;text-align:center}
+.explore-card:active{transform:scale(.96);border-color:rgba(139,124,246,.55)}
+.explore-icon{font-size:26px}
+.explore-name{font-size:13.5px;font-weight:600;color:#e9ebf4;letter-spacing:.5px}
+.explore-desc{font-size:10.5px;color:#5e6690}
 
 .list-header{display:flex;align-items:center;gap:12px;padding:18px 0 14px;position:sticky;top:0;
   background:linear-gradient(180deg,#05060A 70%,transparent);z-index:5}
@@ -194,7 +191,6 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .sub-card .nm{font-size:13.5px;font-weight:600;color:#e9ebf4;letter-spacing:.5px;text-align:center}
 .sub-card .en{font-size:9px;color:#545b78;letter-spacing:1.5px;text-transform:uppercase;text-align:center}
 
-/* 搜索 */
 .search-bar{display:flex;align-items:center;gap:12px;padding:8px 0 14px;position:sticky;top:0;
   background:linear-gradient(180deg,#05060A 82%,transparent);z-index:5}
 .search-box{flex:1;display:flex;align-items:center;gap:10px;
@@ -204,28 +200,23 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .search-box-icon{color:#6b7394;flex-shrink:0;display:flex;align-items:center}
 .search-box input{flex:1;background:transparent;border:none;outline:none;
   color:#e9ebf4;font-size:14px;font-family:inherit;letter-spacing:.5px}
-.search-box input::placeholder{color:#4d5470;letter-spacing:.5px}
+.search-box input::placeholder{color:#4d5470}
 .search-clear-btn{width:20px;height:20px;border-radius:50%;display:none;
   align-items:center;justify-content:center;background:rgba(255,255,255,.12);
   color:#9aa0b8;font-size:11px;border:none;cursor:pointer;flex-shrink:0}
-.search-clear-btn:active{background:rgba(255,255,255,.22)}
-.search-cancel{font-size:13px;color:#9aa0b8;letter-spacing:1px;cursor:pointer;
-  padding:4px 2px;flex-shrink:0;user-select:none}
-.search-cancel:active{color:#a78bfa}
+.search-cancel{font-size:13px;color:#9aa0b8;letter-spacing:1px;cursor:pointer;padding:4px 2px;flex-shrink:0}
 .search-hint{padding-top:8px}
 .hint-title{font-size:12px;color:#5e6690;letter-spacing:2px;margin-bottom:12px}
 .hint-chips{display:flex;flex-wrap:wrap;gap:8px}
 .hint-chip{padding:6px 14px;border-radius:999px;font-size:12px;color:#a5adc8;
   background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
-  cursor:pointer;transition:.18s;user-select:none}
-.hint-chip:active{background:rgba(139,124,246,.2);color:#fff;border-color:rgba(139,124,246,.4)}
+  cursor:pointer;user-select:none}
 .search-empty,.fav-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:60px 20px;text-align:center}
 .empty-icon{font-size:44px;margin-bottom:18px;opacity:.55}
 .empty-text{font-size:15px;color:#a5adc8;font-weight:600;margin-bottom:8px}
-.empty-sub{font-size:12px;color:#5e6690;letter-spacing:.5px}
+.empty-sub{font-size:12px;color:#5e6690}
 
-/* 问答 */
 .quiz-container{padding-top:8px}
 .quiz-card{background:rgba(17,21,34,.8);border:1px solid rgba(255,255,255,.07);
   border-radius:20px;padding:20px 18px;margin-bottom:14px}
@@ -233,9 +224,7 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .quiz-q{font-size:16px;font-weight:600;color:#e9ebf4;line-height:1.5;margin-bottom:16px}
 .quiz-opts{display:flex;flex-direction:column;gap:10px}
 .quiz-opt{padding:13px 16px;border-radius:14px;font-size:14px;color:#d8dceb;
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-  cursor:pointer;transition:.18s;user-select:none}
-.quiz-opt:active{background:rgba(139,124,246,.15)}
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);cursor:pointer;user-select:none}
 .quiz-opt.correct{background:rgba(52,211,153,.2);border-color:#34d399;color:#34d399;font-weight:600}
 .quiz-opt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;color:#f87171}
 .quiz-opt.disabled{pointer-events:none;opacity:.7}
@@ -252,7 +241,99 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .quiz-restart{padding:12px 32px;border-radius:999px;font-size:14px;color:#fff;
   background:linear-gradient(120deg,#6d5ce7,#9b6cf6);border:none;cursor:pointer;
   font-family:inherit;letter-spacing:1px;box-shadow:0 8px 24px rgba(109,92,231,.4)}
-.quiz-restart:active{transform:scale(.96)}
+
+/* ============ 工具覆盖层 ============ */
+.tool-overlay{position:absolute;inset:0;z-index:50;background:#05060A;
+  display:flex;flex-direction:column;transform:translateX(100%);
+  transition:transform .38s cubic-bezier(.4,0,.2,1)}
+.tool-overlay.open{transform:translateX(0)}
+.tool-header{display:flex;align-items:center;gap:12px;padding:24px 20px 14px;flex-shrink:0}
+.tool-title{font-size:17px;font-weight:700;color:#fff;letter-spacing:1px}
+.tool-body{flex:1;overflow-y:auto;padding:0 20px 30px;scrollbar-width:none}
+.tool-body::-webkit-scrollbar{display:none}
+
+/* 太阳系模拟 */
+.solar-wrap{display:flex;flex-direction:column;gap:14px;align-items:center;padding-top:6px}
+#solarCanvas{width:100%;aspect-ratio:1/1;background:radial-gradient(circle,rgba(124,92,231,.08) 0%,rgba(0,0,0,0) 70%);
+  border-radius:20px;display:block;cursor:pointer;touch-action:manipulation}
+.solar-controls{display:flex;gap:12px;align-items:center;width:100%}
+.solar-btn{padding:9px 18px;border-radius:999px;font-size:12px;color:#fff;border:none;
+  background:linear-gradient(120deg,#6d5ce7,#9b6cf6);cursor:pointer;font-family:inherit;letter-spacing:1px}
+.solar-speed{flex:1;display:flex;gap:10px;align-items:center}
+.solar-speed label{font-size:11px;color:#8b94b8;letter-spacing:1px}
+.solar-speed input{flex:1;accent-color:#a78bfa}
+.solar-info{width:100%;padding:12px 16px;background:rgba(19,23,38,.8);border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;font-size:12.5px;color:#d8dceb;text-align:center;line-height:1.6;min-height:56px;
+  display:flex;align-items:center;justify-content:center}
+.phone.light .solar-info{background:rgba(255,255,255,.85);border-color:rgba(0,0,0,.06);color:#1a1f33}
+
+/* 距离比较器 */
+.dist-intro{font-size:12.5px;line-height:1.7;color:#8b94b8;margin-bottom:20px;padding:12px 14px;
+  background:rgba(124,92,231,.08);border-left:3px solid #a78bfa;border-radius:0 12px 12px 0}
+.dist-list{display:flex;flex-direction:column;gap:14px}
+.dist-row{display:flex;flex-direction:column;gap:6px}
+.dist-head{display:flex;justify-content:space-between;font-size:13px}
+.dist-label{font-size:13px;font-weight:600;color:#e9ebf4}
+.dist-val{font-size:11px;color:#8b94b8;font-variant-numeric:tabular-nums}
+.dist-bar{height:10px;background:rgba(255,255,255,.045);border-radius:5px;overflow:hidden;position:relative}
+.dist-fill{height:100%;border-radius:5px;transition:width 1s cubic-bezier(.22,1,.36,1);
+  box-shadow:0 0 12px currentColor}
+.dist-scale{margin-top:24px;display:flex;justify-content:space-between;font-size:10px;color:#5e6690;letter-spacing:.5px}
+
+/* 星际旅行 */
+.travel-select{width:100%;padding:12px 16px;border-radius:14px;font-size:14px;color:#e9ebf4;
+  background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);
+  font-family:inherit;cursor:pointer;margin-bottom:18px;outline:none}
+.travel-select option{background:#0a0c14;color:#e9ebf4}
+.travel-scene{position:relative;height:160px;border-radius:20px;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 50%,rgba(80,70,180,.18),rgba(5,6,10,.9));
+  border:1px solid rgba(255,255,255,.06);margin-bottom:18px}
+.travel-ship{position:absolute;top:50%;left:8%;transform:translateY(-50%);
+  font-size:32px;transition:left 4s cubic-bezier(.4,.05,.5,.95);
+  filter:drop-shadow(0 0 12px rgba(140,120,255,.8))}
+.travel-target{position:absolute;top:50%;right:8%;transform:translateY(-50%);
+  width:56px;height:56px;border-radius:50%;
+  box-shadow:0 0 30px currentColor;display:flex;align-items:center;justify-content:center}
+.travel-stars{position:absolute;inset:0;pointer-events:none}
+.travel-stars .tstar{position:absolute;background:#fff;border-radius:50%}
+.travel-info{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.travel-stat{background:rgba(19,23,38,.8);border:1px solid rgba(255,255,255,.055);
+  border-radius:14px;padding:12px 14px}
+.travel-stat .k{font-size:10px;color:#5b6382;letter-spacing:.5px}
+.travel-stat .v{font-size:14px;color:#e9ebf4;font-weight:700;margin-top:4px}
+.phone.light .travel-stat{background:rgba(255,255,255,.85);border-color:rgba(0,0,0,.06)}
+.phone.light .travel-stat .v{color:#1a1f33}
+.travel-fact{font-size:12.5px;line-height:1.7;color:#a5adc8;padding:14px 16px;
+  background:rgba(124,92,231,.08);border-radius:14px}
+.travel-go{margin-top:16px;width:100%;padding:14px;border-radius:999px;font-size:14px;color:#fff;
+  background:linear-gradient(120deg,#6d5ce7,#9b6cf6);border:none;cursor:pointer;
+  font-family:inherit;letter-spacing:2px;font-weight:600;
+  box-shadow:0 8px 24px rgba(109,92,231,.4)}
+.travel-go:active{transform:scale(.98)}
+.travel-go:disabled{opacity:.5;pointer-events:none}
+
+/* 每日一图 */
+.apod-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:80px 20px;gap:16px}
+.apod-spinner{width:36px;height:36px;border:3px solid rgba(139,124,246,.2);
+  border-top-color:#a78bfa;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.apod-loading-text{font-size:13px;color:#8b94b8;letter-spacing:1px}
+.apod-card{border-radius:20px;overflow:hidden;background:rgba(17,21,34,.8);
+  border:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+.phone.light .apod-card{background:rgba(255,255,255,.85);border-color:rgba(0,0,0,.06)}
+.apod-media{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#0a0c14}
+.apod-media iframe{width:100%;height:100%;border:none}
+.apod-body{padding:16px 18px}
+.apod-date{font-size:11px;letter-spacing:2px;color:#a78bfa;margin-bottom:8px}
+.apod-title{font-size:17px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:12px}
+.phone.light .apod-title{color:#1a1f33}
+.apod-explain{font-size:13px;line-height:1.75;color:#a5adc8;text-align:justify}
+.phone.light .apod-explain{color:#5e6690}
+.apod-error{padding:60px 20px;text-align:center}
+.apod-error .empty-icon{font-size:54px}
+.apod-retry{margin-top:16px;padding:10px 24px;border-radius:999px;font-size:13px;color:#fff;
+  background:linear-gradient(120deg,#6d5ce7,#9b6cf6);border:none;cursor:pointer;font-family:inherit}
 
 /* 详情 */
 .detail{position:absolute;inset:0;z-index:30;background:#05060A;overflow-y:auto;
@@ -261,18 +342,15 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .detail.open{transform:translateY(0)}
 .d-hero{position:relative;padding:34px 0 18px;display:flex;justify-content:center;align-items:center;
   background:radial-gradient(circle at 50% 45%,rgba(80,70,180,.16),transparent 68%)}
-.d-hero img{width:200px;height:200px;object-fit:cover;border-radius:50%;
-  box-shadow:0 0 50px rgba(124,92,231,.35)}
+.d-hero img{width:200px;height:200px;object-fit:cover;border-radius:50%;box-shadow:0 0 50px rgba(124,92,231,.35)}
 .d-close{position:absolute;top:16px;left:18px;width:38px;height:38px;border-radius:50%;
   background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#9aa0b8;
   font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5}
 .d-fav{position:absolute;top:16px;right:18px;width:38px;height:38px;border-radius:50%;
   background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#9aa0b8;
-  font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;
-  transition:.2s}
+  font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;transition:.2s}
 .d-fav.active{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;border-color:transparent;
   box-shadow:0 0 20px rgba(251,191,36,.5)}
-.d-fav:active{transform:scale(.92)}
 .d-body{padding:0 22px 40px}
 .d-cat{display:inline-block;font-size:10px;letter-spacing:2px;color:#a78bfa;
   background:rgba(139,124,246,.13);border:1px solid rgba(139,124,246,.28);
@@ -289,9 +367,8 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .sec::after{content:'';flex:1;height:1px;
   background:linear-gradient(90deg,rgba(120,110,220,.35),transparent)}
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.stat{background:rgba(19,23,38,.8);border:1px solid rgba(255,255,255,.055);
-  border-radius:14px;padding:11px 13px}
-.stat .k{font-size:10px;color:#5b6382;letter-spacing:.5px}
+.stat{background:rgba(19,23,38,.8);border:1px solid rgba(255,255,255,.055);border-radius:14px;padding:11px 13px}
+.stat .k{font-size:10px;color:#5b6382}
 .stat .v{font-size:13px;color:#e3e6f2;font-weight:600;margin-top:4px}
 .comp-row{margin-bottom:11px}
 .comp-head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
@@ -302,8 +379,7 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .layers{display:flex;flex-direction:column;gap:9px}
 .layer{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;
   background:rgba(19,23,38,.7);border:1px solid rgba(255,255,255,.05);border-radius:14px}
-.layer-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px;
-  box-shadow:0 0 10px currentColor}
+.layer-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px;box-shadow:0 0 10px currentColor}
 .layer-n{font-size:12.5px;font-weight:600;color:#dfe3f0;margin-bottom:3px}
 .layer-v{font-size:11.5px;line-height:1.55;color:#7b8299}
 .extra{display:flex;flex-direction:column;gap:8px}
@@ -422,13 +498,16 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 
       <div class="cat-grid" id="catGrid"></div>
 
-      <div class="quiz-entry" id="quizEntry">
-        <div class="quiz-entry-icon">🧠</div>
-        <div class="quiz-entry-text">
-          <div class="quiz-entry-title">挑战宇宙小知识</div>
-          <div class="quiz-entry-sub">8 道选择题，看看你能答对几道</div>
+      <div class="sec" style="margin-top:24px">探索工具</div>
+      <div class="explore-grid" id="exploreGrid"></div>
+
+      <div class="quiz-entry" id="quizEntry" style="display:flex;align-items:center;gap:12px;padding:14px 16px;margin:8px 0 18px;background:linear-gradient(135deg,rgba(251,191,36,.12),rgba(244,114,182,.08));border:1px solid rgba(251,191,36,.25);border-radius:18px;cursor:pointer">
+        <div style="font-size:26px">🧠</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:#fbbf24;letter-spacing:.5px">挑战宇宙小知识</div>
+          <div style="font-size:11px;color:#8b94b8;margin-top:3px">8 道选择题，看看你能答对几道</div>
         </div>
-        <div class="quiz-entry-arrow">→</div>
+        <div style="color:#fbbf24;font-size:18px">→</div>
       </div>
     </div>
 
@@ -493,19 +572,26 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
     </div>
   </div>
 
+  <!-- 工具覆盖层 -->
+  <div class="tool-overlay" id="toolOverlay">
+    <div class="tool-header">
+      <div class="back-btn" id="toolBack">←</div>
+      <div class="tool-title" id="toolTitle">工具</div>
+    </div>
+    <div class="tool-body" id="toolBody"></div>
+  </div>
+
   <div class="detail" id="detail"></div>
 </div>
 
 <script>
 /* ============================================================
-   零、音效（Web Audio API，无需音频文件）
+   零、音效
 ============================================================ */
 let _audioCtx = null;
 function initAudio() {
   if (!_audioCtx) {
-    try {
-      _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    } catch(e) { _audioCtx = null; }
+    try { _audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) { _audioCtx = null; }
   }
 }
 function playSound(freq, dur, type) {
@@ -520,8 +606,7 @@ function playSound(freq, dur, type) {
     o.frequency.setValueAtTime(freq || 880, _audioCtx.currentTime);
     g.gain.setValueAtTime(0.07, _audioCtx.currentTime);
     g.gain.exponentialRampToValueAtTime(0.0001, _audioCtx.currentTime + (dur || 0.14));
-    o.start();
-    o.stop(_audioCtx.currentTime + (dur || 0.14));
+    o.start(); o.stop(_audioCtx.currentTime + (dur || 0.14));
   } catch(e) {}
 }
 const sfx = {
@@ -531,11 +616,12 @@ const sfx = {
   fav:    () => { playSound(880, 0.08); setTimeout(()=>playSound(1320, 0.12), 60); },
   ok:     () => { playSound(880, 0.08); setTimeout(()=>playSound(1320, 0.15), 80); },
   no:     () => playSound(260, 0.22, 'triangle'),
-  finish: () => { playSound(660,0.1); setTimeout(()=>playSound(880,0.1),100); setTimeout(()=>playSound(1100,0.2),200); }
+  finish: () => { playSound(660,0.1); setTimeout(()=>playSound(880,0.1),100); setTimeout(()=>playSound(1100,0.2),200); },
+  launch: () => { playSound(330,0.15,'sawtooth'); setTimeout(()=>playSound(440,0.15,'sawtooth'),100); setTimeout(()=>playSound(660,0.3,'sawtooth'),200); }
 };
 
 /* ============================================================
-   一、开屏控制
+   一、开屏
 ============================================================ */
 (function() {
   function closeSplash() {
@@ -554,9 +640,8 @@ const sfx = {
     skipBtn.addEventListener('click', handler);
     skipBtn.addEventListener('touchstart', handler, { passive: true });
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindSkip);
-  } else { bindSkip(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindSkip);
+  else bindSkip();
   setTimeout(closeSplash, 7000);
 })();
 
@@ -589,27 +674,14 @@ function svgStar(p, size) {
   const u = uid();
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
   <defs>
-    <radialGradient id="${u}h" cx="50%" cy="50%" r="50%">
-      <stop offset="35%" stop-color="${rgba(p.base,0.4)}"/>
-      <stop offset="100%" stop-color="${rgba(p.base,0)}"/>
-    </radialGradient>
-    <radialGradient id="${u}c" cx="38%" cy="33%" r="74%">
-      <stop offset="0%" stop-color="#FFFEF8"/><stop offset="26%" stop-color="#FFEDA8"/>
-      <stop offset="56%" stop-color="${p.base}"/><stop offset="100%" stop-color="${p.shadow}"/>
-    </radialGradient>
-    <radialGradient id="${u}r" cx="42%" cy="38%" r="72%">
-      <stop offset="62%" stop-color="rgba(0,0,0,0)"/>
-      <stop offset="100%" stop-color="rgba(146,64,14,.6)"/>
-    </radialGradient>
+    <radialGradient id="${u}h" cx="50%" cy="50%" r="50%"><stop offset="35%" stop-color="${rgba(p.base,0.4)}"/><stop offset="100%" stop-color="${rgba(p.base,0)}"/></radialGradient>
+    <radialGradient id="${u}c" cx="38%" cy="33%" r="74%"><stop offset="0%" stop-color="#FFFEF8"/><stop offset="26%" stop-color="#FFEDA8"/><stop offset="56%" stop-color="${p.base}"/><stop offset="100%" stop-color="${p.shadow}"/></radialGradient>
+    <radialGradient id="${u}r" cx="42%" cy="38%" r="72%"><stop offset="62%" stop-color="rgba(0,0,0,0)"/><stop offset="100%" stop-color="rgba(146,64,14,.6)"/></radialGradient>
   </defs>
   <circle cx="100" cy="100" r="97" fill="url(#${u}h)"/>
   <circle cx="100" cy="100" r="67" fill="url(#${u}c)"/>
   <circle cx="100" cy="100" r="67" fill="url(#${u}r)"/>
-  <g fill="#FFFBEA" opacity=".33">
-    <circle cx="79" cy="82" r="5"/><circle cx="119" cy="103" r="7.5" opacity=".7"/>
-    <circle cx="92" cy="123" r="4"/><circle cx="113" cy="71" r="3.6"/>
-    <circle cx="69" cy="111" r="3.2"/><circle cx="104" cy="92" r="2.4"/>
-  </g>
+  <g fill="#FFFBEA" opacity=".33"><circle cx="79" cy="82" r="5"/><circle cx="119" cy="103" r="7.5" opacity=".7"/><circle cx="92" cy="123" r="4"/><circle cx="113" cy="71" r="3.6"/><circle cx="69" cy="111" r="3.2"/><circle cx="104" cy="92" r="2.4"/></g>
 </svg>`;
 }
 
@@ -621,28 +693,17 @@ function svgRocky(p, size, o) {
   const n = o.craters != null ? o.craters : 18;
   let cr = '';
   for (let i = 0; i < n; i++) {
-    const a = rand()*Math.PI*2;
-    const d = Math.sqrt(rand())*0.86;
-    const x = 100 + Math.cos(a)*d*60;
-    const y = 100 + Math.sin(a)*d*60;
+    const a = rand()*Math.PI*2, d = Math.sqrt(rand())*0.86;
+    const x = 100 + Math.cos(a)*d*60, y = 100 + Math.sin(a)*d*60;
     const r = 1.6 + rand()*7.4;
     cr += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${rgba(p.shadow,0.26+rand()*0.24)}"/>`;
     cr += `<circle cx="${(x+r*0.28).toFixed(1)}" cy="${(y+r*0.28).toFixed(1)}" r="${(r*0.72).toFixed(1)}" fill="${rgba(lighten(p.base,62),0.13)}"/>`;
   }
-  const cap = o.cap ? `<ellipse cx="100" cy="40" rx="34" ry="11" fill="#ffffff" opacity=".55"/>
-                       <ellipse cx="100" cy="161" rx="30" ry="9" fill="#ffffff" opacity=".4"/>` : '';
+  const cap = o.cap ? `<ellipse cx="100" cy="40" rx="34" ry="11" fill="#ffffff" opacity=".55"/><ellipse cx="100" cy="161" rx="30" ry="9" fill="#ffffff" opacity=".4"/>` : '';
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
   <defs>
-    <radialGradient id="${u}g" cx="34%" cy="30%" r="78%">
-      <stop offset="0%" stop-color="${lighten(p.base,45)}"/>
-      <stop offset="38%" stop-color="${p.base}"/>
-      <stop offset="100%" stop-color="${darken(p.shadow,32)}"/>
-    </radialGradient>
-    <radialGradient id="${u}s" cx="30%" cy="26%" r="86%">
-      <stop offset="0%" stop-color="rgba(255,255,255,.24)"/>
-      <stop offset="44%" stop-color="rgba(255,255,255,0)"/>
-      <stop offset="100%" stop-color="rgba(0,0,0,.62)"/>
-    </radialGradient>
+    <radialGradient id="${u}g" cx="34%" cy="30%" r="78%"><stop offset="0%" stop-color="${lighten(p.base,45)}"/><stop offset="38%" stop-color="${p.base}"/><stop offset="100%" stop-color="${darken(p.shadow,32)}"/></radialGradient>
+    <radialGradient id="${u}s" cx="30%" cy="26%" r="86%"><stop offset="0%" stop-color="rgba(255,255,255,.24)"/><stop offset="44%" stop-color="rgba(255,255,255,0)"/><stop offset="100%" stop-color="rgba(0,0,0,.62)"/></radialGradient>
     <clipPath id="${u}c"><circle cx="100" cy="100" r="66"/></clipPath>
   </defs>
   <circle cx="100" cy="100" r="67" fill="url(#${u}g)"/>
@@ -655,19 +716,9 @@ function svgEarth(p, size) {
   const u = uid();
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
   <defs>
-    <radialGradient id="${u}o" cx="36%" cy="31%" r="76%">
-      <stop offset="0%" stop-color="#7CB8FF"/><stop offset="40%" stop-color="#2563EB"/>
-      <stop offset="100%" stop-color="#0A1F4E"/>
-    </radialGradient>
-    <radialGradient id="${u}s" cx="30%" cy="26%" r="86%">
-      <stop offset="0%" stop-color="rgba(255,255,255,.28)"/>
-      <stop offset="44%" stop-color="rgba(255,255,255,0)"/>
-      <stop offset="100%" stop-color="rgba(0,0,0,.68)"/>
-    </radialGradient>
-    <radialGradient id="${u}a" cx="50%" cy="50%" r="50%">
-      <stop offset="60%" stop-color="rgba(96,165,250,0)"/>
-      <stop offset="100%" stop-color="rgba(96,165,250,.42)"/>
-    </radialGradient>
+    <radialGradient id="${u}o" cx="36%" cy="31%" r="76%"><stop offset="0%" stop-color="#7CB8FF"/><stop offset="40%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0A1F4E"/></radialGradient>
+    <radialGradient id="${u}s" cx="30%" cy="26%" r="86%"><stop offset="0%" stop-color="rgba(255,255,255,.28)"/><stop offset="44%" stop-color="rgba(255,255,255,0)"/><stop offset="100%" stop-color="rgba(0,0,0,.68)"/></radialGradient>
+    <radialGradient id="${u}a" cx="50%" cy="50%" r="50%"><stop offset="60%" stop-color="rgba(96,165,250,0)"/><stop offset="100%" stop-color="rgba(96,165,250,.42)"/></radialGradient>
     <clipPath id="${u}c"><circle cx="100" cy="100" r="66"/></clipPath>
   </defs>
   <circle cx="100" cy="100" r="76" fill="url(#${u}a)"/>
@@ -679,10 +730,7 @@ function svgEarth(p, size) {
     <path d="M50 103 Q63 95 70 108 Q75 123 64 131 Q51 135 47 120 Z" fill="#43A047" opacity=".82"/>
     <path d="M136 50 Q151 46 158 61 Q161 78 148 83 Q135 81 133 66 Z" fill="#388E3C" opacity=".82"/>
     <path d="M40 78 Q52 70 60 80 Q65 92 54 98 Q42 99 39 88 Z" fill="#43A047" opacity=".7"/>
-    <g fill="#fff" opacity=".4">
-      <ellipse cx="76" cy="64" rx="23" ry="6.5"/><ellipse cx="133" cy="98" rx="27" ry="7.5"/>
-      <ellipse cx="87" cy="133" rx="19" ry="5.5"/><ellipse cx="120" cy="58" rx="15" ry="5"/>
-    </g>
+    <g fill="#fff" opacity=".4"><ellipse cx="76" cy="64" rx="23" ry="6.5"/><ellipse cx="133" cy="98" rx="27" ry="7.5"/><ellipse cx="87" cy="133" rx="19" ry="5.5"/><ellipse cx="120" cy="58" rx="15" ry="5"/></g>
   </g>
   <circle cx="100" cy="100" r="66" fill="url(#${u}s)"/>
 </svg>`;
@@ -693,16 +741,12 @@ function svgGas(p, size, o) {
   const u = uid();
   const soft = o.soft ? 0.55 : 1;
   const rows = [
-    { y:32, h:14, l:30, o:.34 }, { y:48, h:18, l:46, o:.48 },
-    { y:68, h:22, l:56, o:.62 }, { y:92, h:24, l:62, o:.54 },
-    { y:118, h:20, l:50, o:.44 }, { y:140, h:16, l:38, o:.34 },
-    { y:158, h:12, l:28, o:.24 },
+    { y:32, h:14, l:30, o:.34 }, { y:48, h:18, l:46, o:.48 }, { y:68, h:22, l:56, o:.62 },
+    { y:92, h:24, l:62, o:.54 }, { y:118, h:20, l:50, o:.44 }, { y:140, h:16, l:38, o:.34 }, { y:158, h:12, l:28, o:.24 },
   ];
   let bands = '';
   rows.forEach((r,i) => {
-    bands += `<rect x="18" y="${r.y}" width="164" height="${r.h}"
-      fill="${i%2===0 ? lighten(p.base,r.l) : darken(p.base,r.l*0.7)}"
-      opacity="${(r.o*soft).toFixed(2)}"/>`;
+    bands += `<rect x="18" y="${r.y}" width="164" height="${r.h}" fill="${i%2===0 ? lighten(p.base,r.l) : darken(p.base,r.l*0.7)}" opacity="${(r.o*soft).toFixed(2)}"/>`;
   });
   let spot = '';
   if (o.spot) {
@@ -719,16 +763,8 @@ function svgGas(p, size, o) {
   }
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
   <defs>
-    <radialGradient id="${u}g" cx="34%" cy="30%" r="78%">
-      <stop offset="0%" stop-color="${lighten(p.base,42)}"/>
-      <stop offset="40%" stop-color="${p.base}"/>
-      <stop offset="100%" stop-color="${darken(p.shadow,34)}"/>
-    </radialGradient>
-    <radialGradient id="${u}s" cx="30%" cy="26%" r="86%">
-      <stop offset="0%" stop-color="rgba(255,255,255,.22)"/>
-      <stop offset="46%" stop-color="rgba(255,255,255,0)"/>
-      <stop offset="100%" stop-color="rgba(0,0,0,.66)"/>
-    </radialGradient>
+    <radialGradient id="${u}g" cx="34%" cy="30%" r="78%"><stop offset="0%" stop-color="${lighten(p.base,42)}"/><stop offset="40%" stop-color="${p.base}"/><stop offset="100%" stop-color="${darken(p.shadow,34)}"/></radialGradient>
+    <radialGradient id="${u}s" cx="30%" cy="26%" r="86%"><stop offset="0%" stop-color="rgba(255,255,255,.22)"/><stop offset="46%" stop-color="rgba(255,255,255,0)"/><stop offset="100%" stop-color="rgba(0,0,0,.66)"/></radialGradient>
     <clipPath id="${u}c"><circle cx="100" cy="100" r="66"/></clipPath>
   </defs>
   ${ring}
@@ -742,20 +778,9 @@ function svgComet(p, size) {
   const u = uid();
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
   <defs>
-    <radialGradient id="${u}coma" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="rgba(226,248,255,.96)"/>
-      <stop offset="30%" stop-color="rgba(150,215,245,.6)"/>
-      <stop offset="65%" stop-color="rgba(90,160,225,.22)"/>
-      <stop offset="100%" stop-color="rgba(70,140,215,0)"/>
-    </radialGradient>
-    <linearGradient id="${u}t1" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0%" stop-color="rgba(180,232,255,.7)"/>
-      <stop offset="100%" stop-color="rgba(180,232,255,0)"/>
-    </linearGradient>
-    <linearGradient id="${u}t2" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0%" stop-color="rgba(140,215,255,.5)"/>
-      <stop offset="100%" stop-color="rgba(140,215,255,0)"/>
-    </linearGradient>
+    <radialGradient id="${u}coma" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(226,248,255,.96)"/><stop offset="30%" stop-color="rgba(150,215,245,.6)"/><stop offset="65%" stop-color="rgba(90,160,225,.22)"/><stop offset="100%" stop-color="rgba(70,140,215,0)"/></radialGradient>
+    <linearGradient id="${u}t1" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="rgba(180,232,255,.7)"/><stop offset="100%" stop-color="rgba(180,232,255,0)"/></linearGradient>
+    <linearGradient id="${u}t2" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="rgba(140,215,255,.5)"/><stop offset="100%" stop-color="rgba(140,215,255,0)"/></linearGradient>
     <filter id="${u}b"><feGaussianBlur stdDeviation="5"/></filter>
   </defs>
   <path d="M100 100 L194 26 L182 54 Z" fill="url(#${u}t1)" opacity=".55"/>
@@ -765,8 +790,6 @@ function svgComet(p, size) {
   <circle cx="100" cy="100" r="11.5" fill="#EEF8FF"/>
   <circle cx="96" cy="96" r="4.2" fill="#fff" opacity=".9"/>
   <circle cx="106" cy="104" r="3.2" fill="${rgba(p.shadow,0.7)}"/>
-  <circle cx="101" cy="94.5" r="2.2" fill="${rgba(p.shadow,0.6)}"/>
-  <circle cx="94" cy="105" r="2" fill="${rgba(p.shadow,0.5)}"/>
 </svg>`;
 }
 
@@ -775,35 +798,17 @@ function svgNebula(p, size) {
   let rnd = 12345;
   const rand = () => { rnd = (rnd*9301+49297)%233280; return rnd/233280; };
   let stars = '';
-  for (let i = 0; i < 46; i++) {
-    stars += `<circle cx="${(rand()*200).toFixed(1)}" cy="${(rand()*200).toFixed(1)}"
-      r="${(rand()*1.4+0.28).toFixed(1)}" fill="#fff" opacity="${(rand()*0.72+0.28).toFixed(2)}"/>`;
-  }
+  for (let i = 0; i < 46; i++) stars += `<circle cx="${(rand()*200).toFixed(1)}" cy="${(rand()*200).toFixed(1)}" r="${(rand()*1.4+0.28).toFixed(1)}" fill="#fff" opacity="${(rand()*0.72+0.28).toFixed(2)}"/>`;
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
   <defs>
-    <radialGradient id="${u}a" cx="46%" cy="44%" r="53%">
-      <stop offset="0%" stop-color="${rgba(lighten(p.base,26),0.92)}"/>
-      <stop offset="40%" stop-color="${rgba(p.base,0.44)}"/>
-      <stop offset="100%" stop-color="${rgba(p.base,0)}"/>
-    </radialGradient>
-    <radialGradient id="${u}b" cx="67%" cy="63%" r="43%">
-      <stop offset="0%" stop-color="${rgba(p.shadow,0.78)}"/>
-      <stop offset="100%" stop-color="${rgba(p.shadow,0)}"/>
-    </radialGradient>
-    <radialGradient id="${u}c" cx="33%" cy="67%" r="39%">
-      <stop offset="0%" stop-color="${rgba(lighten(p.base,48),0.55)}"/>
-      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
-    </radialGradient>
+    <radialGradient id="${u}a" cx="46%" cy="44%" r="53%"><stop offset="0%" stop-color="${rgba(lighten(p.base,26),0.92)}"/><stop offset="40%" stop-color="${rgba(p.base,0.44)}"/><stop offset="100%" stop-color="${rgba(p.base,0)}"/></radialGradient>
+    <radialGradient id="${u}b" cx="67%" cy="63%" r="43%"><stop offset="0%" stop-color="${rgba(p.shadow,0.78)}"/><stop offset="100%" stop-color="${rgba(p.shadow,0)}"/></radialGradient>
+    <radialGradient id="${u}c" cx="33%" cy="67%" r="39%"><stop offset="0%" stop-color="${rgba(lighten(p.base,48),0.55)}"/><stop offset="100%" stop-color="rgba(0,0,0,0)"/></radialGradient>
     <filter id="${u}bl"><feGaussianBlur stdDeviation="6.5"/></filter>
   </defs>
   ${stars}
-  <g filter="url(#${u}bl)">
-    <circle cx="92" cy="88" r="76" fill="url(#${u}a)"/>
-    <circle cx="128" cy="118" r="60" fill="url(#${u}b)"/>
-    <circle cx="72" cy="126" r="50" fill="url(#${u}c)"/>
-  </g>
+  <g filter="url(#${u}bl)"><circle cx="92" cy="88" r="76" fill="url(#${u}a)"/><circle cx="128" cy="118" r="60" fill="url(#${u}b)"/><circle cx="72" cy="126" r="50" fill="url(#${u}c)"/></g>
   <circle cx="100" cy="100" r="4" fill="#fff" opacity=".95"/>
-  <circle cx="100" cy="100" r="10" fill="${rgba('#ffffff',0.22)}"/>
 </svg>`;
 }
 
@@ -813,32 +818,18 @@ function svgGalaxy(p, size) {
   const rand = () => { rnd = (rnd*9301+49297)%233280; return rnd/233280; };
   let stars = '';
   for (let i = 0; i < 66; i++) {
-    const a = rand()*Math.PI*2;
-    const d = Math.pow(rand(),0.55)*86;
-    const x = 100 + Math.cos(a)*d;
-    const y = 100 + Math.sin(a)*d*0.46;
-    stars += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}"
-      r="${(rand()*1.15+0.28).toFixed(1)}" fill="#fff" opacity="${(rand()*0.78+0.22).toFixed(2)}"/>`;
+    const a = rand()*Math.PI*2, d = Math.pow(rand(),0.55)*86;
+    stars += `<circle cx="${(100 + Math.cos(a)*d).toFixed(1)}" cy="${(100 + Math.sin(a)*d*0.46).toFixed(1)}" r="${(rand()*1.15+0.28).toFixed(1)}" fill="#fff" opacity="${(rand()*0.78+0.22).toFixed(2)}"/>`;
   }
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
   <defs>
-    <radialGradient id="${u}h" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="${rgba(lighten(p.base,32),0.6)}"/>
-      <stop offset="55%" stop-color="${rgba(p.base,0.18)}"/>
-      <stop offset="100%" stop-color="${rgba(p.base,0)}"/>
-    </radialGradient>
-    <radialGradient id="${u}c" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFFFFF"/><stop offset="28%" stop-color="#FFF4DA"/>
-      <stop offset="100%" stop-color="${rgba(p.base,0)}"/>
-    </radialGradient>
+    <radialGradient id="${u}h" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="${rgba(lighten(p.base,32),0.6)}"/><stop offset="55%" stop-color="${rgba(p.base,0.18)}"/><stop offset="100%" stop-color="${rgba(p.base,0)}"/></radialGradient>
+    <radialGradient id="${u}c" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="28%" stop-color="#FFF4DA"/><stop offset="100%" stop-color="${rgba(p.base,0)}"/></radialGradient>
     <filter id="${u}bl"><feGaussianBlur stdDeviation="4.2"/></filter>
   </defs>
   <g transform="rotate(-22 100 100)">
     <ellipse cx="100" cy="100" rx="90" ry="40" fill="url(#${u}h)" filter="url(#${u}bl)"/>
-    <ellipse cx="100" cy="100" rx="73" ry="31" fill="none"
-      stroke="${rgba(lighten(p.base,22),0.42)}" stroke-width="12" filter="url(#${u}bl)"/>
-    <ellipse cx="100" cy="100" rx="53" ry="21" fill="none"
-      stroke="${rgba(lighten(p.base,45),0.46)}" stroke-width="8" filter="url(#${u}bl)"/>
+    <ellipse cx="100" cy="100" rx="73" ry="31" fill="none" stroke="${rgba(lighten(p.base,22),0.42)}" stroke-width="12" filter="url(#${u}bl)"/>
   </g>
   <ellipse cx="100" cy="100" rx="30" ry="17" fill="url(#${u}c)"/>
   ${stars}
@@ -850,27 +841,15 @@ function svgMedium(p, size) {
   let rnd = 4242;
   const rand = () => { rnd = (rnd*9301+49297)%233280; return rnd/233280; };
   let stars = '';
-  for (let i = 0; i < 76; i++) {
-    stars += `<circle cx="${(rand()*200).toFixed(1)}" cy="${(rand()*200).toFixed(1)}"
-      r="${(rand()*1.5+0.22).toFixed(1)}" fill="#fff" opacity="${(rand()*0.86+0.14).toFixed(2)}"/>`;
-  }
+  for (let i = 0; i < 76; i++) stars += `<circle cx="${(rand()*200).toFixed(1)}" cy="${(rand()*200).toFixed(1)}" r="${(rand()*1.5+0.22).toFixed(1)}" fill="#fff" opacity="${(rand()*0.86+0.14).toFixed(2)}"/>`;
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
   <defs>
-    <radialGradient id="${u}a" cx="42%" cy="38%" r="56%">
-      <stop offset="0%" stop-color="${rgba(p.base,0.34)}"/>
-      <stop offset="100%" stop-color="${rgba(p.base,0)}"/>
-    </radialGradient>
-    <radialGradient id="${u}b" cx="68%" cy="70%" r="46%">
-      <stop offset="0%" stop-color="${rgba(p.shadow,0.32)}"/>
-      <stop offset="100%" stop-color="${rgba(p.shadow,0)}"/>
-    </radialGradient>
+    <radialGradient id="${u}a" cx="42%" cy="38%" r="56%"><stop offset="0%" stop-color="${rgba(p.base,0.34)}"/><stop offset="100%" stop-color="${rgba(p.base,0)}"/></radialGradient>
+    <radialGradient id="${u}b" cx="68%" cy="70%" r="46%"><stop offset="0%" stop-color="${rgba(p.shadow,0.32)}"/><stop offset="100%" stop-color="${rgba(p.shadow,0)}"/></radialGradient>
     <filter id="${u}bl"><feGaussianBlur stdDeviation="9"/></filter>
   </defs>
   ${stars}
-  <g filter="url(#${u}bl)">
-    <circle cx="86" cy="80" r="80" fill="url(#${u}a)"/>
-    <circle cx="130" cy="130" r="70" fill="url(#${u}b)"/>
-  </g>
+  <g filter="url(#${u}bl)"><circle cx="86" cy="80" r="80" fill="url(#${u}a)"/><circle cx="130" cy="130" r="70" fill="url(#${u}b)"/></g>
 </svg>`;
 }
 
@@ -879,36 +858,24 @@ function svgConstellation(p, size, seed, starCount) {
   let rnd = (seed || 1) * 7919 + 104729;
   const rand = () => { rnd = (rnd * 9301 + 49297) % 233280; return rnd / 233280; };
   const pts = [];
-  for (let i = 0; i < starCount; i++) {
-    pts.push({ x: 22 + rand()*156, y: 22 + rand()*156, r: 1.1 + rand()*2.3, big: rand() > 0.72 });
-  }
+  for (let i = 0; i < starCount; i++) pts.push({ x: 22 + rand()*156, y: 22 + rand()*156, r: 1.1 + rand()*2.3, big: rand() > 0.72 });
   let lines = '';
   for (let i = 0; i < pts.length - 1; i++) {
-    if (rand() > 0.32) {
-      lines += `<line x1="${pts[i].x.toFixed(1)}" y1="${pts[i].y.toFixed(1)}"
-        x2="${pts[i+1].x.toFixed(1)}" y2="${pts[i+1].y.toFixed(1)}"
-        stroke="${rgba(lighten(p.base, 30), 0.6)}" stroke-width="0.9" stroke-linecap="round"/>`;
-    }
+    if (rand() > 0.32) lines += `<line x1="${pts[i].x.toFixed(1)}" y1="${pts[i].y.toFixed(1)}" x2="${pts[i+1].x.toFixed(1)}" y2="${pts[i+1].y.toFixed(1)}" stroke="${rgba(lighten(p.base, 30), 0.6)}" stroke-width="0.9" stroke-linecap="round"/>`;
   }
   let dots = '';
   pts.forEach(pt => {
     const halo = pt.big ? 3.2 : 2.2;
-    dots += `<circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="${(pt.r*halo).toFixed(1)}"
-      fill="${rgba(p.base, 0.3)}" filter="url(#${u}glow)"/>`;
-    dots += `<circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="${pt.r.toFixed(1)}"
-      fill="#ffffff" opacity="${(0.75 + rand()*0.25).toFixed(2)}"/>`;
+    dots += `<circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="${(pt.r*halo).toFixed(1)}" fill="${rgba(p.base, 0.3)}" filter="url(#${u}glow)"/>`;
+    dots += `<circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="${pt.r.toFixed(1)}" fill="#ffffff" opacity="${(0.75 + rand()*0.25).toFixed(2)}"/>`;
   });
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
   <defs>
-    <radialGradient id="${u}bg" cx="50%" cy="50%" r="60%">
-      <stop offset="0%" stop-color="${rgba(p.base, 0.2)}"/>
-      <stop offset="100%" stop-color="${rgba(p.base, 0)}"/>
-    </radialGradient>
+    <radialGradient id="${u}bg" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="${rgba(p.base, 0.2)}"/><stop offset="100%" stop-color="${rgba(p.base, 0)}"/></radialGradient>
     <filter id="${u}glow"><feGaussianBlur stdDeviation="1.6"/></filter>
   </defs>
   <circle cx="100" cy="100" r="92" fill="url(#${u}bg)"/>
-  ${lines}
-  ${dots}
+  ${lines}${dots}
 </svg>`;
 }
 
@@ -928,173 +895,155 @@ function renderSVGOnly(body, size) {
 }
 
 const NASA_IMAGES = {
-  sun:       'https://images-assets.nasa.gov/image/PIA03149/PIA03149~medium.jpg',
-  mercury:   'https://images-assets.nasa.gov/image/PIA15162/PIA15162~medium.jpg',
-  venus:     'https://images-assets.nasa.gov/image/PIA00271/PIA00271~medium.jpg',
-  earth:     'https://images-assets.nasa.gov/image/AS17-148-22727/AS17-148-22727~medium.jpg',
-  mars:      'https://images-assets.nasa.gov/image/PIA00407/PIA00407~medium.jpg',
-  jupiter:   'https://images-assets.nasa.gov/image/PIA02873/PIA02873~medium.jpg',
-  saturn:    'https://images-assets.nasa.gov/image/PIA06077/PIA06077~medium.jpg',
-  uranus:    'https://images-assets.nasa.gov/image/PIA18182/PIA18182~medium.jpg',
-  neptune:   'https://images-assets.nasa.gov/image/PIA01492/PIA01492~medium.jpg',
-  moon:      'https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~medium.jpg',
-  pluto:     'https://images-assets.nasa.gov/image/PIA19952/PIA19952~medium.jpg',
-  comet:     'https://images-assets.nasa.gov/image/PIA21068/PIA21068~medium.jpg',
-  nebula:    'https://images-assets.nasa.gov/image/PIA23126/PIA23126~medium.jpg',
-  galaxy:    'https://images-assets.nasa.gov/image/PIA04921/PIA04921~medium.jpg'
+  sun:'https://images-assets.nasa.gov/image/PIA03149/PIA03149~medium.jpg',
+  mercury:'https://images-assets.nasa.gov/image/PIA15162/PIA15162~medium.jpg',
+  venus:'https://images-assets.nasa.gov/image/PIA00271/PIA00271~medium.jpg',
+  earth:'https://images-assets.nasa.gov/image/AS17-148-22727/AS17-148-22727~medium.jpg',
+  mars:'https://images-assets.nasa.gov/image/PIA00407/PIA00407~medium.jpg',
+  jupiter:'https://images-assets.nasa.gov/image/PIA02873/PIA02873~medium.jpg',
+  saturn:'https://images-assets.nasa.gov/image/PIA06077/PIA06077~medium.jpg',
+  uranus:'https://images-assets.nasa.gov/image/PIA18182/PIA18182~medium.jpg',
+  neptune:'https://images-assets.nasa.gov/image/PIA01492/PIA01492~medium.jpg',
+  moon:'https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~medium.jpg',
+  pluto:'https://images-assets.nasa.gov/image/PIA19952/PIA19952~medium.jpg',
+  comet:'https://images-assets.nasa.gov/image/PIA21068/PIA21068~medium.jpg',
+  nebula:'https://images-assets.nasa.gov/image/PIA23126/PIA23126~medium.jpg',
+  galaxy:'https://images-assets.nasa.gov/image/PIA04921/PIA04921~medium.jpg'
 };
 
 function renderDetailArt(body, size) {
   const imgUrl = NASA_IMAGES[body.id];
   const svgStr = renderSVGOnly(body, size);
   if (!imgUrl) return svgStr;
-  return `<img src="${imgUrl}" width="${size}" height="${size}"
-    style="object-fit:cover;border-radius:50%;box-shadow:0 0 50px ${rgba(body.color,0.35)}"
-    alt="${body.name}"
-    onerror="this.outerHTML='${svgStr.replace(/'/g, "\\'")}'" />`;
+  return `<img src="${imgUrl}" width="${size}" height="${size}" style="object-fit:cover;border-radius:50%;box-shadow:0 0 50px ${rgba(body.color,0.35)}" alt="${body.name}" onerror="this.outerHTML='${svgStr.replace(/'/g, "\\'")}'"/>`;
 }
 
 /* ============================================================
-   四、天体数据（精简展示，核心数据完整）
+   四、天体数据（保留原有数据结构）
 ============================================================ */
 const DATA = [
 {id:'sun',name:'太阳',en:'Sun',cat:'恒星',shape:'star',color:'#FDB813',color2:'#C2620A',
  brief:'太阳系的中心恒星，占据系统总质量的 99.86%，通过核心的氢核聚变每秒将约 6 亿吨氢转化为氦，为地球输送光和热。',
- intro:'太阳是一颗 G2V 型主序星（黄矮星），年龄约 46 亿年，正处于生命周期的中年阶段。它的能量来自核心的质子-质子链反应，每秒约有 6 亿吨氢聚变成 5.96 亿吨氦。这些能量需要经过约 10 万年才能从核心辐射到表面，再以 8 分 20 秒抵达地球。太阳的活动周期约为 11 年，期间黑子、耀斑和日冕物质抛射的强度会周期性变化。',
+ intro:'太阳是一颗 G2V 型主序星（黄矮星），年龄约 46 亿年。它的能量来自核心的质子-质子链反应，每秒约有 6 亿吨氢聚变成 5.96 亿吨氦。太阳的活动周期约为 11 年，期间黑子、耀斑和日冕物质抛射的强度会周期性变化。',
  stats:{'直径':'1,392,700 km','质量':'1.989×10³⁰ kg','表面温度':'约 5,500 °C','核心温度':'约 1,500 万 °C','年龄':'约 46 亿年','光谱型':'G2V'},
- comp:[{n:'氢 (H)',v:73.5,c:'#7dd3fc'},{n:'氦 (He)',v:24.9,c:'#a78bfa'},{n:'氧 (O)',v:0.8,c:'#f472b6'},{n:'碳 (C)',v:0.3,c:'#fbbf24'},{n:'其他元素',v:0.5,c:'#94a3b8'}],
- layers:[{c:'#FEF3C7',n:'核心',v:'半径约 25% 太阳半径，温度 1,500 万°C，进行氢核聚变。'},{c:'#FCD34D',n:'辐射层',v:'能量以光子形式向外辐射，光子穿行可达 10 万年。'},{c:'#FB923C',n:'对流层',v:'等离子体对流翻涌，形成米粒组织与太阳黑子。'},{c:'#FDE68A',n:'光球层',v:'我们看到的"太阳表面"，黑子出现在此。'},{c:'#FCA5A5',n:'色球层',v:'日珥和耀斑在此爆发。'},{c:'#E0F2FE',n:'日冕',v:'最外层大气，温度高达 100 万–300 万°C，太阳风由此发出。'}],
- extra:[{k:'自转周期',v:'赤道约 25 天 / 极区约 35 天'},{k:'组成',v:'等离子体'},{k:'磁场',v:'驱动 11 年活动周期'},{k:'最终命运',v:'约 50 亿年后膨胀为红巨星，再坍缩成白矮星'}],
+ comp:[{n:'氢 (H)',v:73.5,c:'#7dd3fc'},{n:'氦 (He)',v:24.9,c:'#a78bfa'},{n:'氧 (O)',v:0.8,c:'#f472b6'},{n:'碳 (C)',v:0.3,c:'#fbbf24'},{n:'其他',v:0.5,c:'#94a3b8'}],
+ layers:[{c:'#FEF3C7',n:'核心',v:'半径约 25% 太阳半径，温度 1,500 万°C，进行氢核聚变。'},{c:'#FCD34D',n:'辐射层',v:'能量以光子形式向外辐射，光子穿行可达 10 万年。'},{c:'#FB923C',n:'对流层',v:'等离子体对流翻涌，形成米粒组织与太阳黑子。'},{c:'#FDE68A',n:'光球层',v:'我们看到的"太阳表面"，黑子出现在此。'},{c:'#FCA5A5',n:'色球层',v:'日珥和耀斑在此爆发。'},{c:'#E0F2FE',n:'日冕',v:'最外层大气，温度高达 100 万–300 万°C。'}],
+ extra:[{k:'自转周期',v:'赤道约 25 天 / 极区约 35 天'},{k:'组成',v:'等离子体'},{k:'磁场',v:'驱动 11 年活动周期'},{k:'最终命运',v:'约 50 亿年后成为红巨星，再坍缩成白矮星'}],
  notes:['太阳每秒释放的能量约 3.8×10²⁶ 焦耳，地球仅接收到其中约 22 亿分之一。','太阳黑子温度比周围低约 1,500°C，因磁场抑制对流而形成。','日冕温度远高于光球层，这一"日冕加热问题"至今仍未完全解决。']},
-
 {id:'mercury',name:'水星',en:'Mercury',cat:'行星',shape:'rocky',color:'#B8B8B8',color2:'#5C5C5C',opts:{craters:32,seed:3},
- brief:'距太阳最近、体积最小的行星，没有真正的大气层，昼夜温差高达 600°C，是太阳系温差最大的世界。',
- intro:'水星的直径仅 4,879 km，比木卫三和土卫六还小。它每 88 天绕太阳一圈，但自转极慢——一个太阳日长达 176 个地球日。赤道白天可达 430°C，夜晚骤降至 -180°C。水星的表面布满环形山，其中卡洛里盆地直径达 1,550 km。科学家在它永久阴影的极区陨石坑中发现了水冰。',
+ brief:'距太阳最近、体积最小的行星，没有真正的大气层，昼夜温差高达 600°C。',
+ intro:'水星的直径仅 4,879 km。它每 88 天绕太阳一圈，但自转极慢——一个太阳日长达 176 个地球日。赤道白天可达 430°C，夜晚骤降至 -180°C。科学家在它永久阴影的极区陨石坑中发现了水冰。',
  stats:{'直径':'4,879 km','质量':'地球的 0.055 倍','公转周期':'88 地球日','自转周期':'58.6 地球日','表面温度':'-180 至 430 °C','卫星数':'0'},
- comp:[{n:'铁质核心（占体积）',v:55,c:'#ef4444'},{n:'硅酸盐地幔',v:30,c:'#f97316'},{n:'硅酸盐地壳',v:15,c:'#a3a3a3'}],
+ comp:[{n:'铁质核心',v:55,c:'#ef4444'},{n:'硅酸盐地幔',v:30,c:'#f97316'},{n:'硅酸盐地壳',v:15,c:'#a3a3a3'}],
  layers:[{c:'#FCD34D',n:'地壳',v:'厚约 35 km，覆盖着厚达数公里的风化层。'},{c:'#FB923C',n:'地幔',v:'厚约 600 km，主要由硅酸盐组成。'},{c:'#EF4444',n:'液态外核',v:'巨大的铁核，占水星体积的 55%。'},{c:'#B91C1C',n:'固态内核',v:'半径约 1,000 km，为固态铁镍。'}],
  extra:[{k:'核心占比',v:'全太阳系最高，约占体积 55%'},{k:'磁场强度',v:'地球的约 1%'},{k:'轨道倾角',v:'7.0°'},{k:'探测者',v:'水手 10 号、信使号、BepiColombo'}],
  notes:['水星的一天（太阳日）比它的一年还长。','极区永久阴影坑内发现水冰，来源可能是彗星撞击带来的。','它正在缓慢收缩，表面的"皱脊"就是冷却收缩的证据。']},
-
 {id:'venus',name:'金星',en:'Venus',cat:'行星',shape:'rocky',color:'#E8C97A',color2:'#8C6A2A',opts:{craters:8,seed:11},
- brief:'太阳系最热的行星，浓厚的二氧化碳大气造成剧烈温室效应，表面温度高达 465°C，比水星更热。',
- intro:'金星的直径、质量和密度都与地球相近，被称为"地球的姐妹星"。但它的大气密度是地球的 92 倍，96% 是二氧化碳。巨大的温室效应使它成为太阳系最热的行星，表面温度稳定在约 465°C，足以熔化铅。金星还拥有反转自转——它自东向西转，且一个金星日比它的一年还长。',
+ brief:'太阳系最热的行星，浓厚的二氧化碳大气造成剧烈温室效应，表面温度高达 465°C。',
+ intro:'金星的直径、质量和密度都与地球相近，被称为"地球的姐妹星"。但它的大气密度是地球的 92 倍，96% 是二氧化碳。巨大的温室效应使它成为太阳系最热的行星。',
  stats:{'直径':'12,104 km','质量':'地球的 0.815 倍','公转周期':'225 地球日','自转周期':'243 地球日（逆行）','表面温度':'约 465 °C','卫星数':'0'},
  comp:[{n:'二氧化碳 CO₂',v:96.5,c:'#fbbf24'},{n:'氮气 N₂',v:3.5,c:'#60a5fa'},{n:'二氧化硫 SO₂',v:0.015,c:'#f472b6'},{n:'硫酸云',v:0.003,c:'#a78bfa'}],
- layers:[{c:'#FDE68A',n:'云层',v:'硫酸云层，高 45–70 km，反射阳光使金星异常明亮。'},{c:'#FCD34D',n:'对流层',v:'二氧化碳对流剧烈，气压随高度骤变。'},{c:'#F59E0B',n:'中层大气',v:'存在极端风速的"超级旋转"。'},{c:'#B45309',n:'地表',v:'玄武岩平原与高原，约 80% 被火山地貌覆盖。'},{c:'#7C2D12',n:'岩石圈 / 地幔',v:'类似地球的硅酸盐地幔，但缺乏板块运动。'},{c:'#991B1B',n:'铁镍核心',v:'半径约 3,000 km，可能为液态。'}],
+ layers:[{c:'#FDE68A',n:'云层',v:'硫酸云层，高 45–70 km，反射阳光使金星异常明亮。'},{c:'#FCD34D',n:'对流层',v:'二氧化碳对流剧烈。'},{c:'#F59E0B',n:'中层大气',v:'存在极端风速的"超级旋转"。'},{c:'#B45309',n:'地表',v:'玄武岩平原与高原，约 80% 被火山地貌覆盖。'},{c:'#7C2D12',n:'岩石圈/地幔',v:'类似地球的硅酸盐地幔，但缺乏板块运动。'},{c:'#991B1B',n:'铁镍核心',v:'半径约 3,000 km。'}],
  extra:[{k:'大气压',v:'地球的 92 倍（约 9.2 MPa）'},{k:'自转方向',v:'逆行（自东向西）'},{k:'表面火山',v:'超过 1,600 座主要火山'},{k:'探测者',v:'麦哲伦号、金星快车、拂晓号'}],
- notes:['金星的一天比一年长，而且太阳从西边升起、东边落下。','表面 90% 被火山熔岩覆盖，可能仍存在活火山活动。','它是夜空中除月球外最亮的天体，被称为"启明星"或"长庚星"。']},
-
+ notes:['金星的一天比一年长，而且太阳从西边升起、东边落下。','表面 90% 被火山熔岩覆盖，可能仍存在活火山活动。','它是夜空中除月球外最亮的天体。']},
 {id:'earth',name:'地球',en:'Earth',cat:'行星',shape:'earth',color:'#2563EB',color2:'#0A1F4E',
  brief:'目前已知唯一存在生命的星球，71% 表面被液态水覆盖，拥有氮氧大气层和强大的全球磁场。',
- intro:'地球是太阳系中密度最大的行星，也是唯一拥有板块构造活动的行星。它的大气层由 78% 的氮和 21% 的氧组成，臭氧层屏蔽了大部分紫外线。地球的液态外核产生的地磁场，形成了阻挡太阳风的磁层，保护了大气与水。地球内部仍然活跃——火山、地震、板块运动都在持续重塑这颗行星。',
- stats:{'直径':'12,742 km','质量':'5.972×10²⁴ kg','公转周期':'365.25 天','自转周期':'23 小时 56 分','平均温度':'15 °C','卫星数':'1（月球）'},
- comp:[{n:'氮气 N₂',v:78.08,c:'#60a5fa'},{n:'氧气 O₂',v:20.95,c:'#34d399'},{n:'氩气 Ar',v:0.93,c:'#a78bfa'},{n:'二氧化碳 CO₂',v:0.04,c:'#fbbf24'},{n:'其他气体',v:0.003,c:'#94a3b8'}],
+ intro:'地球是太阳系中密度最大的行星，也是唯一拥有板块构造活动的行星。它的大气层由 78% 的氮和 21% 的氧组成。地球的液态外核产生的地磁场形成了阻挡太阳风的磁层，保护了大气与水。',
+ stats:{'直径':'12,742 km','质量':'5.972×10²⁴ kg','公转周期':'365.25 天','自转周期':'23 小时 56 分','平均温度':'15 °C','卫星数':'1'},
+ comp:[{n:'氮气 N₂',v:78.08,c:'#60a5fa'},{n:'氧气 O₂',v:20.95,c:'#34d399'},{n:'氩气 Ar',v:0.93,c:'#a78bfa'},{n:'二氧化碳 CO₂',v:0.04,c:'#fbbf24'},{n:'其他',v:0.003,c:'#94a3b8'}],
  layers:[{c:'#BFDBFE',n:'大气层',v:'从地表延伸至约 100 km，氮氧为主。'},{c:'#93C5FD',n:'地壳',v:'厚 5–70 km，大陆为花岗岩质，海洋为玄武岩质。'},{c:'#FB923C',n:'地幔',v:'厚约 2,900 km，固态但可缓慢流动。'},{c:'#F97316',n:'外核',v:'液态铁镍层，对流出产生地球磁场。'},{c:'#EF4444',n:'内核',v:'固态铁镍球，半径约 1,220 km。'}],
  extra:[{k:'海洋',v:'覆盖 71% 表面，平均深 3,688 m'},{k:'磁场',v:'由液态外核发电机效应产生'},{k:'板块构造',v:'7 大板块 + 若干小板块'},{k:'最高点',v:'珠穆朗玛峰 8,849 m'}],
- notes:['地球是目前唯一已知存在液态水海洋和生命的行星。','地磁场正在缓慢减弱，且每隔数十万年会发生磁极倒转。','月球形成于约 45 亿年前的一次巨型撞击（大碰撞说）。']},
-
+ notes:['地球是目前唯一已知存在液态水海洋和生命的行星。','地磁场正在缓慢减弱，且每隔数十万年会发生磁极倒转。','月球形成于约 45 亿年前的一次巨型撞击。']},
 {id:'mars',name:'火星',en:'Mars',cat:'行星',shape:'rocky',color:'#D65A31',color2:'#7C2D12',opts:{craters:22,seed:19,cap:true},
- brief:'因表面富含氧化铁而呈红色，拥有太阳系最高的火山与最大的峡谷，是人类探索最深入的行星。',
- intro:'火星是太阳系第七大行星，直径约为地球的一半。它的表面布满氧化铁尘埃，因此呈铁锈红色。火星拥有太阳系最高的火山——奥林匹斯山（高约 22 km）和最长的峡谷——水手号峡谷（长 4,000 km）。大量地质证据表明，火星远古时期曾有液态水流动。',
+ brief:'因表面富含氧化铁而呈红色，拥有太阳系最高的火山与最大的峡谷。',
+ intro:'火星是太阳系第七大行星，直径约为地球的一半。它的表面布满氧化铁尘埃，因此呈铁锈红色。火星拥有太阳系最高的火山——奥林匹斯山（高约 22 km）和最长的峡谷——水手号峡谷（长 4,000 km）。',
  stats:{'直径':'6,779 km','质量':'地球的 0.107 倍','公转周期':'687 地球日','自转周期':'24 小时 37 分','平均温度':'-63 °C','卫星数':'2'},
  comp:[{n:'二氧化碳 CO₂',v:95.3,c:'#fbbf24'},{n:'氮气 N₂',v:2.7,c:'#60a5fa'},{n:'氩气 Ar',v:1.6,c:'#a78bfa'},{n:'氧气 O₂',v:0.13,c:'#34d399'},{n:'一氧化碳 CO',v:0.07,c:'#f472b6'}],
- layers:[{c:'#FCA5A5',n:'稀薄大气',v:'气压仅地球的 0.6%，常有全球性沙尘暴。'},{c:'#F87171',n:'地壳',v:'厚 30–80 km，富含氧化铁，是红色的来源。'},{c:'#DC2626',n:'地幔',v:'硅酸盐地幔，可能存在局部熔融。'},{c:'#991B1B',n:'核心',v:'铁镍硫核心，半径约 1,830 km。'}],
- extra:[{k:'最高山峰',v:'奥林匹斯山，高约 22 km'},{k:'最大峡谷',v:'水手号峡谷，长约 4,000 km'},{k:'极地冰盖',v:'水冰 + 干冰（CO₂）'},{k:'探测者',v:'海盗号、好奇号、毅力号、天问一号'}],
- notes:['火星上的日落是蓝色的，因为尘埃散射红光的方式与地球不同。','火卫一正以每百年 1.8 米的速度接近火星，最终会被撕碎成环。','火星曾存在液态水的证据包括三角洲、河谷和含水矿物。']},
-
+ layers:[{c:'#FCA5A5',n:'稀薄大气',v:'气压仅地球的 0.6%。'},{c:'#F87171',n:'地壳',v:'厚 30–80 km，富含氧化铁，是红色的来源。'},{c:'#DC2626',n:'地幔',v:'硅酸盐地幔，可能存在局部熔融。'},{c:'#991B1B',n:'核心',v:'铁镍硫核心，半径约 1,830 km。'}],
+ extra:[{k:'最高山峰',v:'奥林匹斯山，高约 22 km'},{k:'最大峡谷',v:'水手号峡谷，长约 4,000 km'},{k:'极地冰盖',v:'水冰 + 干冰'},{k:'探测者',v:'海盗号、好奇号、毅力号、天问一号'}],
+ notes:['火星上的日落是蓝色的。','火卫一正以每百年 1.8 米的速度接近火星。','火星曾存在液态水的证据包括三角洲、河谷和含水矿物。']},
 {id:'jupiter',name:'木星',en:'Jupiter',cat:'行星',shape:'gas',color:'#E8B87A',color2:'#8C5A2A',opts:{spot:{x:76,y:118,rx:22,ry:13}},
  brief:'太阳系最大的行星，质量是其他所有行星总和的 2.5 倍。大红斑是一个持续数百年的巨型风暴。',
- intro:'木星主要由氢和氦组成，没有明确的固体表面，气体向内逐渐过渡为液态金属氢。它的质量是地球的 318 倍，强大的引力在太阳系早期起到了"守门员"作用。大红斑是一个反气旋风暴，直径约 1.3 万公里，已持续至少 190 年。木星还拥有 95 颗以上已确认的卫星。',
+ intro:'木星主要由氢和氦组成，没有明确的固体表面。它的质量是地球的 318 倍。大红斑是一个反气旋风暴，直径约 1.3 万公里，已持续至少 190 年。木星还拥有 95 颗以上已确认的卫星。',
  stats:{'直径':'139,820 km','质量':'地球的 318 倍','公转周期':'11.86 地球年','自转周期':'9 小时 56 分','云顶温度':'-145 °C','卫星数':'95 颗以上'},
- comp:[{n:'氢 H₂',v:89.8,c:'#7dd3fc'},{n:'氦 He',v:10.2,c:'#a78bfa'},{n:'甲烷 CH₄',v:0.3,c:'#34d399'},{n:'氨 NH₃',v:0.026,c:'#f472b6'},{n:'水蒸气 H₂O',v:0.004,c:'#60a5fa'}],
- layers:[{c:'#FDE68A',n:'云顶',v:'氨冰云，-145°C，带状结构明显。'},{c:'#FBBF24',n:'对流层',v:'厚约 50 km，氢氦气体逐渐升温加压。'},{c:'#F59E0B',n:'液态氢层',v:'气体向液态氢过渡，温度约 2,000°C。'},{c:'#B45309',n:'液态金属氢层',v:'压力超过 100 万大气压，导电产生强磁场。'},{c:'#7C2D12',n:'核心',v:'可能是岩石-冰混合核心。'}],
- extra:[{k:'大红斑',v:'持续至少 190 年，直径 1.3 万 km'},{k:'磁场强度',v:'地球的约 2 万倍'},{k:'自转速度',v:'太阳系最快，不到 10 小时'},{k:'探测者',v:'先驱者、旅行者、伽利略号、朱诺号'}],
- notes:['木星的引力像"引力吸尘器"，减少了撞击地球的彗星数量。','木卫二欧罗巴的冰壳下可能存在液态海洋，水量是地球的两倍。','木卫三盖尼米德是太阳系最大的卫星，比水星还大。']},
-
+ comp:[{n:'氢 H₂',v:89.8,c:'#7dd3fc'},{n:'氦 He',v:10.2,c:'#a78bfa'},{n:'甲烷 CH₄',v:0.3,c:'#34d399'},{n:'氨 NH₃',v:0.026,c:'#f472b6'},{n:'水蒸气',v:0.004,c:'#60a5fa'}],
+ layers:[{c:'#FDE68A',n:'云顶',v:'氨冰云，-145°C。'},{c:'#FBBF24',n:'对流层',v:'厚约 50 km。'},{c:'#F59E0B',n:'液态氢层',v:'气体向液态氢过渡，温度约 2,000°C。'},{c:'#B45309',n:'液态金属氢层',v:'压力超过 100 万大气压。'},{c:'#7C2D12',n:'核心',v:'可能是岩石-冰混合核心。'}],
+ extra:[{k:'大红斑',v:'持续至少 190 年'},{k:'磁场强度',v:'地球的约 2 万倍'},{k:'自转速度',v:'太阳系最快'},{k:'探测者',v:'先驱者、旅行者、伽利略号、朱诺号'}],
+ notes:['木星的引力像"引力吸尘器"，减少了撞击地球的彗星数量。','木卫二欧罗巴的冰壳下可能存在液态海洋。','木卫三盖尼米德是太阳系最大的卫星。']},
 {id:'saturn',name:'土星',en:'Saturn',cat:'行星',shape:'gas',color:'#E6D3A8',color2:'#8C7A4A',opts:{ring:true,soft:true},
- brief:'以壮观的环系统闻名，环主要由水冰颗粒组成。土星平均密度小于水，理论上可浮在水面上。',
- intro:'土星是太阳系第二大行星，平均密度仅 0.687 g/cm³——比水还低，理论上可以浮在水面上。它最引人注目的是环系统，主要由水冰颗粒组成。土星的北极存在一个奇特的六边形风暴，边长约 13,800 km。土卫六（泰坦）是太阳系唯一拥有浓厚大气的卫星。',
+ brief:'以壮观的环系统闻名，环主要由水冰颗粒组成。土星平均密度小于水。',
+ intro:'土星是太阳系第二大行星，平均密度仅 0.687 g/cm³——比水还低。它最引人注目的是环系统。土星的北极存在一个奇特的六边形风暴。土卫六（泰坦）是太阳系唯一拥有浓厚大气的卫星。',
  stats:{'直径':'116,460 km','质量':'地球的 95 倍','公转周期':'29.46 地球年','自转周期':'10 小时 33 分','云顶温度':'-178 °C','卫星数':'146 颗以上'},
  comp:[{n:'氢 H₂',v:96.3,c:'#7dd3fc'},{n:'氦 He',v:3.25,c:'#a78bfa'},{n:'甲烷 CH₄',v:0.45,c:'#34d399'},{n:'氨 NH₃',v:0.012,c:'#f472b6'},{n:'水冰环',v:0.001,c:'#60a5fa'}],
- layers:[{c:'#FEF3C7',n:'云顶',v:'氨冰云，-178°C，有著名的六边形极涡。'},{c:'#FDE68A',n:'对流层',v:'氢氦为主，风力可达 1,800 km/h。'},{c:'#FCD34D',n:'液态氢层',v:'气体逐渐过渡为液态氢。'},{c:'#B45309',n:'液态金属氢层',v:'产生磁场，强度只有木星的几十分之一。'},{c:'#7C2D12',n:'核心',v:'岩石-冰核心，质量约为地球的 15–20 倍。'}],
- extra:[{k:'环系统',v:'7 个主环，主要由水冰颗粒组成'},{k:'环宽度',v:'约 282,000 km（厚度仅几十米）'},{k:'六边形风暴',v:'北极存在边长约 13,800 km 的六边形涡旋'},{k:'探测者',v:'先驱者 11 号、旅行者 1/2 号、卡西尼-惠更斯号'}],
- notes:['土星环正在缓慢向行星坠落，预计几亿年后将消失。','土卫六是太阳系唯一有浓厚大气层的卫星，大气以氮为主。','土卫二南极的冰喷泉含有有机分子和盐分，暗示地下海洋存在。']},
-
+ layers:[{c:'#FEF3C7',n:'云顶',v:'氨冰云，-178°C，有著名的六边形极涡。'},{c:'#FDE68A',n:'对流层',v:'风力可达 1,800 km/h。'},{c:'#FCD34D',n:'液态氢层',v:'气体逐渐过渡为液态氢。'},{c:'#B45309',n:'液态金属氢层',v:'产生磁场。'},{c:'#7C2D12',n:'核心',v:'岩石-冰核心。'}],
+ extra:[{k:'环系统',v:'7 个主环，主要由水冰颗粒组成'},{k:'环宽度',v:'约 282,000 km'},{k:'六边形风暴',v:'北极边长约 13,800 km'},{k:'探测者',v:'先驱者 11 号、旅行者 1/2 号、卡西尼-惠更斯号'}],
+ notes:['土星环正在缓慢向行星坠落，预计几亿年后将消失。','土卫六是太阳系唯一有浓厚大气层的卫星。','土卫二南极的冰喷泉含有有机分子和盐分。']},
 {id:'uranus',name:'天王星',en:'Uranus',cat:'行星',shape:'gas',color:'#8FE3E8',color2:'#2A7A85',opts:{soft:true},
  brief:'冰巨星，自转轴倾斜 98°，几乎"躺着"绕太阳公转。大气中的甲烷使其呈青蓝色。',
- intro:'天王星是第一颗使用望远镜发现的行星（1781 年威廉·赫歇尔发现）。它是太阳系中最"倾斜"的行星——自转轴倾斜约 98°，几乎躺在轨道面上滚动前进。这种极端倾角导致它的两极各有长达 42 年的极昼和极夜。天王星的大气中甲烷吸收了红光，使其呈现出独特的青蓝色。',
+ intro:'天王星是第一颗使用望远镜发现的行星（1781 年威廉·赫歇尔发现）。自转轴倾斜约 98°，导致两极各有长达 42 年的极昼和极夜。大气中甲烷吸收红光，使其呈青蓝色。',
  stats:{'直径':'50,724 km','质量':'地球的 14.5 倍','公转周期':'84 地球年','自转周期':'17 小时 14 分（逆行）','云顶温度':'-224 °C','卫星数':'28 颗'},
- comp:[{n:'氢 H₂',v:82.5,c:'#7dd3fc'},{n:'氦 He',v:15.2,c:'#a78bfa'},{n:'甲烷 CH₄',v:2.3,c:'#34d399'},{n:'水/氨/甲烷冰',v:0.01,c:'#60a5fa'}],
- layers:[{c:'#CFFAFE',n:'云顶',v:'甲烷云，-224°C，太阳系最冷的大气层之一。'},{c:'#A5F3FC',n:'对流层',v:'氢氦为主，风速可达 900 km/h。'},{c:'#67E8F9',n:'冰幔',v:'水、氨、甲烷组成的高压"热冰"。'},{c:'#0E7490',n:'岩石核心',v:'质量约为地球的 0.5–3 倍。'}],
- extra:[{k:'自转轴倾角',v:'约 98°（几乎躺倒）'},{k:'极端季节',v:'极区极昼/极夜各长达 42 年'},{k:'环系统',v:'13 条暗环，1977 年发现'},{k:'探测者',v:'旅行者 2 号（1986 年唯一一次飞掠）'}],
- notes:['天王星是第一颗用望远镜发现的行星，此前人们一直以为它是恒星。','它的倾角可能源自早期与一颗地球大小天体的剧烈碰撞。','天王星也有微弱磁场，但磁轴与自转轴的夹角接近 60°，非常奇特。']},
-
+ comp:[{n:'氢 H₂',v:82.5,c:'#7dd3fc'},{n:'氦 He',v:15.2,c:'#a78bfa'},{n:'甲烷 CH₄',v:2.3,c:'#34d399'},{n:'冰',v:0.01,c:'#60a5fa'}],
+ layers:[{c:'#CFFAFE',n:'云顶',v:'甲烷云，-224°C。'},{c:'#A5F3FC',n:'对流层',v:'氢氦为主。'},{c:'#67E8F9',n:'冰幔',v:'水、氨、甲烷组成的高压"热冰"。'},{c:'#0E7490',n:'岩石核心',v:'质量约为地球的 0.5–3 倍。'}],
+ extra:[{k:'自转轴倾角',v:'约 98°'},{k:'极端季节',v:'极区极昼/极夜各长达 42 年'},{k:'环系统',v:'13 条暗环'},{k:'探测者',v:'旅行者 2 号（1986 年）'}],
+ notes:['天王星是第一颗用望远镜发现的行星。','它的倾角可能源自早期与一颗地球大小天体的剧烈碰撞。','磁轴与自转轴的夹角接近 60°，非常奇特。']},
 {id:'neptune',name:'海王星',en:'Neptune',cat:'行星',shape:'gas',color:'#4F6BE0',color2:'#1A2A6B',opts:{soft:true,spot:{x:78,y:100,rx:16,ry:9}},
  brief:'距太阳最远的行星，风速可达 2,100 km/h，是通过数学计算预测后被发现的行星。',
- intro:'海王星是距太阳最远的行星，也是第一颗先通过数学计算预测、后被观测证实的行星。1846 年，天文学家勒维耶根据天王星轨道的异常，计算出海王星的位置，柏林天文台随后在预测位置附近发现了它。海王星拥有太阳系最狂暴的风，风速可达 2,100 km/h。',
+ intro:'海王星是距太阳最远的行星，也是第一颗先通过数学计算预测、后被观测证实的行星。1846 年，天文学家勒维耶根据天王星轨道的异常计算出海王星的位置。它拥有太阳系最狂暴的风，风速可达 2,100 km/h。',
  stats:{'直径':'49,244 km','质量':'地球的 17.1 倍','公转周期':'164.8 地球年','自转周期':'16 小时 6 分','云顶温度':'-214 °C','卫星数':'16 颗'},
- comp:[{n:'氢 H₂',v:80,c:'#7dd3fc'},{n:'氦 He',v:19,c:'#a78bfa'},{n:'甲烷 CH₄',v:1.5,c:'#34d399'},{n:'乙烷/乙炔',v:0.0001,c:'#f472b6'}],
- layers:[{c:'#93C5FD',n:'云顶',v:'甲烷云，-214°C。'},{c:'#60A5FA',n:'对流层',v:'氢氦大气，风速达太阳系之最。'},{c:'#3B82F6',n:'冰幔',v:'水、氨、甲烷的"热冰"层。'},{c:'#1E3A8A',n:'岩石核心',v:'质量约为地球的 1–3 倍。'}],
- extra:[{k:'最大风速',v:'约 2,100 km/h（太阳系之最）'},{k:'发现方式',v:'数学计算预测（1846 年）'},{k:'大黑斑',v:'曾存在的巨型风暴，1994 年后消失'},{k:'探测者',v:'旅行者 2 号（1989 年飞掠）'}],
- notes:['海王星的一年相当于 164.8 个地球年。','海卫一是太阳系唯一大型逆行卫星，可能被海王星捕获自柯伊伯带。','海王星辐射出的能量是它从太阳接收的 2.6 倍，内部有热源。']},
-
+ comp:[{n:'氢 H₂',v:80,c:'#7dd3fc'},{n:'氦 He',v:19,c:'#a78bfa'},{n:'甲烷 CH₄',v:1.5,c:'#34d399'},{n:'其他',v:0.0001,c:'#f472b6'}],
+ layers:[{c:'#93C5FD',n:'云顶',v:'甲烷云，-214°C。'},{c:'#60A5FA',n:'对流层',v:'风速达太阳系之最。'},{c:'#3B82F6',n:'冰幔',v:'水、氨、甲烷的"热冰"层。'},{c:'#1E3A8A',n:'岩石核心',v:'质量约为地球的 1–3 倍。'}],
+ extra:[{k:'最大风速',v:'约 2,100 km/h'},{k:'发现方式',v:'数学计算预测（1846 年）'},{k:'大黑斑',v:'曾存在的巨型风暴，1994 年后消失'},{k:'探测者',v:'旅行者 2 号（1989 年）'}],
+ notes:['海王星的一年相当于 164.8 个地球年。','海卫一是太阳系唯一大型逆行卫星。','海王星辐射出的能量是它从太阳接收的 2.6 倍。']},
 {id:'moon',name:'月球',en:'Moon',cat:'卫星',shape:'rocky',color:'#C9C9C9',color2:'#6B6B6B',opts:{craters:34,seed:5},
  brief:'地球唯一的天然卫星，距离约 38.4 万公里。它稳定了地球的自转轴，并驱动着海洋潮汐。',
- intro:'月球是太阳系中第五大卫星，直径约 3,475 km。它可能诞生于约 45 亿年前一次火星大小天体撞击地球的碎片。月球表面分为明亮的"月陆"（斜长岩高地）和较暗的"月海"（玄武岩熔岩平原）。1969 年阿波罗 11 号首次载人登月，共 12 名宇航员踏足月面，带回约 382 公斤月岩样本。',
+ intro:'月球是太阳系中第五大卫星，直径约 3,475 km。它可能诞生于约 45 亿年前一次火星大小天体撞击地球的碎片。月球表面分为明亮的"月陆"和较暗的"月海"。1969 年阿波罗 11 号首次载人登月。',
  stats:{'直径':'3,475 km','质量':'地球的 0.0123 倍','公转周期':'27.3 天','距地球':'约 384,400 km','表面重力':'地球的 1/6','表面温度':'-173 至 127 °C'},
- comp:[{n:'斜长岩（月陆）',v:45,c:'#a3a3a3'},{n:'玄武岩（月海）',v:35,c:'#6b7280'},{n:'橄榄石/辉石',v:15,c:'#84cc16'},{n:'钛铁矿',v:5,c:'#78716c'}],
- layers:[{c:'#D1D5DB',n:'月壳',v:'厚 50–100 km，富含斜长石。'},{c:'#9CA3AF',n:'月幔',v:'厚约 1,300 km，主要由橄榄石和辉石组成。'},{c:'#4B5563',n:'部分熔融层',v:'月幔底部存在部分熔融的软流层。'},{c:'#1F2937',n:'月核',v:'半径约 350 km，可能为固态或部分液态铁镍。'}],
+ comp:[{n:'斜长岩',v:45,c:'#a3a3a3'},{n:'玄武岩',v:35,c:'#6b7280'},{n:'橄榄石/辉石',v:15,c:'#84cc16'},{n:'钛铁矿',v:5,c:'#78716c'}],
+ layers:[{c:'#D1D5DB',n:'月壳',v:'厚 50–100 km，富含斜长石。'},{c:'#9CA3AF',n:'月幔',v:'厚约 1,300 km。'},{c:'#4B5563',n:'部分熔融层',v:'月幔底部存在部分熔融的软流层。'},{c:'#1F2937',n:'月核',v:'半径约 350 km。'}],
  extra:[{k:'表面特征',v:'环形山、月海、月谷、辐射纹'},{k:'重要环形山',v:'南极-艾特肯盆地（直径 2,500 km）'},{k:'月岩样本',v:'阿波罗任务带回约 382 kg'},{k:'探测者',v:'阿波罗、月球号、嫦娥、月船'}],
  notes:['月球总是同一面朝向地球，这是潮汐锁定的结果。','月球正在以每年约 3.8 厘米的速度远离地球。','月海其实是巨大的撞击盆地，后被玄武岩熔岩填充。']},
-
 {id:'pluto',name:'冥王星',en:'Pluto',cat:'矮行星',shape:'rocky',color:'#C4A88B',color2:'#5C4A3A',opts:{craters:14,seed:23},
  brief:'2006 年被重新归类为矮行星。拥有复杂的表面特征，包括氮冰平原和高达 3,500 米的水冰山脉。',
- intro:'冥王星曾是太阳系第九大行星，2006 年国际天文学联合会将其重新定义为"矮行星"。它的直径仅 2,377 km，比月球还小。新视野号 2015 年飞掠冥王星时，发现了令人惊叹的表面细节：巨大的"斯普特尼克平原"（氮冰冰川）、高达 3,500 米的水冰山脉。',
+ intro:'冥王星曾是太阳系第九大行星，2006 年国际天文学联合会将其重新定义为"矮行星"。它的直径仅 2,377 km，比月球还小。新视野号 2015 年飞掠冥王星时，发现了令人惊叹的表面细节。',
  stats:{'直径':'2,377 km','质量':'地球的 0.0022 倍','公转周期':'248 地球年','距太阳':'约 59 亿 km','表面温度':'约 -229 °C','卫星数':'5'},
  comp:[{n:'氮冰 N₂',v:60,c:'#a5b4fc'},{n:'甲烷冰 CH₄',v:25,c:'#86efac'},{n:'一氧化碳冰 CO',v:10,c:'#fcd34d'},{n:'岩石/水冰',v:5,c:'#a8a29e'}],
- layers:[{c:'#E7E5E4',n:'氮冰表面',v:'斯普特尼克平原，氮冰冰川，表面极年轻。'},{c:'#A8A29E',n:'水冰壳',v:'厚约 100 km，水冰构成的坚硬外壳。'},{c:'#57534E',n:'岩石核心',v:'主要由硅酸盐岩石构成。'}],
+ layers:[{c:'#E7E5E4',n:'氮冰表面',v:'斯普特尼克平原，氮冰冰川。'},{c:'#A8A29E',n:'水冰壳',v:'厚约 100 km。'},{c:'#57534E',n:'岩石核心',v:'主要由硅酸盐岩石构成。'}],
  extra:[{k:'最大卫星',v:'冥卫一卡戎，直径 1,212 km'},{k:'著名地貌',v:'斯普特尼克平原、水冰山脉、克苏鲁区'},{k:'发现者',v:'克莱德·汤博，1930 年'},{k:'探测者',v:'新视野号（2015 年飞掠）'}],
- notes:['冥王星和卡戎互相潮汐锁定，像一对"双矮行星"。','冥王星的轨道倾角 17°，有时会比海王星更靠近太阳。','2006 年之前，冥王星被视为第九大行星，后改列为矮行星。']},
-
+ notes:['冥王星和卡戎互相潮汐锁定，像一对"双矮行星"。','冥王星的轨道倾角 17°，有时会比海王星更靠近太阳。','2006 年之前，冥王星被视为第九大行星。']},
 {id:'comet',name:'彗星',en:'Comet',cat:'彗星',shape:'comet',color:'#B0E0FF',color2:'#3A6BA5',
  brief:'由冰、尘埃和岩石组成的"脏雪球"，靠近太阳时升华出彗发和彗尾，是太阳系早期的活化石。',
- intro:'彗星是太阳系形成时遗留的冰质天体，主要来自柯伊伯带和更遥远的奥尔特云。它们的核心（彗核）直径通常只有几公里，由水冰、干冰、氨冰、甲烷冰和尘埃、岩石颗粒混合而成，被形象地称为"脏雪球"。当彗星靠近太阳时，冰物质升华成气体，在核周围形成明亮的彗发，并受太阳风和辐射压作用形成两条彗尾。',
+ intro:'彗星是太阳系形成时遗留的冰质天体，主要来自柯伊伯带和更遥远的奥尔特云。它们的核心由水冰、干冰、氨冰、甲烷冰和尘埃、岩石颗粒混合而成。当彗星靠近太阳时，冰物质升华成气体，形成两条彗尾。',
  stats:{'彗核直径':'几百米 – 几十公里','彗发直径':'可达 10 万公里以上','彗尾长度':'可达 1 亿公里以上','轨道周期':'几年 – 数百万年','主要来源':'柯伊伯带、奥尔特云','著名彗星':'哈雷、海尔-波普、67P'},
  comp:[{n:'水冰 H₂O',v:80,c:'#7dd3fc'},{n:'干冰 CO₂',v:10,c:'#a78bfa'},{n:'甲烷/氨冰',v:6,c:'#34d399'},{n:'尘埃/岩石',v:4,c:'#a8a29e'}],
- layers:[{c:'#F0F9FF',n:'彗核',v:'冰-尘混合物，直径几公里，太阳系最古老物质之一。'},{c:'#BAE6FD',n:'彗发',v:'气体与尘埃云，直径可达 10 万公里以上。'},{c:'#60A5FA',n:'离子尾',v:'受太阳风推动，笔直背向太阳，呈蓝色。'},{c:'#E0F2FE',n:'尘埃尾',v:'受辐射压推动，弯曲呈黄色或白色。'},{c:'#A5B4FC',n:'氢云',v:'巨大的中性氢包层，直径可达数百万公里。'}],
- extra:[{k:'来源',v:'柯伊伯带（短周期）、奥尔特云（长周期）'},{k:'彗尾数量',v:'通常 2 条（离子尾 + 尘埃尾）'},{k:'著名彗星',v:'哈雷彗星（76 年周期）、海尔-波普彗星'},{k:'探测任务',v:'乔托号、星尘号、罗塞塔号（菲莱着陆）'}],
- notes:['彗星的彗尾总是指向背离太阳的方向，而不是运动的反方向。','哈雷彗星每 76 年回归一次，下次将在 2061 年出现。','彗星可能为早期地球带来了水和有机分子。']},
-
+ layers:[{c:'#F0F9FF',n:'彗核',v:'冰-尘混合物，太阳系最古老物质之一。'},{c:'#BAE6FD',n:'彗发',v:'气体与尘埃云，直径可达 10 万公里以上。'},{c:'#60A5FA',n:'离子尾',v:'受太阳风推动，笔直背向太阳，呈蓝色。'},{c:'#E0F2FE',n:'尘埃尾',v:'受辐射压推动，弯曲呈黄色或白色。'},{c:'#A5B4FC',n:'氢云',v:'巨大的中性氢包层。'}],
+ extra:[{k:'来源',v:'柯伊伯带（短周期）、奥尔特云（长周期）'},{k:'彗尾数量',v:'通常 2 条'},{k:'著名彗星',v:'哈雷彗星（76 年周期）、海尔-波普彗星'},{k:'探测任务',v:'乔托号、星尘号、罗塞塔号'}],
+ notes:['彗星的彗尾总是指向背离太阳的方向。','哈雷彗星每 76 年回归一次，下次将在 2061 年出现。','彗星可能为早期地球带来了水和有机分子。']},
 {id:'nebula',name:'星云',en:'Nebula',cat:'星云',shape:'nebula',color:'#C084FC',color2:'#5B21B6',
- brief:'星际空间中由气体和尘埃组成的云团，是恒星诞生与死亡的场所，也是宇宙中色彩最丰富的天体之一。',
- intro:'星云是星际空间中由气体（主要是氢和氦）和尘埃组成的巨大云团，尺度从几光年到数百光年。按发光机制可分为发射星云（受年轻恒星紫外线激发而发光，呈红色）、反射星云（反射邻近恒星的光，呈蓝色）、暗星云（不发光、遮挡背景星光）和行星状星云。星云是恒星的摇篮，也是恒星死亡的遗迹。',
- stats:{'典型直径':'几光年 – 数百光年','主要成分':'氢、氦、尘埃','温度':'10 K – 10,000 K','密度':'每立方厘米 0.1 – 10,000 个粒子','类型':'发射、反射、暗、行星状、超新星遗迹','著名星云':'猎户座、蟹状、鹰状、猫眼'},
- comp:[{n:'氢 H',v:70,c:'#7dd3fc'},{n:'氦 He',v:28,c:'#a78bfa'},{n:'氧/氮/碳',v:1.5,c:'#f472b6'},{n:'尘埃（硅酸盐/碳）',v:0.5,c:'#a8a29e'}],
- layers:[{c:'#F0ABFC',n:'发光区',v:'受年轻恒星紫外线激发，氢发出红色 Hα 光。'},{c:'#C084FC',n:'反射区',v:'尘埃反射邻近恒星的光，呈蓝色（瑞利散射）。'},{c:'#4C1D95',n:'暗区',v:'浓密尘埃遮挡背景星光，形成剪影。'},{c:'#7E22CE',n:'分子云核',v:'寒冷致密，是恒星形成的场所，温度仅 10 K。'}],
- extra:[{k:'著名发射星云',v:'猎户座大星云、鹰状星云（创生之柱）'},{k:'著名行星状星云',v:'猫眼星云、环状星云、螺旋星云'},{k:'著名暗星云',v:'马头星云、煤袋星云'},{k:'著名超新星遗迹',v:'蟹状星云（1054 年超新星）'}],
- notes:['星云是恒星的"摇篮"和"坟墓"，恒星在这里诞生，也在这里抛洒物质。','猎户座大星云距离约 1,344 光年，是肉眼可见的恒星诞生区。','鹰状星云的"创生之柱"是哈勃最著名的照片之一。']},
-
+ brief:'星际空间中由气体和尘埃组成的云团，是恒星诞生与死亡的场所。',
+ intro:'星云是星际空间中由气体和尘埃组成的巨大云团。按发光机制可分为发射星云、反射星云、暗星云和行星状星云。星云是恒星的摇篮，也是恒星死亡的遗迹。',
+ stats:{'典型直径':'几光年 – 数百光年','主要成分':'氢、氦、尘埃','温度':'10 K – 10,000 K','密度':'每立方厘米 0.1 – 10,000 个粒子','类型':'发射、反射、暗、行星状','著名星云':'猎户座、蟹状、鹰状、猫眼'},
+ comp:[{n:'氢 H',v:70,c:'#7dd3fc'},{n:'氦 He',v:28,c:'#a78bfa'},{n:'氧/氮/碳',v:1.5,c:'#f472b6'},{n:'尘埃',v:0.5,c:'#a8a29e'}],
+ layers:[{c:'#F0ABFC',n:'发光区',v:'受年轻恒星紫外线激发，氢发出红色 Hα 光。'},{c:'#C084FC',n:'反射区',v:'尘埃反射邻近恒星的光，呈蓝色。'},{c:'#4C1D95',n:'暗区',v:'浓密尘埃遮挡背景星光，形成剪影。'},{c:'#7E22CE',n:'分子云核',v:'寒冷致密，是恒星形成的场所。'}],
+ extra:[{k:'著名发射星云',v:'猎户座大星云、鹰状星云'},{k:'著名行星状星云',v:'猫眼星云、环状星云'},{k:'著名暗星云',v:'马头星云、煤袋星云'},{k:'著名超新星遗迹',v:'蟹状星云'}],
+ notes:['星云是恒星的"摇篮"和"坟墓"。','猎户座大星云距离约 1,344 光年。','鹰状星云的"创生之柱"是哈勃最著名的照片之一。']},
 {id:'galaxy',name:'仙女座星系',en:'Andromeda',cat:'星系',shape:'galaxy',color:'#A78BFA',color2:'#4C1D95',
  brief:'距银河系最近的大型星系，距离约 254 万光年。它正以每秒约 110 公里的速度向银河系靠近。',
- intro:'仙女座星系（M31）是距银河系最近的大型旋涡星系，直径约 22 万光年，包含约 1 万亿颗恒星，是本星系群中最大的星系。它距离地球约 254 万光年，是肉眼可见最遥远的天体。仙女座星系正以每秒约 110 公里的速度接近银河系，预计约 45 亿年后两者将碰撞并合并。',
- stats:{'直径':'约 22 万光年','距地球':'约 254 万光年','恒星数量':'约 1 万亿颗','类型':'旋涡星系（SA(s)b）','视星等':'3.44（肉眼可见）','中心黑洞':'约 1 亿倍太阳质量'},
- comp:[{n:'恒星（主序）',v:60,c:'#fbbf24'},{n:'星际气体',v:25,c:'#7dd3fc'},{n:'星际尘埃',v:10,c:'#a8a29e'},{n:'暗物质',v:5,c:'#6d28d9'}],
- layers:[{c:'#FEF3C7',n:'核球',v:'明亮密集的恒星核心，包含超大质量黑洞。'},{c:'#C084FC',n:'旋臂',v:'年轻恒星、气体和尘埃聚集的区域，恒星形成活跃。'},{c:'#7E22CE',n:'星系盘',v:'直径约 22 万光年，包含大部分恒星和气体。'},{c:'#4C1D95',n:'暗物质晕',v:'不可见的暗物质包围整个星系。'}],
- extra:[{k:'本星系群成员',v:'最大星系，银河系为第二大'},{k:'伴星系',v:'M32、M110（均为椭圆星系）'},{k:'与银河系碰撞',v:'预计约 45 亿年后合并'},{k:'探测者',v:'哈勃、韦伯太空望远镜'}],
- notes:['仙女座星系是肉眼可见最远的天体，视星等 3.44。','它正接近银河系，45 亿年后两者将合并成"银河仙女星系"。','它的中心黑洞质量约为太阳的 1 亿倍。']},
-
+ intro:'仙女座星系（M31）是距银河系最近的大型旋涡星系，直径约 22 万光年，包含约 1 万亿颗恒星。它距离地球约 254 万光年，是肉眼可见最遥远的天体。预计约 45 亿年后两者将碰撞并合并。',
+ stats:{'直径':'约 22 万光年','距地球':'约 254 万光年','恒星数量':'约 1 万亿颗','类型':'旋涡星系','视星等':'3.44','中心黑洞':'约 1 亿倍太阳质量'},
+ comp:[{n:'恒星',v:60,c:'#fbbf24'},{n:'星际气体',v:25,c:'#7dd3fc'},{n:'星际尘埃',v:10,c:'#a8a29e'},{n:'暗物质',v:5,c:'#6d28d9'}],
+ layers:[{c:'#FEF3C7',n:'核球',v:'明亮密集的恒星核心，包含超大质量黑洞。'},{c:'#C084FC',n:'旋臂',v:'年轻恒星、气体和尘埃聚集的区域。'},{c:'#7E22CE',n:'星系盘',v:'直径约 22 万光年。'},{c:'#4C1D95',n:'暗物质晕',v:'不可见的暗物质包围整个星系。'}],
+ extra:[{k:'本星系群成员',v:'最大星系，银河系为第二大'},{k:'伴星系',v:'M32、M110'},{k:'与银河系碰撞',v:'预计约 45 亿年后合并'},{k:'探测者',v:'哈勃、韦伯太空望远镜'}],
+ notes:['仙女座星系是肉眼可见最远的天体，视星等 3.44。','它正接近银河系，45 亿年后两者将合并。','它的中心黑洞质量约为太阳的 1 亿倍。']},
 {id:'ism',name:'星际介质',en:'Interstellar Medium',cat:'星际介质',shape:'medium',color:'#7DD3FC',color2:'#1E3A8A',
  brief:'填充在恒星之间的气体和尘埃，主要由氢和氦组成，是恒星诞生和星系演化的关键物质循环。',
- intro:'星际介质（ISM）是填充在星系中恒星之间空间的物质，包括气体（99%）和尘埃（1%）。气体以原子、分子和离子形式存在，主要成分是氢（约 70%）和氦（约 28%）。星际介质的密度极低——平均每立方厘米只有约 1 个原子，但它占据了银河系可见体积的绝大部分。星际介质分为几个相：寒冷致密的分子云、中性氢云、温暖的电离氢区和极热的稀薄气体。',
+ intro:'星际介质（ISM）是填充在星系中恒星之间空间的物质，包括气体（99%）和尘埃（1%）。气体主要成分是氢（约 70%）和氦（约 28%）。星际介质的密度极低——平均每立方厘米只有约 1 个原子。',
  stats:{'主要成分':'氢（70%）、氦（28%）','平均密度':'约 1 原子/cm³','温度范围':'10 K – 1,000,000 K','相态':'分子云、中性氢、电离氢、热气体','尘埃组成':'硅酸盐、碳、冰、有机物','质量占比':'约占银河系可见质量的 10–15%'},
- comp:[{n:'氢 H',v:70,c:'#7dd3fc'},{n:'氦 He',v:28,c:'#a78bfa'},{n:'氧 O / 碳 C',v:1.2,c:'#f472b6'},{n:'氮 N / 氖 Ne',v:0.5,c:'#34d399'},{n:'尘埃（硅酸盐/碳）',v:0.3,c:'#a8a29e'}],
- layers:[{c:'#312E81',n:'分子云',v:'寒冷（10–20 K）致密，是恒星形成的场所。'},{c:'#3B82F6',n:'中性氢区',v:'温度约 100 K，氢以中性原子形式存在。'},{c:'#60A5FA',n:'电离氢区 (H II)',v:'温度约 10,000 K，被年轻恒星紫外辐射电离。'},{c:'#C084FC',n:'热电离气体',v:'温度百万 K，由超新星遗迹和恒星风加热。'}],
- extra:[{k:'密度对比',v:'比地球实验室最佳真空还稀薄 1 万倍'},{k:'主要探测方式',v:'射电 21 cm 线、红外、X 射线'},{k:'尘埃作用',v:'屏蔽紫外线、催化 H₂ 形成、形成行星原料'},{k:'元素来源',v:'大爆炸（H、He）+ 恒星核合成（重元素）'}],
- notes:['星际介质是银河系物质循环的枢纽，恒星从中诞生，也最终回归其中。','星际尘埃只占介质质量的 1%，却贡献了大部分消光和红外辐射。','没有星际介质，就没有恒星形成，也就没有行星和生命。']}
+ comp:[{n:'氢 H',v:70,c:'#7dd3fc'},{n:'氦 He',v:28,c:'#a78bfa'},{n:'氧/碳',v:1.2,c:'#f472b6'},{n:'氮/氖',v:0.5,c:'#34d399'},{n:'尘埃',v:0.3,c:'#a8a29e'}],
+ layers:[{c:'#312E81',n:'分子云',v:'寒冷（10–20 K）致密，是恒星形成的场所。'},{c:'#3B82F6',n:'中性氢区',v:'温度约 100 K。'},{c:'#60A5FA',n:'电离氢区',v:'温度约 10,000 K。'},{c:'#C084FC',n:'热电离气体',v:'温度百万 K，由超新星遗迹和恒星风加热。'}],
+ extra:[{k:'密度对比',v:'比地球实验室最佳真空还稀薄 1 万倍'},{k:'主要探测方式',v:'射电 21 cm 线、红外、X 射线'},{k:'尘埃作用',v:'屏蔽紫外线、催化 H₂ 形成、形成行星原料'},{k:'元素来源',v:'大爆炸 + 恒星核合成'}],
+ notes:['星际介质是银河系物质循环的枢纽。','星际尘埃只占介质质量的 1%，却贡献了大部分消光和红外辐射。','没有星际介质，就没有恒星形成，也就没有行星和生命。']}
 ];
 
-/* 88 星座 */
 const CONSTELLATIONS = [
 {id:'and',name:'仙女座',en:'Andromeda',lat:'北天',q:'秋季',star:'仙女座α（壁宿二）',area:'722'},
 {id:'ant',name:'唧筒座',en:'Antlia',lat:'南天',q:'春季',star:'唧筒座α',area:'239'},
@@ -1187,17 +1136,16 @@ const CONSTELLATIONS = [
 ];
 
 const CONSTELLATION_BODIES = CONSTELLATIONS.map((c, i) => ({
-  id: 'con_' + c.id,
-  name: c.name, en: c.en, cat: '星座', shape: 'constellation',
-  color: ['#8B9DC3','#7DD3FC','#A78BFA','#C4B5FD','#93C5FD','#6EE7B7'][i % 6],
-  color2: '#1E293B', seed: i + 1, starCount: 6 + (i % 7), season: c.q,
-  brief: `${c.name}位于${c.lat}，是${c.q}季的代表星座。主要亮星为${c.star}，天区面积约 ${c.area} 平方度。`,
-  intro: `${c.name}（${c.en}）是国际天文学联合会（IAU）正式划分的 88 个星座之一，位于${c.lat}。它是${c.q}季夜空中最容易辨认的星座之一。${c.name}的主要亮星是${c.star}，整个星座覆盖天区约 ${c.area} 平方度。在古希腊神话中，${c.name}有着丰富的传说背景。`,
-  stats: { '所属天区': c.lat, '最佳观测季节': c.q + '季', '主要亮星': c.star, '天区面积': c.area + ' 平方度' },
-  comp: [{n:'主序星',v:65,c:'#fbbf24'},{n:'星际气体',v:20,c:'#7dd3fc'},{n:'星际尘埃',v:10,c:'#a8a29e'},{n:'暗物质',v:5,c:'#6d28d9'}],
-  layers: [{c:'#FEF3C7',n:'主要亮星',v:'星座中最亮的恒星，构成星座的骨架。'},{c:'#C084FC',n:'伴星',v:'与主星形成双星或多星系统的恒星。'},{c:'#7E22CE',n:'深空天体',v:'星座区域内可能包含的星团、星云或星系。'}],
-  extra: [{k:'IAU 编号',v:c.id.toUpperCase()},{k:'拉丁名',v:c.en},{k:'天区位置',v:c.lat},{k:'最佳观测',v:c.q + '季'}],
-  notes: [`${c.name}是 88 个标准星座之一，1928 年由 IAU 正式划定边界。`,`${c.name}的主要亮星是${c.star}。`,`星座是天区划分单位，并非恒星在空间中的真实聚集。`]
+  id:'con_'+c.id, name:c.name, en:c.en, cat:'星座', shape:'constellation',
+  color:['#8B9DC3','#7DD3FC','#A78BFA','#C4B5FD','#93C5FD','#6EE7B7'][i%6],
+  color2:'#1E293B', seed:i+1, starCount:6+(i%7), season:c.q,
+  brief:`${c.name}位于${c.lat}，是${c.q}季的代表星座。主要亮星为${c.star}，天区面积约 ${c.area} 平方度。`,
+  intro:`${c.name}（${c.en}）是国际天文学联合会（IAU）正式划分的 88 个星座之一，位于${c.lat}。${c.name}的主要亮星是${c.star}，整个星座覆盖天区约 ${c.area} 平方度。`,
+  stats:{'所属天区':c.lat,'最佳观测季节':c.q+'季','主要亮星':c.star,'天区面积':c.area+' 平方度'},
+  comp:[{n:'主序星',v:65,c:'#fbbf24'},{n:'星际气体',v:20,c:'#7dd3fc'},{n:'星际尘埃',v:10,c:'#a8a29e'},{n:'暗物质',v:5,c:'#6d28d9'}],
+  layers:[{c:'#FEF3C7',n:'主要亮星',v:'星座中最亮的恒星。'},{c:'#C084FC',n:'伴星',v:'与主星形成双星或多星系统。'},{c:'#7E22CE',n:'深空天体',v:'星座区域内可能包含的星团、星云或星系。'}],
+  extra:[{k:'IAU 编号',v:c.id.toUpperCase()},{k:'拉丁名',v:c.en},{k:'天区位置',v:c.lat},{k:'最佳观测',v:c.q+'季'}],
+  notes:[`${c.name}是 88 个标准星座之一。`,`${c.name}的主要亮星是${c.star}。`,`星座是天区划分单位，并非恒星在空间中的真实聚集。`]
 }));
 
 const ALL_BODIES = [...DATA, ...CONSTELLATION_BODIES];
@@ -1208,30 +1156,20 @@ const CATEGORIES = [
   {id:'星系',name:'星系'},{id:'星际介质',name:'星际介质'},{id:'星座',name:'星座'}
 ];
 
-/* ============================================================
-   五、问答题库
-============================================================ */
+/* 问答 */
 const QUIZ_QUESTIONS = [
-  {q:'太阳系中最大的行星是？',opts:['木星','土星','地球','海王星'],correct:0,
-   hint:'它的质量是其他所有行星总和的 2.5 倍。'},
-  {q:'哪颗行星被称为"红色星球"？',opts:['金星','火星','水星','木星'],correct:1,
-   hint:'它的表面富含氧化铁，所以看起来是红色的。'},
-  {q:'太阳系中表面温度最高的行星是？',opts:['水星','金星','火星','木星'],correct:1,
-   hint:'它的二氧化碳大气造成剧烈温室效应，表面温度约 465°C。'},
-  {q:'地球唯一的天然卫星是？',opts:['火星','金星','月球','泰坦'],correct:2,
-   hint:'它距离地球约 38.4 万公里，我们每天晚上都能看到它。'},
-  {q:'土星最著名的是什么？',opts:['大红斑','环系统','六边形风暴','冰喷泉'],correct:1,
-   hint:'它由无数水冰颗粒组成，非常壮观。'},
-  {q:'哪颗行星是"躺着"公转的？',opts:['海王星','天王星','土星','金星'],correct:1,
-   hint:'它的自转轴倾斜约 98°。'},
-  {q:'太阳系中质量最大的恒星是？',opts:['北极星','太阳','天狼星','参宿四'],correct:1,
-   hint:'它就是我们的恒星，占据太阳系总质量的 99.86%。'},
-  {q:'下列哪个不是行星？',opts:['水星','冥王星','火星','海王星'],correct:1,
-   hint:'2006 年它被重新归类为"矮行星"。'}
+  {q:'太阳系中最大的行星是？',opts:['木星','土星','地球','海王星'],correct:0,hint:'它的质量是其他所有行星总和的 2.5 倍。'},
+  {q:'哪颗行星被称为"红色星球"？',opts:['金星','火星','水星','木星'],correct:1,hint:'它的表面富含氧化铁。'},
+  {q:'太阳系中表面温度最高的行星是？',opts:['水星','金星','火星','木星'],correct:1,hint:'它的二氧化碳大气造成剧烈温室效应，表面温度约 465°C。'},
+  {q:'地球唯一的天然卫星是？',opts:['火星','金星','月球','泰坦'],correct:2,hint:'它距离地球约 38.4 万公里。'},
+  {q:'土星最著名的是什么？',opts:['大红斑','环系统','六边形风暴','冰喷泉'],correct:1,hint:'它由无数水冰颗粒组成，非常壮观。'},
+  {q:'哪颗行星是"躺着"公转的？',opts:['海王星','天王星','土星','金星'],correct:1,hint:'它的自转轴倾斜约 98°。'},
+  {q:'太阳系中最大的天体是？',opts:['木星','太阳','地球','天狼星'],correct:1,hint:'它占据太阳系总质量的 99.86%。'},
+  {q:'下列哪个不是行星？',opts:['水星','冥王星','火星','海王星'],correct:1,hint:'2006 年它被重新归类为"矮行星"。'}
 ];
 
 /* ============================================================
-   六、状态与视图控制
+   五、视图控制与状态
 ============================================================ */
 const phone = document.getElementById('phone');
 const homeView = document.getElementById('homeView');
@@ -1265,26 +1203,27 @@ const quizProgress = document.getElementById('quizProgress');
 const themeBtn = document.getElementById('themeBtn');
 const themeIcon = document.getElementById('themeIcon');
 const detailEl = document.getElementById('detail');
+const toolOverlay = document.getElementById('toolOverlay');
+const toolTitle = document.getElementById('toolTitle');
+const toolBody = document.getElementById('toolBody');
+const toolBack = document.getElementById('toolBack');
+const exploreGrid = document.getElementById('exploreGrid');
 
 let currentCat = null;
 let currentSeason = '全部';
 let previousView = 'home';
+let solarRAF = null;
 
-/* 收藏 */
 let favorites = [];
 try { favorites = JSON.parse(localStorage.getItem('cosmos_favs') || '[]'); } catch(e) { favorites = []; }
-function saveFavs() {
-  try { localStorage.setItem('cosmos_favs', JSON.stringify(favorites)); } catch(e) {}
-}
+function saveFavs() { try { localStorage.setItem('cosmos_favs', JSON.stringify(favorites)); } catch(e) {} }
 function isFav(id) { return favorites.indexOf(id) >= 0; }
 function toggleFav(id) {
   const i = favorites.indexOf(id);
-  if (i >= 0) favorites.splice(i, 1);
-  else favorites.push(id);
+  if (i >= 0) favorites.splice(i, 1); else favorites.push(id);
   saveFavs();
 }
 
-/* 主题 */
 let isLight = false;
 try { isLight = localStorage.getItem('cosmos_light') === '1'; } catch(e) {}
 function applyTheme() {
@@ -1296,12 +1235,8 @@ function applyTheme() {
   }
   try { localStorage.setItem('cosmos_light', isLight ? '1' : '0'); } catch(e) {}
 }
-themeBtn.addEventListener('click', () => {
-  sfx.tap();
-  isLight = !isLight;
-  applyTheme();
-});
 applyTheme();
+themeBtn.addEventListener('click', () => { sfx.tap(); isLight = !isLight; applyTheme(); });
 
 function hideAllViews() {
   [homeView, listView, searchView, favView, quizView].forEach(v => v.classList.remove('active'));
@@ -1358,25 +1293,15 @@ function renderFavs() {
   const items = ALL_BODIES.filter(b => favorites.indexOf(b.id) >= 0);
   favCount.textContent = items.length + ' 个';
   favGrid.innerHTML = '';
-  if (items.length === 0) {
-    favEmpty.style.display = 'flex';
-    return;
-  }
+  if (items.length === 0) { favEmpty.style.display = 'flex'; return; }
   favEmpty.style.display = 'none';
-  items.forEach(body => {
-    const card = makeSubCard(body, () => { sfx.open(); openDetail(body); });
-    favGrid.appendChild(card);
-  });
+  items.forEach(body => favGrid.appendChild(makeSubCard(body, () => { sfx.open(); openDetail(body); })));
 }
 
 function makeSubCard(body, onClick) {
   const card = document.createElement('div');
   card.className = 'sub-card';
-  card.innerHTML = `
-    <div class="art">${renderSVGOnly(body, 78)}</div>
-    <div class="nm">${body.name}</div>
-    <div class="en">${body.en}</div>
-  `;
+  card.innerHTML = `<div class="art">${renderSVGOnly(body, 78)}</div><div class="nm">${body.name}</div><div class="en">${body.en}</div>`;
   card.addEventListener('click', onClick);
   return card;
 }
@@ -1389,11 +1314,7 @@ function renderHome() {
     const rep = items[0];
     const card = document.createElement('div');
     card.className = 'cat-card';
-    card.innerHTML = `
-      <div class="cat-icon">${rep ? renderSVGOnly(rep, 68) : ''}</div>
-      <div class="cat-name">${cat.name}</div>
-      <div class="cat-count">${items.length} 个天体</div>
-    `;
+    card.innerHTML = `<div class="cat-icon">${rep ? renderSVGOnly(rep, 68) : ''}</div><div class="cat-name">${cat.name}</div><div class="cat-count">${items.length} 个天体</div>`;
     card.addEventListener('click', () => { sfx.tap(); showList(cat.id); });
     catGrid.appendChild(card);
   });
@@ -1415,24 +1336,15 @@ function renderList() {
       t.addEventListener('click', () => { sfx.tap(); currentSeason = s; renderList(); });
       seasonBar.appendChild(t);
     });
-  } else {
-    seasonBar.style.display = 'none';
-  }
+  } else seasonBar.style.display = 'none';
 
   let list = items;
-  if (currentCat === '星座' && currentSeason !== '全部') {
-    list = items.filter(b => b.season === currentSeason);
-  }
+  if (currentCat === '星座' && currentSeason !== '全部') list = items.filter(b => b.season === currentSeason);
 
   subGrid.innerHTML = '';
-  list.forEach(body => {
-    subGrid.appendChild(makeSubCard(body, () => { sfx.open(); openDetail(body); }));
-  });
+  list.forEach(body => subGrid.appendChild(makeSubCard(body, () => { sfx.open(); openDetail(body); })));
 }
 
-/* ============================================================
-   七、今日星空
-============================================================ */
 function renderTodayBanner() {
   const today = new Date();
   const month = today.getMonth() + 1;
@@ -1447,7 +1359,6 @@ function renderTodayBanner() {
 
   const cons = CONSTELLATION_BODIES.filter(c => c.season === season);
   const c = cons.length ? cons[doy % cons.length] : CONSTELLATION_BODIES[0];
-
   const planets = DATA.filter(d => d.cat === '行星');
   const p = planets[doy % planets.length];
 
@@ -1455,13 +1366,12 @@ function renderTodayBanner() {
   document.getElementById('todayConstIcon').innerHTML = renderSVGOnly(c, 38);
   document.getElementById('todayPlanetName').textContent = p.name;
   document.getElementById('todayPlanetIcon').innerHTML = renderSVGOnly(p, 38);
-
   document.getElementById('todayConst').onclick = () => { sfx.open(); openDetail(c); };
   document.getElementById('todayPlanet').onclick = () => { sfx.open(); openDetail(p); };
 }
 
 /* ============================================================
-   八、搜索
+   六、搜索
 ============================================================ */
 const HOT_KEYWORDS = ['大熊座','猎户座','木星','仙女座','土星','月球','天狼星','北斗七星'];
 
@@ -1471,11 +1381,7 @@ function renderHintChips() {
     const chip = document.createElement('div');
     chip.className = 'hint-chip';
     chip.textContent = kw;
-    chip.addEventListener('click', () => {
-      sfx.tap();
-      searchInput.value = kw;
-      doSearch();
-    });
+    chip.addEventListener('click', () => { sfx.tap(); searchInput.value = kw; doSearch(); });
     hintChips.appendChild(chip);
   });
 }
@@ -1483,10 +1389,9 @@ function renderHintChips() {
 function matchBody(body, kw) {
   const k = kw.toLowerCase().trim();
   if (!k) return false;
-  if (body.name && body.name.toLowerCase().includes(k)) return true;
-  if (body.en && body.en.toLowerCase().includes(k)) return true;
-  if (body.cat && body.cat.toLowerCase().includes(k)) return true;
-  return false;
+  return (body.name && body.name.toLowerCase().includes(k))
+      || (body.en && body.en.toLowerCase().includes(k))
+      || (body.cat && body.cat.toLowerCase().includes(k));
 }
 
 function doSearch() {
@@ -1500,161 +1405,531 @@ function doSearch() {
   }
   searchHint.style.display = 'none';
   searchClearBtn.style.display = 'flex';
-
   const results = ALL_BODIES.filter(b => matchBody(b, kw));
   searchResults.innerHTML = '';
-  if (results.length === 0) {
-    searchEmpty.style.display = 'flex';
-    return;
-  }
+  if (results.length === 0) { searchEmpty.style.display = 'flex'; return; }
   searchEmpty.style.display = 'none';
-  results.forEach(body => {
-    searchResults.appendChild(makeSubCard(body, () => { sfx.open(); openDetail(body); }));
-  });
+  results.forEach(body => searchResults.appendChild(makeSubCard(body, () => { sfx.open(); openDetail(body); })));
 }
 
 searchBtn.addEventListener('click', () => { sfx.tap(); showSearch(); });
 searchCancel.addEventListener('click', () => { sfx.back(); closeSearch(); });
 searchInput.addEventListener('input', doSearch);
-searchClearBtn.addEventListener('click', () => {
-  sfx.tap();
-  searchInput.value = '';
-  searchInput.focus();
-  doSearch();
-});
+searchClearBtn.addEventListener('click', () => { sfx.tap(); searchInput.value = ''; searchInput.focus(); doSearch(); });
 backBtn.addEventListener('click', () => { sfx.back(); showHome(); });
 favBtn.addEventListener('click', () => { sfx.tap(); showFavs(); });
 favBack.addEventListener('click', () => { sfx.back(); showHome(); });
 
 /* ============================================================
-   九、问答
+   七、问答
 ============================================================ */
 let quizState = { index: 0, score: 0, answered: false };
 
-function startQuiz() {
-  quizState = { index: 0, score: 0, answered: false };
-  renderQuiz();
-}
+function startQuiz() { quizState = { index: 0, score: 0, answered: false }; renderQuiz(); }
 
 function renderQuiz() {
   const i = quizState.index;
   quizProgress.textContent = (i + 1) + ' / ' + QUIZ_QUESTIONS.length;
-
-  if (i >= QUIZ_QUESTIONS.length) {
-    renderQuizResult();
-    return;
-  }
-
+  if (i >= QUIZ_QUESTIONS.length) { renderQuizResult(); return; }
   const q = QUIZ_QUESTIONS[i];
-  const opts = q.opts.map((o, idx) =>
-    `<div class="quiz-opt" data-idx="${idx}">${String.fromCharCode(65 + idx)}. ${o}</div>`
-  ).join('');
-
+  const opts = q.opts.map((o, idx) => `<div class="quiz-opt" data-idx="${idx}">${String.fromCharCode(65+idx)}. ${o}</div>`).join('');
   quizContainer.innerHTML = `
     <div class="quiz-card">
-      <div class="quiz-num">第 ${i + 1} 题 / ${QUIZ_QUESTIONS.length}</div>
+      <div class="quiz-num">第 ${i+1} 题 / ${QUIZ_QUESTIONS.length}</div>
       <div class="quiz-q">${q.q}</div>
       <div class="quiz-opts" id="quizOpts">${opts}</div>
       <div class="quiz-feedback" id="quizFb"></div>
-    </div>
-  `;
-
-  document.querySelectorAll('.quiz-opt').forEach(el => {
-    el.addEventListener('click', () => handleAnswer(parseInt(el.dataset.idx), q));
-  });
+    </div>`;
+  document.querySelectorAll('.quiz-opt').forEach(el => el.addEventListener('click', () => handleAnswer(parseInt(el.dataset.idx), q)));
 }
 
 function handleAnswer(idx, q) {
   if (quizState.answered) return;
   quizState.answered = true;
-
   const opts = document.querySelectorAll('.quiz-opt');
   opts.forEach((el, i) => {
     el.classList.add('disabled');
     if (i === q.correct) el.classList.add('correct');
     else if (i === idx) el.classList.add('wrong');
   });
-
   const fb = document.getElementById('quizFb');
   const isOk = idx === q.correct;
-  if (isOk) {
-    quizState.score++;
-    sfx.ok();
-    fb.className = 'quiz-feedback ok show';
-    fb.innerHTML = '✅ <strong>答对了！</strong> ' + q.hint;
-  } else {
-    sfx.no();
-    fb.className = 'quiz-feedback no show';
-    fb.innerHTML = '❌ <strong>答错了。</strong> ' + q.hint;
-  }
-
-  setTimeout(() => {
-    quizState.index++;
-    quizState.answered = false;
-    renderQuiz();
-  }, 1600);
+  if (isOk) { quizState.score++; sfx.ok(); fb.className = 'quiz-feedback ok show'; fb.innerHTML = '✅ <strong>答对了！</strong> ' + q.hint; }
+  else { sfx.no(); fb.className = 'quiz-feedback no show'; fb.innerHTML = '❌ <strong>答错了。</strong> ' + q.hint; }
+  setTimeout(() => { quizState.index++; quizState.answered = false; renderQuiz(); }, 1600);
 }
 
 function renderQuizResult() {
-  const s = quizState.score;
-  const total = QUIZ_QUESTIONS.length;
+  const s = quizState.score, total = QUIZ_QUESTIONS.length;
   const pct = Math.round(s / total * 100);
   let emoji, text;
   if (pct >= 90) { emoji = '🏆'; text = '太厉害了！你是宇宙小博士！'; }
   else if (pct >= 70) { emoji = '🌟'; text = '很棒！你已经认识很多天体啦。'; }
   else if (pct >= 50) { emoji = '🚀'; text = '不错哦！继续探索宇宙吧。'; }
   else { emoji = '🌱'; text = '加油！再来一次，你会更强。'; }
-
   sfx.finish();
   quizProgress.textContent = '完成';
-
   quizContainer.innerHTML = `
     <div class="quiz-card quiz-result">
       <div class="quiz-result-emoji">${emoji}</div>
       <div class="quiz-result-score">${s}<span> / ${total}</span></div>
       <div class="quiz-result-text">${text}</div>
       <button class="quiz-restart" id="quizRestart">再来一次</button>
-    </div>
-  `;
-  document.getElementById('quizRestart').addEventListener('click', () => {
-    sfx.tap();
-    startQuiz();
-  });
+    </div>`;
+  document.getElementById('quizRestart').addEventListener('click', () => { sfx.tap(); startQuiz(); });
 }
 
-quizEntry.addEventListener('click', () => {
-  sfx.tap();
-  hideAllViews();
-  quizView.classList.add('active');
-  startQuiz();
-});
+quizEntry.addEventListener('click', () => { sfx.tap(); hideAllViews(); quizView.classList.add('active'); startQuiz(); });
 quizBack.addEventListener('click', () => { sfx.back(); showHome(); });
 
 /* ============================================================
-   十、详情页
+   八、探索工具入口
 ============================================================ */
-function openDetail(body) {
-  const statHtml = Object.entries(body.stats).map(([k,v]) =>
-    `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`
-  ).join('');
-  const compHtml = body.comp.map(c => `
-    <div class="comp-row">
-      <div class="comp-head"><span>${c.n}</span><span>${c.v}%</span></div>
-      <div class="comp-bar"><div class="comp-fill" style="width:${c.v}%;background:${c.c}"></div></div>
+const EXPLORE_TOOLS = [
+  { id:'solar',    icon:'🌞', name:'太阳系模拟', desc:'行星公转动画' },
+  { id:'distance', icon:'📏', name:'距离比较器', desc:'宇宙有多空旷' },
+  { id:'travel',   icon:'🚀', name:'星际旅行',   desc:'从地球出发' },
+  { id:'apod',     icon:'📸', name:'每日一图',   desc:'NASA 天文图片' }
+];
+
+(function buildExplore() {
+  EXPLORE_TOOLS.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'explore-card';
+    card.innerHTML = `<div class="explore-icon">${t.icon}</div><div class="explore-name">${t.name}</div><div class="explore-desc">${t.desc}</div>`;
+    card.addEventListener('click', () => { sfx.tap(); openTool(t.id); });
+    exploreGrid.appendChild(card);
+  });
+})();
+
+function openTool(id) {
+  const tool = EXPLORE_TOOLS.find(t => t.id === id);
+  if (!tool) return;
+  toolTitle.textContent = tool.name;
+  toolBody.innerHTML = '';
+  toolOverlay.classList.add('open');
+  if (id === 'solar') runSolarSystem();
+  if (id === 'distance') runDistance();
+  if (id === 'travel') runTravel();
+  if (id === 'apod') runAPOD();
+}
+
+function closeTool() {
+  toolOverlay.classList.remove('open');
+  if (solarRAF) { cancelAnimationFrame(solarRAF); solarRAF = null; }
+}
+
+toolBack.addEventListener('click', () => { sfx.back(); closeTool(); });
+
+/* ============================================================
+   九、工具 1：太阳系模拟
+============================================================ */
+const SOLAR_PLANETS = [
+  { name:'水星', a:0.39, r:3, color:'#a3a3a3', speed:1.60, a0:0.3 },
+  { name:'金星', a:0.72, r:5, color:'#e8c97a', speed:1.18, a0:1.8 },
+  { name:'地球', a:1.00, r:5, color:'#60a5fa', speed:1.00, a0:3.2 },
+  { name:'火星', a:1.52, r:4, color:'#d65a31', speed:0.80, a0:4.5 },
+  { name:'木星', a:5.20, r:9, color:'#e8b87a', speed:0.44, a0:5.6 },
+  { name:'土星', a:9.58, r:7.5, color:'#e6d3a8', speed:0.32, a0:0.8, ring:true },
+  { name:'天王星', a:19.2, r:6, color:'#8fe3e8', speed:0.23, a0:2.3 },
+  { name:'海王星', a:30.0, r:6, color:'#4f6be0', speed:0.18, a0:4.0 }
+];
+
+function runSolarSystem() {
+  toolBody.innerHTML = `
+    <div class="solar-wrap">
+      <canvas id="solarCanvas"></canvas>
+      <div class="solar-controls">
+        <button class="solar-btn" id="solarPlay">⏸ 暂停</button>
+        <div class="solar-speed">
+          <label>速度</label>
+          <input type="range" id="solarSpeed" min="1" max="12" value="4"/>
+        </div>
+      </div>
+      <div class="solar-info" id="solarInfo">点击行星查看详情 · 拖动查看位置</div>
+    </div>`;
+
+  const canvas = document.getElementById('solarCanvas');
+  const ctx = canvas.getContext('2d');
+  const info = document.getElementById('solarInfo');
+  const playBtn = document.getElementById('solarPlay');
+  const speedSlider = document.getElementById('solarSpeed');
+
+  // 尺寸（用设备像素比增强清晰度）
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // 用屏幕像素作为坐标系
+  let W = canvas.clientWidth, H = canvas.clientHeight;
+  function refreshSize() { W = canvas.clientWidth; H = canvas.clientHeight; }
+  refreshSize();
+
+  // 把太阳系的实际尺寸（30 AU 到屏幕）映射到 42% 最小边长
+  function getScale() { return Math.min(W, H) * 0.42 / 30; }
+
+  let paused = false;
+  let hoveredIdx = -1;
+
+  // 让行星随动画不断更新
+  function tick() {
+    if (!document.body.contains(canvas)) { solarRAF = null; return; }
+    refreshSize();
+    const scale = getScale();
+    const cx = W / 2, cy = H / 2;
+
+    // 每帧的角速度（弧度）
+    const speedFactor = parseInt(speedSlider.value) / 4;
+    const dt = 0.6;
+
+    // 背景
+    ctx.clearRect(0, 0, W, H);
+
+    // 太阳光晕
+    const sunGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 50);
+    sunGrad.addColorStop(0, 'rgba(253,184,19,1)');
+    sunGrad.addColorStop(0.3, 'rgba(253,184,19,0.6)');
+    sunGrad.addColorStop(1, 'rgba(253,184,19,0)');
+    ctx.fillStyle = sunGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 50, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = '#FFD75E';
+    ctx.beginPath();
+    ctx.arc(cx, cy, 9, 0, Math.PI*2);
+    ctx.fill();
+
+    // 轨道 + 行星
+    SOLAR_PLANETS.forEach((p, i) => {
+      const orbitR = p.a * scale;
+      // 轨道线
+      ctx.beginPath();
+      ctx.arc(cx, cy, orbitR, 0, Math.PI*2);
+      ctx.strokeStyle = 'rgba(139,124,246,0.12)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // 更新角度
+      if (!paused) p.a0 += p.speed * speedFactor * dt * 0.02;
+      const x = cx + Math.cos(p.a0) * orbitR;
+      const y = cy + Math.sin(p.a0) * orbitR;
+
+      // 行星圆
+      ctx.beginPath();
+      ctx.arc(x, y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // 土星环
+      if (p.ring) {
+        ctx.beginPath();
+        ctx.ellipse(x, y, p.r*1.9, p.r*0.55, -0.4, 0, Math.PI*2);
+        ctx.strokeStyle = 'rgba(230,211,168,0.6)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      // 名称
+      ctx.fillStyle = 'rgba(200,208,232,0.75)';
+      ctx.font = '10px -apple-system, "PingFang SC", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(p.name, x, y - p.r - 5);
+    });
+
+    // 让 hover 检查基于当前帧位置
+    canvas._planetPositions = SOLAR_PLANETS.map(p => ({
+      name: p.name,
+      x: cx + Math.cos(p.a0) * p.a * scale,
+      y: cy + Math.sin(p.a0) * p.a * scale,
+      r: p.r
+    }));
+
+    solarRAF = requestAnimationFrame(tick);
+  }
+  solarRAF = requestAnimationFrame(tick);
+
+  // 点击行星
+  canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const positions = canvas._planetPositions || [];
+    for (const p of positions) {
+      const dx = x - p.x, dy = y - p.y;
+      if (dx*dx + dy*dy < (p.r + 10) * (p.r + 10)) {
+        sfx.tap();
+        const body = DATA.find(d => d.name === p.name);
+        if (body) {
+          const dist = body.stats['公转周期'] || '';
+          info.textContent = `${p.name}：${body.brief}`;
+        }
+        return;
+      }
+    }
+    info.textContent = '点击行星查看详情 · 拖动查看位置';
+  });
+
+  playBtn.addEventListener('click', () => {
+    paused = !paused;
+    playBtn.textContent = paused ? '▶ 继续' : '⏸ 暂停';
+    sfx.tap();
+  });
+}
+
+/* ============================================================
+   十、工具 2：距离比较器
+============================================================ */
+const DISTANCE_ITEMS = [
+  { name:'月球',     km:3.84e5,   color:'#d1d5db' },
+  { name:'太阳',     km:1.496e8,  color:'#fbbf24' },
+  { name:'火星',     km:2.28e8,   color:'#f87171' },
+  { name:'木星',     km:7.78e8,   color:'#fcd34d' },
+  { name:'土星',     km:1.43e9,   color:'#fde68a' },
+  { name:'天王星',   km:2.87e9,   color:'#67e8f9' },
+  { name:'海王星',   km:4.50e9,   color:'#818cf8' },
+  { name:'冥王星',   km:5.90e9,   color:'#c4b5fd' },
+  { name:'柯伊伯带', km:7.50e9,   color:'#a78bfa' },
+  { name:'奥尔特云', km:7.50e12,  color:'#7dd3fc' },
+  { name:'比邻星',   km:4.01e13,  color:'#f472b6' },
+  { name:'天狼星',   km:8.13e13,  color:'#60a5fa' },
+  { name:'猎户座大星云', km:1.27e16, color:'#c084fc' },
+  { name:'银河系中心', km:2.46e17, color:'#fbbf24' },
+  { name:'仙女座星系', km:2.40e19, color:'#a78bfa' }
+];
+
+function fmtDist(km) {
+  if (km < 1e7) return Math.round(km).toLocaleString() + ' km';
+  if (km < 1e9) return (km/1e8).toFixed(2) + ' 亿 km';
+  if (km < 1e12) return (km/1.496e8).toFixed(1) + ' AU';
+  if (km < 9.46e12) return (km/1.496e8/63241).toFixed(3) + ' ly';
+  return (km/9.461e12).toFixed(2) + ' ly';
+}
+
+function runDistance() {
+  // 对数刻度：最小值 log10(月球)=5.58，最大值 log10(仙女座)=19.38
+  const minLog = Math.log10(3.84e5);
+  const maxLog = Math.log10(2.40e19);
+
+  let html = `<div class="dist-intro">🌌 宇宙比想象的更空旷。下面每一行代表一个天体到地球的距离，用的是<b>对数刻度</b>——如果按真实比例画，除了月球，其他天体都会被挤在右侧一根头发丝上。</div>`;
+  html += '<div class="dist-list">';
+
+  DISTANCE_ITEMS.forEach((d, i) => {
+    const log = Math.log10(d.km);
+    const pct = ((log - minLog) / (maxLog - minLog)) * 100;
+    html += `
+      <div class="dist-row">
+        <div class="dist-head">
+          <span class="dist-label">${d.name}</span>
+          <span class="dist-val">${fmtDist(d.km)}</span>
+        </div>
+        <div class="dist-bar">
+          <div class="dist-fill" data-pct="${pct.toFixed(1)}"
+            style="width:0%;background:linear-gradient(90deg,${d.color}99,${d.color});color:${d.color}"></div>
+        </div>
+      </div>`;
+  });
+  html += '</div>';
+  html += `<div class="dist-scale"><span>月球</span><span>对数刻度</span><span>仙女座星系</span></div>`;
+
+  toolBody.innerHTML = html;
+
+  // 动画展开
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      toolBody.querySelectorAll('.dist-fill').forEach(el => {
+        el.style.width = el.dataset.pct + '%';
+      });
+    }, 60);
+  });
+}
+
+/* ============================================================
+   十一、工具 3：星际旅行
+============================================================ */
+const TRAVEL_DESTS = [
+  { id:'moon',    name:'月球',        km:3.84e5,  fact:'光从地球到月球只需 1.28 秒。' },
+  { id:'sun',     name:'太阳',        km:1.496e8, fact:'阳光到达地球需要 8 分 20 秒。' },
+  { id:'mars',    name:'火星',        km:2.28e8,  fact:'信号单程延迟约 4–24 分钟。' },
+  { id:'jupiter', name:'木星',        km:7.78e8,  fact:'光从木星到地球约 43 分钟。' },
+  { id:'pluto',   name:'冥王星',      km:5.90e9,  fact:'新视野号飞了 9 年半才到达。' },
+  { id:'proxima', name:'比邻星',      km:4.01e13, fact:'除太阳外距离我们最近的恒星。' },
+  { id:'orion',   name:'猎户座大星云',km:1.27e16, fact:'它是肉眼可见的恒星诞生区。' },
+  { id:'center',  name:'银河系中心',  km:2.46e17, fact:'那里有一个 400 万倍太阳质量的黑洞。' },
+  { id:'andromeda',name:'仙女座星系', km:2.40e19, fact:'45 亿年后它将与银河系合并。' }
+];
+
+function runTravel() {
+  let opts = TRAVEL_DESTS.map((d, i) => `<option value="${i}"${i === 0 ? ' selected' : ''}>${d.name}</option>`).join('');
+  toolBody.innerHTML = `
+    <select class="travel-select" id="travelSelect">${opts}</select>
+    <div class="travel-scene">
+      <div class="travel-stars" id="travelStars"></div>
+      <div class="travel-ship">🚀</div>
+      <div class="travel-target" id="travelTarget"></div>
     </div>
-  `).join('');
-  const layerHtml = body.layers.map(l => `
-    <div class="layer">
-      <div class="layer-dot" style="background:${l.c};color:${l.c}"></div>
-      <div>
-        <div class="layer-n">${l.n}</div>
-        <div class="layer-v">${l.v}</div>
+    <div class="travel-info">
+      <div class="travel-stat"><div class="k">距离地球</div><div class="v" id="tvDist">—</div></div>
+      <div class="travel-stat"><div class="k">光速所需</div><div class="v" id="tvLight">—</div></div>
+    </div>
+    <div class="travel-fact" id="tvFact">选择目的地，点击"出发"开始旅程。</div>
+    <button class="travel-go" id="travelGo">🚀 出发</button>
+  `;
+
+  // 背景星星
+  const stars = document.getElementById('travelStars');
+  for (let i = 0; i < 40; i++) {
+    const s = document.createElement('div');
+    s.className = 'tstar';
+    const sz = Math.random() * 1.6 + 0.5;
+    s.style.width = sz + 'px';
+    s.style.height = sz + 'px';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.opacity = 0.3 + Math.random() * 0.6;
+    stars.appendChild(s);
+  }
+
+  const sel = document.getElementById('travelSelect');
+  const target = document.getElementById('travelTarget');
+  const ship = document.querySelector('.travel-ship');
+  const tvDist = document.getElementById('tvDist');
+  const tvLight = document.getElementById('tvLight');
+  const tvFact = document.getElementById('tvFact');
+  const go = document.getElementById('travelGo');
+
+  function fmtKm(km) {
+    if (km < 1e6) return Math.round(km).toLocaleString() + ' km';
+    if (km < 1e9) return (km/1e4).toFixed(0) + ' 万 km';
+    if (km < 9.46e12) return (km/1.496e8).toFixed(2) + ' AU';
+    return (km/9.461e12).toFixed(2) + ' 光年';
+  }
+
+  function fmtTime(sec) {
+    if (sec < 60) return sec.toFixed(1) + ' 秒';
+    if (sec < 3600) return (sec/60).toFixed(1) + ' 分钟';
+    if (sec < 86400) return (sec/3600).toFixed(1) + ' 小时';
+    if (sec < 86400*365) return (sec/86400).toFixed(1) + ' 天';
+    return (sec/(86400*365)).toFixed(2) + ' 年';
+  }
+
+  function update() {
+    const d = TRAVEL_DESTS[parseInt(sel.value)];
+    tvDist.textContent = fmtKm(d.km);
+    const lightSec = d.km / 299792.458;
+    tvLight.textContent = fmtTime(lightSec);
+    tvFact.textContent = d.fact;
+    // 目标颜色
+    const colors = ['#d1d5db','#fbbf24','#f87171','#fcd34d','#c4b5fd','#f472b6','#c084fc','#fbbf24','#a78bfa'];
+    const c = colors[parseInt(sel.value)];
+    target.style.background = `radial-gradient(circle at 35% 32%, ${c}ee, ${c}55, transparent 72%)`;
+    target.style.boxShadow = `0 0 32px ${c}`;
+    ship.style.left = '8%';
+  }
+
+  sel.addEventListener('change', update);
+  update();
+
+  go.addEventListener('click', () => {
+    sfx.launch();
+    go.disabled = true;
+    ship.style.transition = 'none';
+    ship.style.left = '8%';
+    // 强制 reflow
+    void ship.offsetWidth;
+    ship.style.transition = 'left 4s cubic-bezier(.4,.05,.5,.95)';
+    setTimeout(() => { ship.style.left = '75%'; }, 20);
+    setTimeout(() => {
+      go.disabled = false;
+      const d = TRAVEL_DESTS[parseInt(sel.value)];
+      tvFact.textContent = `✨ 抵达 ${d.name}！${d.fact}`;
+    }, 4200);
+  });
+}
+
+/* ============================================================
+   十二、工具 4：每日一图（NASA APOD）
+============================================================ */
+let apodLoaded = false;
+
+function runAPOD() {
+  apodLoaded = false;
+  toolBody.innerHTML = `
+    <div class="apod-loading">
+      <div class="apod-spinner"></div>
+      <div class="apod-loading-text">正在接收 NASA 信号…</div>
+    </div>`;
+  fetchAPOD();
+}
+
+async function fetchAPOD() {
+  try {
+    const res = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&thumbs=true');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    renderAPOD(data);
+  } catch(e) {
+    renderAPODError(e.message);
+  }
+}
+
+function renderAPOD(data) {
+  apodLoaded = true;
+  let mediaHtml = '';
+  if (data.media_type === 'image') {
+    mediaHtml = `<img class="apod-media" src="${data.hdurl || data.url}" alt="${data.title}"
+      onerror="this.outerHTML='<div style=\\'padding:60px 20px;text-align:center;color:#8b94b8;font-size:12px\\'>图片加载失败<br>请稍后重试</div>'"/>`;
+  } else if (data.media_type === 'video') {
+    if (data.url && data.url.indexOf('youtube') >= 0) {
+      mediaHtml = `<iframe class="apod-media" src="${data.url}" allowfullscreen></iframe>`;
+    } else {
+      mediaHtml = `<a href="${data.url}" target="_blank" style="display:block;padding:60px 20px;text-align:center;color:#a78bfa;text-decoration:none;font-size:14px">📺 点击查看视频</a>`;
+    }
+  } else {
+    mediaHtml = `<div style="padding:60px 20px;text-align:center;color:#8b94b8">无法显示该媒体类型</div>`;
+  }
+
+  toolBody.innerHTML = `
+    <div class="apod-card">
+      ${mediaHtml}
+      <div class="apod-body">
+        <div class="apod-date">${data.date}</div>
+        <div class="apod-title">${data.title}</div>
+        <div class="apod-explain">${data.explanation || ''}</div>
       </div>
     </div>
-  `).join('');
-  const extraHtml = body.extra.map(e => `
-    <div class="extra-row"><span class="k">${e.k}</span><span class="v">${e.v}</span></div>
-  `).join('');
+    <div style="text-align:center;font-size:11px;color:#5e6690;letter-spacing:1px;padding:8px 0 20px">
+      图片与说明由 NASA APOD 提供 · 每日更新
+    </div>`;
+}
+
+function renderAPODError(msg) {
+  toolBody.innerHTML = `
+    <div class="apod-error">
+      <div class="empty-icon">📡</div>
+      <div class="empty-text">未能接收 NASA 数据</div>
+      <div class="empty-sub">可能是网络问题，或今日请求次数已达上限</div>
+      <button class="apod-retry" id="apodRetry">重新接收</button>
+    </div>`;
+  document.getElementById('apodRetry').addEventListener('click', () => { sfx.tap(); runAPOD(); });
+}
+
+/* ============================================================
+   十三、详情页
+============================================================ */
+function openDetail(body) {
+  const statHtml = Object.entries(body.stats).map(([k,v]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+  const compHtml = body.comp.map(c => `<div class="comp-row"><div class="comp-head"><span>${c.n}</span><span>${c.v}%</span></div><div class="comp-bar"><div class="comp-fill" style="width:${c.v}%;background:${c.c}"></div></div></div>`).join('');
+  const layerHtml = body.layers.map(l => `<div class="layer"><div class="layer-dot" style="background:${l.c};color:${l.c}"></div><div><div class="layer-n">${l.n}</div><div class="layer-v">${l.v}</div></div></div>`).join('');
+  const extraHtml = body.extra.map(e => `<div class="extra-row"><span class="k">${e.k}</span><span class="v">${e.v}</span></div>`).join('');
   const notesHtml = body.notes.map(n => `<li>${n}</li>`).join('');
   const faved = isFav(body.id);
 
@@ -1662,10 +1937,7 @@ function openDetail(body) {
     <div class="d-hero">
       <div class="d-close" id="dClose">✕</div>
       <div class="d-fav${faved ? ' active' : ''}" id="dFav" title="收藏">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="${faved ? 'currentColor' : 'none'}"
-             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-        </svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="${faved ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       </div>
       ${renderDetailArt(body, 200)}
     </div>
@@ -1675,20 +1947,13 @@ function openDetail(body) {
       <div class="d-en">${body.en}</div>
       <div class="d-brief">${body.brief}</div>
       <div class="d-intro">${body.intro}</div>
-      <div class="sec">关键数据</div>
-      <div class="stat-grid">${statHtml}</div>
-      <div class="sec">成分组成</div>
-      <div>${compHtml}</div>
-      <div class="sec">结构分层</div>
-      <div class="layers">${layerHtml}</div>
-      <div class="sec">补充信息</div>
-      <div class="extra">${extraHtml}</div>
-      <div class="sec">你知道吗</div>
-      <ul class="notes">${notesHtml}</ul>
+      <div class="sec">关键数据</div><div class="stat-grid">${statHtml}</div>
+      <div class="sec">成分组成</div><div>${compHtml}</div>
+      <div class="sec">结构分层</div><div class="layers">${layerHtml}</div>
+      <div class="sec">补充信息</div><div class="extra">${extraHtml}</div>
+      <div class="sec">你知道吗</div><ul class="notes">${notesHtml}</ul>
       <div class="d-footer"></div>
-    </div>
-  `;
-
+    </div>`;
   detailEl.classList.add('open');
   detailEl.scrollTop = 0;
 
@@ -1702,12 +1967,10 @@ function openDetail(body) {
   });
 }
 
-function closeDetail() {
-  detailEl.classList.remove('open');
-}
+function closeDetail() { detailEl.classList.remove('open'); }
 
 /* ============================================================
-   十一、初始化
+   十四、初始化
 ============================================================ */
 try { renderHome(); } catch(e) { console.error('renderHome error:', e); }
 
@@ -1727,7 +1990,7 @@ try { renderHome(); } catch(e) { console.error('renderHome error:', e); }
       s.style.animationDuration = (3 + Math.random() * 4) + 's';
       el.appendChild(s);
     }
-  } catch(e) { console.error('buildStars error:', e); }
+  } catch(e) {}
 })();
 
 (function buildSplashStars() {
@@ -1746,10 +2009,9 @@ try { renderHome(); } catch(e) { console.error('renderHome error:', e); }
       s.style.animationDuration = (2 + Math.random() * 3) + 's';
       sky.appendChild(s);
     }
-  } catch(e) { console.error('buildSplashStars error:', e); }
+  } catch(e) {}
 })();
 
-// 用户第一次交互时解锁音频
 document.addEventListener('touchstart', initAudio, { once: true, passive: true });
 document.addEventListener('click', initAudio, { once: true });
 </script>
