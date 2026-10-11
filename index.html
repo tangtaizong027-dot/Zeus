@@ -28,7 +28,6 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
   animation:splashTw 3s infinite ease-in-out}
 @keyframes splashTw{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1.15)}}
 
-/* 划过天空的彗星 */
 .shooting{position:absolute;top:22%;left:-30%;width:200px;height:2px;
   background:linear-gradient(90deg, rgba(180,220,255,0) 0%, rgba(180,220,255,.4) 50%, #fff 100%);
   border-radius:2px;filter:drop-shadow(0 0 8px #8ec5ff);
@@ -81,9 +80,12 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .splash-sub{font-size:11px;letter-spacing:4px;color:#5e6690;margin-top:18px;
   opacity:0;animation:fadeUp 1.2s 3.4s cubic-bezier(.2,.9,.25,1) forwards}
 
+/* 跳过按钮始终可点击 */
 .splash-skip{position:absolute;bottom:34px;right:28px;font-size:11px;color:#4d5470;
   letter-spacing:1px;padding:6px 12px;border:1px solid #1f2438;border-radius:999px;
-  z-index:5;opacity:0;animation:fadeUp 1s 1.2s forwards;cursor:pointer}
+  z-index:1000;opacity:0;animation:fadeUp 1s 1.2s forwards;cursor:pointer;
+  pointer-events:auto !important}
+.splash-skip:active{background:rgba(255,255,255,.08);color:#8b94b8}
 
 /* ============ 主应用 ============ */
 .app{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;
@@ -112,10 +114,11 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .card{background:rgba(17,21,34,.75);border:1px solid rgba(255,255,255,.06);
   border-radius:20px;padding:12px 10px 13px;display:flex;flex-direction:column;
   align-items:center;gap:7px;transition:transform .18s,border-color .18s,background .18s;
-  cursor:pointer;user-select:none}
+  cursor:pointer;user-select:none;overflow:hidden}
 .card:active{transform:scale(.955);border-color:rgba(139,124,246,.55);background:rgba(30,26,60,.75)}
 .card .nm{font-size:13.5px;font-weight:600;color:#e9ebf4;letter-spacing:.5px;text-align:center}
 .card .en{font-size:9px;color:#545b78;letter-spacing:1.5px;text-transform:uppercase;text-align:center}
+.card img{width:78px;height:78px;object-fit:cover;border-radius:50%}
 
 .detail{position:absolute;inset:0;z-index:30;background:#05060A;overflow-y:auto;
   transform:translateY(102%);transition:transform .38s cubic-bezier(.4,0,.2,1);scrollbar-width:none}
@@ -124,6 +127,8 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 
 .d-hero{position:relative;padding:34px 0 18px;display:flex;justify-content:center;align-items:center;
   background:radial-gradient(circle at 50% 45%,rgba(80,70,180,.16),transparent 68%)}
+.d-hero img{width:200px;height:200px;object-fit:cover;border-radius:50%;
+  box-shadow:0 0 50px rgba(124,92,231,.35)}
 .d-close{position:absolute;top:16px;right:18px;width:38px;height:38px;border-radius:50%;
   background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#9aa0b8;
   font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5}
@@ -205,14 +210,12 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
               <stop offset="100%" stop-color="#7c3aed"/>
             </radialGradient>
           </defs>
-          <!-- 光晕 -->
           <circle cx="50" cy="50" r="30" fill="none" stroke="rgba(139,124,246,.35)" stroke-width="1" stroke-dasharray="3 5">
             <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="12s" repeatCount="indefinite"/>
           </circle>
           <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(96,165,250,.22)" stroke-width="1" stroke-dasharray="2 8">
             <animateTransform attributeName="transform" type="rotate" from="360 50 50" to="0 50 50" dur="18s" repeatCount="indefinite"/>
           </circle>
-          <!-- 巴士 -->
           <g transform="translate(0, 4)">
             <rect x="22" y="34" width="56" height="30" rx="6" fill="url(#busG)"/>
             <rect x="26" y="38" width="14" height="11" rx="2" fill="#0a0c14" opacity=".65"/>
@@ -222,13 +225,12 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
             <circle cx="66" cy="66" r="4.5" fill="#1a1f33" stroke="url(#busG)" stroke-width="1.4"/>
             <circle cx="50" cy="49" r="2.6" fill="url(#busCore)" opacity=".95"/>
           </g>
-          <!-- 尾迹 -->
           <path d="M 18 52 Q 6 48 2 52 Q 8 56 18 54 Z" fill="#a78bfa" opacity=".45"/>
           <path d="M 15 56 Q 4 54 1 58 Q 7 60 15 58 Z" fill="#60a5fa" opacity=".3"/>
         </svg>
       </div>
 
-      <div class="splash-welcome">欢 迎 搭 乘</div>
+      <div class="splash-welcome">欢迎黄雅琪、黄晓松小朋友搭乘</div>
       <div class="splash-bus">星际大巴车</div>
       <div class="splash-divider"></div>
       <div class="splash-sub">穿越 138 亿年 · 抵达星辰大海</div>
@@ -274,12 +276,11 @@ const darken = (h,p) => {
 };
 
 /* ============================================================
-   二、SVG 渲染器
+   二、SVG 渲染器（图片加载失败时的回退）
 ============================================================ */
 let _uid = 0;
 const uid = () => 'u' + (++_uid);
 
-/* ---- 恒星 ---- */
 function svgStar(p, size) {
   const u = uid();
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
@@ -313,7 +314,6 @@ function svgStar(p, size) {
 </svg>`;
 }
 
-/* ---- 岩质天体 ---- */
 function svgRocky(p, size, o = {}) {
   const u = uid();
   let rnd = (o.seed || 7) * 9301 + 49297;
@@ -351,7 +351,6 @@ function svgRocky(p, size, o = {}) {
 </svg>`;
 }
 
-/* ---- 地球 ---- */
 function svgEarth(p, size) {
   const u = uid();
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
@@ -392,7 +391,6 @@ function svgEarth(p, size) {
 </svg>`;
 }
 
-/* ---- 气态巨行星 ---- */
 function svgGas(p, size, o = {}) {
   const u = uid();
   const soft = o.soft ? 0.55 : 1;
@@ -442,7 +440,6 @@ function svgGas(p, size, o = {}) {
 </svg>`;
 }
 
-/* ---- 彗星 ---- */
 function svgComet(p, size) {
   const u = uid();
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
@@ -475,7 +472,6 @@ function svgComet(p, size) {
 </svg>`;
 }
 
-/* ---- 星云 ---- */
 function svgNebula(p, size) {
   const u = uid();
   let rnd = 12345;
@@ -513,7 +509,6 @@ function svgNebula(p, size) {
 </svg>`;
 }
 
-/* ---- 星系 ---- */
 function svgGalaxy(p, size) {
   const u = uid();
   let rnd = 7777;
@@ -553,7 +548,6 @@ function svgGalaxy(p, size) {
 </svg>`;
 }
 
-/* ---- 星际介质 ---- */
 function svgMedium(p, size) {
   const u = uid();
   let rnd = 4242;
@@ -583,7 +577,6 @@ function svgMedium(p, size) {
 </svg>`;
 }
 
-/* ---- 星座星图 ---- */
 function svgConstellation(p, size, seed, starCount) {
   const u = uid();
   let rnd = (seed || 1) * 7919 + 104729;
@@ -599,7 +592,6 @@ function svgConstellation(p, size, seed, starCount) {
     });
   }
 
-  // 生成连线
   let lines = '';
   for (let i = 0; i < pts.length - 1; i++) {
     if (rand() > 0.32) {
@@ -609,7 +601,6 @@ function svgConstellation(p, size, seed, starCount) {
     }
   }
 
-  // 星点
   let dots = '';
   pts.forEach(pt => {
     const halo = pt.big ? 3.2 : 2.2;
@@ -633,27 +624,55 @@ function svgConstellation(p, size, seed, starCount) {
 </svg>`;
 }
 
-/* ---- 分发器 ---- */
+/* ============ NASA 真实图片映射表 ============ */
+const NASA_IMAGES = {
+  sun:       'https://images-assets.nasa.gov/image/PIA03149/PIA03149~medium.jpg',
+  mercury:   'https://images-assets.nasa.gov/image/PIA15162/PIA15162~medium.jpg',
+  venus:     'https://images-assets.nasa.gov/image/PIA00271/PIA00271~medium.jpg',
+  earth:     'https://images-assets.nasa.gov/image/AS17-148-22727/AS17-148-22727~medium.jpg',
+  mars:      'https://images-assets.nasa.gov/image/PIA00407/PIA00407~medium.jpg',
+  jupiter:   'https://images-assets.nasa.gov/image/PIA02873/PIA02873~medium.jpg',
+  saturn:    'https://images-assets.nasa.gov/image/PIA06077/PIA06077~medium.jpg',
+  uranus:    'https://images-assets.nasa.gov/image/PIA18182/PIA18182~medium.jpg',
+  neptune:   'https://images-assets.nasa.gov/image/PIA01492/PIA01492~medium.jpg',
+  moon:      'https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~medium.jpg',
+  pluto:     'https://images-assets.nasa.gov/image/PIA19952/PIA19952~medium.jpg',
+  comet:     'https://images-assets.nasa.gov/image/PIA21068/PIA21068~medium.jpg',
+  nebula:    'https://images-assets.nasa.gov/image/PIA23126/PIA23126~medium.jpg',
+  galaxy:    'https://images-assets.nasa.gov/image/PIA04921/PIA04921~medium.jpg'
+};
+
+/* ---- 分发器：优先 NASA 真实图片，失败回退 SVG ---- */
 function renderArt(body, size) {
   const p = { base: body.color, shadow: body.color2 };
-  switch (body.shape) {
-    case 'star':          return svgStar(p, size);
-    case 'earth':         return svgEarth(p, size);
-    case 'gas':           return svgGas(p, size, body.opts || {});
-    case 'comet':         return svgComet(p, size);
-    case 'nebula':        return svgNebula(p, size);
-    case 'galaxy':        return svgGalaxy(p, size);
-    case 'medium':        return svgMedium(p, size);
-    case 'constellation': return svgConstellation(p, size, body.seed || 1, body.starCount || 8);
-    default:              return svgRocky(p, size, body.opts || {});
-  }
+  const imgUrl = NASA_IMAGES[body.id];
+  const svgFallback = (() => {
+    switch (body.shape) {
+      case 'star':          return svgStar(p, size);
+      case 'earth':         return svgEarth(p, size);
+      case 'gas':           return svgGas(p, size, body.opts || {});
+      case 'comet':         return svgComet(p, size);
+      case 'nebula':        return svgNebula(p, size);
+      case 'galaxy':        return svgGalaxy(p, size);
+      case 'medium':        return svgMedium(p, size);
+      case 'constellation': return svgConstellation(p, size, body.seed || 1, body.starCount || 8);
+      default:              return svgRocky(p, size, body.opts || {});
+    }
+  })();
+
+  if (!imgUrl) return svgFallback;
+
+  return `<img src="${imgUrl}" width="${size}" height="${size}"
+    style="object-fit:cover;border-radius:50%;box-shadow:0 0 30px ${rgba(body.color,0.35)}"
+    alt="${body.name}"
+    onerror="this.outerHTML='${svgFallback.replace(/'/g, "\\'")}'" />`;
 }
 
 /* ============================================================
    三、天体主数据
 ============================================================ */
 const DATA = [
-/* ---------- 太阳 ---------- */
+/* 太阳 */
 {
   id:'sun', name:'太阳', en:'Sun', cat:'恒星', shape:'star',
   color:'#FDB813', color2:'#C2620A',
@@ -688,7 +707,7 @@ const DATA = [
     '太阳不是固体，不同纬度自转速度不同，称为"较差自转"。'
   ]
 },
-/* ---------- 水星 ---------- */
+/* 水星 */
 {
   id:'mercury', name:'水星', en:'Mercury', cat:'行星', shape:'rocky',
   color:'#B8B8B8', color2:'#5C5C5C', opts:{ craters:32, seed:3 },
@@ -720,7 +739,7 @@ const DATA = [
     '它正在缓慢收缩，表面的"皱脊"就是冷却收缩的证据。'
   ]
 },
-/* ---------- 金星 ---------- */
+/* 金星 */
 {
   id:'venus', name:'金星', en:'Venus', cat:'行星', shape:'rocky',
   color:'#E8C97A', color2:'#8C6A2A', opts:{ craters:8, seed:11 },
@@ -755,7 +774,7 @@ const DATA = [
     '金星大气中含有微量磷化氢，其来源至今尚无定论。'
   ]
 },
-/* ---------- 地球 ---------- */
+/* 地球 */
 {
   id:'earth', name:'地球', en:'Earth', cat:'行星', shape:'earth',
   color:'#2563EB', color2:'#0A1F4E',
@@ -790,7 +809,7 @@ const DATA = [
     '生命最早出现在至少 35 亿年前，光合作用改变了大气成分。'
   ]
 },
-/* ---------- 火星 ---------- */
+/* 火星 */
 {
   id:'mars', name:'火星', en:'Mars', cat:'行星', shape:'rocky',
   color:'#D65A31', color2:'#7C2D12', opts:{ craters:22, seed:19, cap:true },
@@ -824,7 +843,7 @@ const DATA = [
     '火星尘暴可以持续数周并覆盖整个行星。'
   ]
 },
-/* ---------- 木星 ---------- */
+/* 木星 */
 {
   id:'jupiter', name:'木星', en:'Jupiter', cat:'行星', shape:'gas',
   color:'#E8B87A', color2:'#8C5A2A', opts:{ spot:{x:76,y:118,rx:22,ry:13} },
@@ -859,7 +878,7 @@ const DATA = [
     '木星有微弱的行星环，由尘埃组成，是旅行者一号发现的。'
   ]
 },
-/* ---------- 土星 ---------- */
+/* 土星 */
 {
   id:'saturn', name:'土星', en:'Saturn', cat:'行星', shape:'gas',
   color:'#E6D3A8', color2:'#8C7A4A', opts:{ ring:true, soft:true },
@@ -894,7 +913,7 @@ const DATA = [
     '土星的密度比水低，是太阳系唯一"能浮起来"的行星。'
   ]
 },
-/* ---------- 天王星 ---------- */
+/* 天王星 */
 {
   id:'uranus', name:'天王星', en:'Uranus', cat:'行星', shape:'gas',
   color:'#8FE3E8', color2:'#2A7A85', opts:{ soft:true },
@@ -927,7 +946,7 @@ const DATA = [
     '天王星 13 条环中，最外侧的 ε 环由牧羊卫星维持。'
   ]
 },
-/* ---------- 海王星 ---------- */
+/* 海王星 */
 {
   id:'neptune', name:'海王星', en:'Neptune', cat:'行星', shape:'gas',
   color:'#4F6BE0', color2:'#1A2A6B', opts:{ soft:true, spot:{x:78,y:100,rx:16,ry:9} },
@@ -960,7 +979,7 @@ const DATA = [
     '它的名字来自罗马神话海神尼普顿，中文"海王星"由此意译而来。'
   ]
 },
-/* ---------- 月球 ---------- */
+/* 月球 */
 {
   id:'moon', name:'月球', en:'Moon', cat:'卫星', shape:'rocky',
   color:'#C9C9C9', color2:'#6B6B6B', opts:{ craters:34, seed:5 },
@@ -993,7 +1012,7 @@ const DATA = [
     '月海其实是巨大的撞击盆地，后被玄武岩熔岩填充。'
   ]
 },
-/* ---------- 冥王星 ---------- */
+/* 冥王星 */
 {
   id:'pluto', name:'冥王星', en:'Pluto', cat:'矮行星', shape:'rocky',
   color:'#C4A88B', color2:'#5C4A3A', opts:{ craters:14, seed:23 },
@@ -1025,7 +1044,7 @@ const DATA = [
     '2006 年之前，冥王星被视为第九大行星，后改列为矮行星。'
   ]
 },
-/* ---------- 彗星 ---------- */
+/* 彗星 */
 {
   id:'comet', name:'彗星', en:'Comet', cat:'彗星', shape:'comet',
   color:'#B0E0FF', color2:'#3A6BA5',
@@ -1059,7 +1078,7 @@ const DATA = [
     '彗星可能为早期地球带来了水和有机分子。'
   ]
 },
-/* ---------- 星云 ---------- */
+/* 星云 */
 {
   id:'nebula', name:'星云', en:'Nebula', cat:'星云', shape:'nebula',
   color:'#C084FC', color2:'#5B21B6',
@@ -1070,4 +1089,412 @@ const DATA = [
     {n:'氢 H', v:70, c:'#7dd3fc'},
     {n:'氦 He', v:28, c:'#a78bfa'},
     {n:'氧/氮/碳', v:1.5, c:'#f472b6'},
-    {n:'尘埃（
+    {n:'尘埃（硅酸盐/碳）', v:0.5, c:'#a8a29e'}
+  ],
+  layers:[
+    {c:'#F0ABFC', n:'发光区', v:'受年轻恒星紫外线激发，氢发出红色 Hα 光。'},
+    {c:'#C084FC', n:'反射区', v:'尘埃反射邻近恒星的光，呈蓝色（瑞利散射）。'},
+    {c:'#4C1D95', n:'暗区', v:'浓密尘埃遮挡背景星光，形成剪影。'},
+    {c:'#7E22CE', n:'分子云核', v:'寒冷致密，是恒星形成的场所，温度仅 10 K。'}
+  ],
+  extra:[
+    {k:'著名发射星云', v:'猎户座大星云、鹰状星云（创生之柱）'},
+    {k:'著名行星状星云', v:'猫眼星云、环状星云、螺旋星云'},
+    {k:'著名暗星云', v:'马头星云、煤袋星云'},
+    {k:'著名超新星遗迹', v:'蟹状星云（1054 年超新星）'},
+    {k:'探测者', v:'哈勃、韦伯、斯皮策太空望远镜'}
+  ],
+  notes:[
+    '星云是恒星的"摇篮"和"坟墓"，恒星在这里诞生，也在这里抛洒物质。',
+    '猎户座大星云距离约 1,344 光年，是肉眼可见的恒星诞生区。',
+    '鹰状星云的"创生之柱"是哈勃最著名的照片之一。',
+    '星云中的尘埃含有硅酸盐和碳颗粒，是形成岩石行星的原料。'
+  ]
+},
+/* 仙女座星系 */
+{
+  id:'galaxy', name:'仙女座星系', en:'Andromeda', cat:'星系', shape:'galaxy',
+  color:'#A78BFA', color2:'#4C1D95',
+  brief:'距银河系最近的大型星系，距离约 254 万光年。它正以每秒约 110 公里的速度向银河系靠近。',
+  intro:'仙女座星系（M31）是距银河系最近的大型旋涡星系，直径约 22 万光年，包含约 1 万亿颗恒星，是本星系群中最大的星系。它距离地球约 254 万光年，是肉眼可见最遥远的天体。仙女座星系正以每秒约 110 公里的速度接近银河系，预计约 45 亿年后两者将碰撞并合并，形成一个巨大的椭圆星系（有时被称为"银河仙女星系"）。仙女座星系拥有两个明显的伴星系：M32 和 M110，它们都是椭圆星系。它的中心有一个超大质量黑洞，质量约为太阳的 1 亿倍。',
+  stats:{ '直径':'约 22 万光年','距地球':'约 254 万光年','恒星数量':'约 1 万亿颗','类型':'旋涡星系（SA(s)b）','视星等':'3.44（肉眼可见）','中心黑洞':'约 1 亿倍太阳质量' },
+  comp:[
+    {n:'恒星（主序）', v:60, c:'#fbbf24'},
+    {n:'星际气体', v:25, c:'#7dd3fc'},
+    {n:'星际尘埃', v:10, c:'#a8a29e'},
+    {n:'暗物质', v:5, c:'#6d28d9'}
+  ],
+  layers:[
+    {c:'#FEF3C7', n:'核球', v:'明亮密集的恒星核心，包含超大质量黑洞。'},
+    {c:'#C084FC', n:'旋臂', v:'年轻恒星、气体和尘埃聚集的区域，恒星形成活跃。'},
+    {c:'#7E22CE', n:'星系盘', v:'直径约 22 万光年，包含大部分恒星和气体。'},
+    {c:'#4C1D95', n:'暗物质晕', v:'不可见的暗物质包围整个星系，质量是可见物质的数倍。'}
+  ],
+  extra:[
+    {k:'本星系群成员', v:'最大星系，银河系为第二大'},
+    {k:'伴星系', v:'M32、M110（均为椭圆星系）'},
+    {k:'与银河系碰撞', v:'预计约 45 亿年后合并'},
+    {k:'发现', v:'波斯天文学家苏菲，公元 964 年首次记录'},
+    {k:'探测者', v:'哈勃、韦伯太空望远镜'}
+  ],
+  notes:[
+    '仙女座星系是肉眼可见最远的天体，视星等 3.44。',
+    '它正接近银河系，45 亿年后两者将合并成"银河仙女星系"。',
+    '仙女座星系的直径约 22 万光年，是银河系的两倍。',
+    '它的中心黑洞质量约为太阳的 1 亿倍，比银河系中心黑洞大得多。'
+  ]
+},
+/* 星际介质 */
+{
+  id:'ism', name:'星际介质', en:'Interstellar Medium', cat:'星际介质', shape:'medium',
+  color:'#7DD3FC', color2:'#1E3A8A',
+  brief:'填充在恒星之间的气体和尘埃，主要由氢和氦组成，是恒星诞生和星系演化的关键物质循环。',
+  intro:'星际介质（ISM）是填充在星系中恒星之间空间的物质，包括气体（99%）和尘埃（1%）。气体以原子、分子和离子形式存在，主要成分是氢（约 70%）和氦（约 28%）。星际介质的密度极低——平均每立方厘米只有约 1 个原子（地球海平面大气是每立方厘米 2.5×10¹⁹ 个分子），但它占据了银河系可见体积的绝大部分。星际介质分为几个相：寒冷致密的分子云（恒星诞生地）、中性氢云、温暖的电离氢区（H II 区，由年轻恒星加热）和极热的稀薄气体（温度可达百万 K，由超新星加热）。星际尘埃含有硅酸盐、碳质颗粒、冰和有机分子，是形成岩石行星和生命前体的原材料。',
+  stats:{ '主要成分':'氢（70%）、氦（28%）','平均密度':'约 1 原子/cm³','温度范围':'10 K – 1,000,000 K','相态':'分子云、中性氢、电离氢、热气体','尘埃组成':'硅酸盐、碳、冰、有机物','质量占比':'约占银河系可见质量的 10–15%' },
+  comp:[
+    {n:'氢 H', v:70, c:'#7dd3fc'},
+    {n:'氦 He', v:28, c:'#a78bfa'},
+    {n:'氧 O / 碳 C', v:1.2, c:'#f472b6'},
+    {n:'氮 N / 氖 Ne', v:0.5, c:'#34d399'},
+    {n:'尘埃（硅酸盐/碳）', v:0.3, c:'#a8a29e'}
+  ],
+  layers:[
+    {c:'#312E81', n:'分子云', v:'寒冷（10–20 K）致密，是恒星形成的场所，氢气以 H₂ 形式存在。'},
+    {c:'#3B82F6', n:'中性氢区', v:'温度约 100 K，氢以中性原子形式存在，21 cm 射电辐射可探测。'},
+    {c:'#60A5FA', n:'电离氢区 (H II)', v:'温度约 10,000 K，被年轻恒星紫外辐射电离，发出红色光。'},
+    {c:'#C084FC', n:'热电离气体', v:'温度百万 K，由超新星遗迹和恒星风加热，发出 X 射线。'}
+  ],
+  extra:[
+    {k:'密度对比', v:'比地球实验室最佳真空还稀薄 1 万倍'},
+    {k:'主要探测方式', v:'射电 21 cm 线、红外、X 射线'},
+    {k:'尘埃作用', v:'屏蔽紫外线、催化 H₂ 形成、形成行星原料'},
+    {k:'元素来源', v:'大爆炸（H、He）+ 恒星核合成（重元素）'},
+    {k:'循环', v:'恒星诞生 → 核聚变 → 死亡抛洒 → 新恒星'}
+  ],
+  notes:[
+    '星际介质是银河系物质循环的枢纽，恒星从中诞生，也最终回归其中。',
+    '星际尘埃只占介质质量的 1%，却贡献了大部分消光和红外辐射。',
+    '星际介质中已探测到超过 200 种分子，包括水、氨和多种有机分子。',
+    '没有星际介质，就没有恒星形成，也就没有行星和生命。'
+  ]
+}
+];
+
+/* ============================================================
+   四、星座数据（88 个标准星座）
+============================================================ */
+const CONSTELLATIONS = [
+  {id:'and', name:'仙女座', en:'Andromeda', lat:'北天', q:'秋季', star:'仙女座α（壁宿二）', area:'722'},
+  {id:'ant', name:'唧筒座', en:'Antlia', lat:'南天', q:'春季', star:'唧筒座α', area:'239'},
+  {id:'aps', name:'天燕座', en:'Apus', lat:'南天', q:'夏季', star:'天燕座α', area:'206'},
+  {id:'aqr', name:'宝瓶座', en:'Aquarius', lat:'赤道', q:'秋季', star:'宝瓶座β', area:'980'},
+  {id:'aql', name:'天鹰座', en:'Aquila', lat:'赤道', q:'夏季', star:'河鼓二（牛郎星）', area:'652'},
+  {id:'ara', name:'天坛座', en:'Ara', lat:'南天', q:'夏季', star:'天坛座β', area:'237'},
+  {id:'ari', name:'白羊座', en:'Aries', lat:'北天', q:'秋季', star:'白羊座α（娄宿三）', area:'441'},
+  {id:'aur', name:'御夫座', en:'Auriga', lat:'北天', q:'冬季', star:'五车二', area:'657'},
+  {id:'boo', name:'牧夫座', en:'Boötes', lat:'北天', q:'春季', star:'大角星', area:'907'},
+  {id:'cae', name:'雕具座', en:'Caelum', lat:'南天', q:'冬季', star:'雕具座α', area:'125'},
+  {id:'cam', name:'鹿豹座', en:'Camelopardalis', lat:'北天', q:'冬季', star:'鹿豹座β', area:'757'},
+  {id:'cnc', name:'巨蟹座', en:'Cancer', lat:'北天', q:'春季', star:'巨蟹座β', area:'506'},
+  {id:'cvn', name:'猎犬座', en:'Canes Venatici', lat:'北天', q:'春季', star:'常陈一', area:'465'},
+  {id:'cma', name:'大犬座', en:'Canis Major', lat:'南天', q:'冬季', star:'天狼星', area:'380'},
+  {id:'cmi', name:'小犬座', en:'Canis Minor', lat:'赤道', q:'冬季', star:'南河三', area:'183'},
+  {id:'cap', name:'摩羯座', en:'Capricornus', lat:'南天', q:'秋季', star:'摩羯座δ', area:'414'},
+  {id:'car', name:'船底座', en:'Carina', lat:'南天', q:'夏季', star:'老人星', area:'494'},
+  {id:'cas', name:'仙后座', en:'Cassiopeia', lat:'北天', q:'秋季', star:'仙后座α（王良四）', area:'598'},
+  {id:'cen', name:'半人马座', en:'Centaurus', lat:'南天', q:'夏季', star:'南门二', area:'1060'},
+  {id:'cep', name:'仙王座', en:'Cepheus', lat:'北天', q:'秋季', star:'仙王座α（天钩五）', area:'588'},
+  {id:'cet', name:'鲸鱼座', en:'Cetus', lat:'赤道', q:'秋季', star:'鲸鱼座β', area:'1231'},
+  {id:'cha', name:'蝘蜓座', en:'Chamaeleon', lat:'南天', q:'夏季', star:'蝘蜓座α', area:'132'},
+  {id:'cir', name:'圆规座', en:'Circinus', lat:'南天', q:'夏季', star:'圆规座α', area:'93'},
+  {id:'col', name:'天鸽座', en:'Columba', lat:'南天', q:'冬季', star:'天鸽座α', area:'270'},
+  {id:'com', name:'后发座', en:'Coma Berenices', lat:'北天', q:'春季', star:'后发座β', area:'386'},
+  {id:'cra', name:'南冕座', en:'Corona Australis', lat:'南天', q:'夏季', star:'南冕座α', area:'128'},
+  {id:'crb', name:'北冕座', en:'Corona Borealis', lat:'北天', q:'夏季', star:'贯索四', area:'179'},
+  {id:'crv', name:'乌鸦座', en:'Corvus', lat:'赤道', q:'春季', star:'乌鸦座γ', area:'184'},
+  {id:'crt', name:'巨爵座', en:'Crater', lat:'赤道', q:'春季', star:'巨爵座δ', area:'282'},
+  {id:'cru', name:'南十字座', en:'Crux', lat:'南天', q:'夏季', star:'十字架二', area:'68'},
+  {id:'cyg', name:'天鹅座', en:'Cygnus', lat:'北天', q:'夏季', star:'天津四', area:'804'},
+  {id:'del', name:'海豚座', en:'Delphinus', lat:'北天', q:'夏季', star:'海豚座β', area:'189'},
+  {id:'dor', name:'剑鱼座', en:'Dorado', lat:'南天', q:'夏季', star:'剑鱼座α', area:'179'},
+  {id:'dra', name:'天龙座', en:'Draco', lat:'北天', q:'夏季', star:'天龙座γ（天棓四）', area:'1083'},
+  {id:'equ', name:'小马座', en:'Equuleus', lat:'赤道', q:'秋季', star:'小马座α', area:'72'},
+  {id:'eri', name:'波江座', en:'Eridanus', lat:'赤道', q:'冬季', star:'水委一', area:'1138'},
+  {id:'for', name:'天炉座', en:'Fornax', lat:'南天', q:'冬季', star:'天炉座α', area:'398'},
+  {id:'gem', name:'双子座', en:'Gemini', lat:'北天', q:'冬季', star:'北河三', area:'514'},
+  {id:'gru', name:'天鹤座', en:'Grus', lat:'南天', q:'秋季', star:'天鹤座α', area:'366'},
+  {id:'her', name:'武仙座', en:'Hercules', lat:'北天', q:'夏季', star:'武仙座β', area:'1225'},
+  {id:'hor', name:'时钟座', en:'Horologium', lat:'南天', q:'冬季', star:'时钟座α', area:'249'},
+  {id:'hya', name:'长蛇座', en:'Hydra', lat:'赤道', q:'春季', star:'长蛇座α（星宿一）', area:'1303'},
+  {id:'hyi', name:'水蛇座', en:'Hydrus', lat:'南天', q:'冬季', star:'水蛇座β', area:'243'},
+  {id:'ind', name:'印第安座', en:'Indus', lat:'南天', q:'秋季', star:'印第安座α', area:'294'},
+  {id:'lac', name:'蝎虎座', en:'Lacerta', lat:'北天', q:'秋季', star:'蝎虎座α', area:'201'},
+  {id:'leo', name:'狮子座', en:'Leo', lat:'北天', q:'春季', star:'轩辕十四', area:'947'},
+  {id:'lmi', name:'小狮座', en:'Leo Minor', lat:'北天', q:'春季', star:'小狮座46', area:'232'},
+  {id:'lep', name:'天兔座', en:'Lepus', lat:'赤道', q:'冬季', star:'天兔座α', area:'290'},
+  {id:'lib', name:'天秤座', en:'Libra', lat:'赤道', q:'夏季', star:'天秤座β', area:'538'},
+  {id:'lup', name:'豺狼座', en:'Lupus', lat:'南天', q:'夏季', star:'豺狼座α', area:'334'},
+  {id:'lyn', name:'天猫座', en:'Lynx', lat:'北天', q:'冬季', star:'天猫座α', area:'545'},
+  {id:'lyr', name:'天琴座', en:'Lyra', lat:'北天', q:'夏季', star:'织女一（织女星）', area:'286'},
+  {id:'men', name:'山案座', en:'Mensa', lat:'南天', q:'夏季', star:'山案座α', area:'153'},
+  {id:'mic', name:'显微镜座', en:'Microscopium', lat:'南天', q:'秋季', star:'显微镜座γ', area:'210'},
+  {id:'mon', name:'麒麟座', en:'Monoceros', lat:'赤道', q:'冬季', star:'麒麟座β', area:'482'},
+  {id:'mus', name:'苍蝇座', en:'Musca', lat:'南天', q:'夏季', star:'苍蝇座α', area:'138'},
+  {id:'nor', name:'矩尺座', en:'Norma', lat:'南天', q:'夏季', star:'矩尺座γ', area:'165'},
+  {id:'oct', name:'南极座', en:'Octans', lat:'南天', q:'全年', star:'南极座σ', area:'291'},
+  {id:'oph', name:'蛇夫座', en:'Ophiuchus', lat:'赤道', q:'夏季', star:'蛇夫座α', area:'948'},
+  {id:'ori', name:'猎户座', en:'Orion', lat:'赤道', q:'冬季', star:'参宿四', area:'594'},
+  {id:'pav', name:'孔雀座', en:'Pavo', lat:'南天', q:'秋季', star:'孔雀座α', area:'378'},
+  {id:'peg', name:'飞马座', en:'Pegasus', lat:'北天', q:'秋季', star:'飞马座ε（危宿三）', area:'1121'},
+  {id:'per', name:'英仙座', en:'Perseus', lat:'北天', q:'秋季', star:'英仙座α（天船三）', area:'615'},
+  {id:'phe', name:'凤凰座', en:'Phoenix', lat:'南天', q:'秋季', star:'凤凰座α', area:'469'},
+  {id:'pic', name:'绘架座', en:'Pictor', lat:'南天', q:'冬季', star:'绘架座α', area:'247'},
+  {id:'psc', name:'双鱼座', en:'Pisces', lat:'赤道', q:'秋季', star:'双鱼座η', area:'889'},
+  {id:'psa', name:'南鱼座', en:'Piscis Austrinus', lat:'南天', q:'秋季', star:'北落师门', area:'245'},
+  {id:'pup', name:'船尾座', en:'Puppis', lat:'南天', q:'冬季', star:'船尾座ζ', area:'673'},
+  {id:'pyx', name:'罗盘座', en:'Pyxis', lat:'南天', q:'春季', star:'罗盘座α', area:'221'},
+  {id:'ret', name:'网罟座', en:'Reticulum', lat:'南天', q:'冬季', star:'网罟座α', area:'114'},
+  {id:'sge', name:'天箭座', en:'Sagitta', lat:'赤道', q:'夏季', star:'天箭座γ', area:'80'},
+  {id:'sgr', name:'人马座', en:'Sagittarius', lat:'赤道', q:'夏季', star:'箕宿三', area:'867'},
+  {id:'sco', name:'天蝎座', en:'Scorpius', lat:'赤道', q:'夏季', star:'心宿二（大火）', area:'497'},
+  {id:'scl', name:'玉夫座', en:'Sculptor', lat:'南天', q:'秋季', star:'玉夫座α', area:'475'},
+  {id:'sct', name:'盾牌座', en:'Scutum', lat:'赤道', q:'夏季', star:'盾牌座α', area:'109'},
+  {id:'ser', name:'巨蛇座', en:'Serpens', lat:'赤道', q:'夏季', star:'巨蛇座α', area:'637'},
+  {id:'sex', name:'六分仪座', en:'Sextans', lat:'赤道', q:'春季', star:'六分仪座α', area:'314'},
+  {id:'tau', name:'金牛座', en:'Taurus', lat:'北天', q:'冬季', star:'毕宿五', area:'797'},
+  {id:'tel', name:'望远镜座', en:'Telescopium', lat:'南天', q:'夏季', star:'望远镜座α', area:'252'},
+  {id:'tri', name:'三角座', en:'Triangulum', lat:'北天', q:'秋季', star:'三角座β', area:'132'},
+  {id:'tra', name:'南三角座', en:'Triangulum Australe', lat:'南天', q:'夏季', star:'南三角座α', area:'110'},
+  {id:'tuc', name:'杜鹃座', en:'Tucana', lat:'南天', q:'秋季', star:'杜鹃座α', area:'295'},
+  {id:'uma', name:'大熊座', en:'Ursa Major', lat:'北天', q:'春季', star:'北斗七星', area:'1280'},
+  {id:'umi', name:'小熊座', en:'Ursa Minor', lat:'北天', q:'全年', star:'北极星（勾陈一）', area:'256'},
+  {id:'vel', name:'船帆座', en:'Vela', lat:'南天', q:'夏季', star:'船帆座γ', area:'500'},
+  {id:'vir', name:'室女座', en:'Virgo', lat:'赤道', q:'春季', star:'角宿一', area:'1294'},
+  {id:'vol', name:'飞鱼座', en:'Volans', lat:'南天', q:'夏季', star:'飞鱼座β', area:'141'},
+  {id:'vul', name:'狐狸座', en:'Vulpecula', lat:'赤道', q:'夏季', star:'狐狸座α', area:'268'}
+];
+
+/* 将星座转换为天体卡片格式 */
+const CONSTELLATION_BODIES = CONSTELLATIONS.map((c, i) => ({
+  id: 'con_' + c.id,
+  name: c.name,
+  en: c.en,
+  cat: '星座',
+  shape: 'constellation',
+  color: ['#8B9DC3','#7DD3FC','#A78BFA','#C4B5FD','#93C5FD','#6EE7B7'][i % 6],
+  color2: '#1E293B',
+  seed: i + 1,
+  starCount: 6 + (i % 7),
+  brief: `${c.name}位于${c.lat}，是${c.q}季的代表星座。主要亮星为${c.star}，天区面积约 ${c.area} 平方度。`,
+  intro: `${c.name}（${c.en}）是国际天文学联合会（IAU）正式划分的 88 个星座之一，位于${c.lat}。它是${c.q}季夜空中最容易辨认的星座之一。${c.name}的主要亮星是${c.star}，整个星座覆盖天区约 ${c.area} 平方度。在古希腊神话中，${c.name}有着丰富的传说背景，这些故事跨越数千年，将星空与人类文明紧密相连。`,
+  stats: { '所属天区': c.lat, '最佳观测季节': c.q + '季', '主要亮星': c.star, '天区面积': c.area + ' 平方度' },
+  comp: [
+    { n:'主序星', v:65, c:'#fbbf24' },
+    { n:'星际气体', v:20, c:'#7dd3fc' },
+    { n:'星际尘埃', v:10, c:'#a8a29e' },
+    { n:'暗物质', v:5, c:'#6d28d9' }
+  ],
+  layers: [
+    { c:'#FEF3C7', n:'主要亮星', v:'星座中最亮的恒星，构成星座的骨架。' },
+    { c:'#C084FC', n:'伴星', v:'与主星形成双星或多星系统的恒星。' },
+    { c:'#7E22CE', n:'深空天体', v:'星座区域内可能包含的星团、星云或星系。' }
+  ],
+  extra: [
+    { k:'IAU 编号', v: c.id.toUpperCase() },
+    { k:'拉丁名', v: c.en },
+    { k:'天区位置', v: c.lat },
+    { k:'最佳观测', v: c.q + '季' }
+  ],
+  notes: [
+    `${c.name}是 88 个标准星座之一，1928 年由 IAU 正式划定边界。`,
+    `${c.name}的主要亮星是${c.star}。`,
+    `星座是天区划分单位，并非恒星在空间中的真实聚集。`,
+    `88 个星座覆盖整个天球，每个星座都有独特的文化传说。`
+  ]
+}));
+
+/* 合并所有卡片数据 */
+const ALL_BODIES = [...DATA, ...CONSTELLATION_BODIES];
+
+/* ============================================================
+   五、渲染首页
+============================================================ */
+const CATS = ['全部','恒星','行星','卫星','矮行星','彗星','星云','星系','星际介质','星座'];
+let currentCat = '全部';
+
+const tabsEl = document.getElementById('tabs');
+const gridEl = document.getElementById('grid');
+
+CATS.forEach(c => {
+  const t = document.createElement('div');
+  t.className = 'tab' + (c === '全部' ? ' on' : '');
+  t.textContent = c;
+  t.dataset.cat = c;
+  t.addEventListener('click', () => {
+    currentCat = c;
+    document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x.dataset.cat === c));
+    renderGrid();
+  });
+  tabsEl.appendChild(t);
+});
+
+function renderGrid() {
+  gridEl.innerHTML = '';
+  const list = currentCat === '全部' ? ALL_BODIES : ALL_BODIES.filter(d => d.cat === currentCat);
+  list.forEach(body => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="art">${renderArt(body, 78)}</div>
+      <div class="nm">${body.name}</div>
+      <div class="en">${body.en}</div>
+    `;
+    card.addEventListener('click', () => openDetail(body));
+    gridEl.appendChild(card);
+  });
+}
+renderGrid();
+
+/* ============================================================
+   六、详情页
+============================================================ */
+const detailEl = document.getElementById('detail');
+
+function openDetail(body) {
+  const statHtml = Object.entries(body.stats).map(([k,v]) =>
+    `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`
+  ).join('');
+
+  const compHtml = body.comp.map(c => `
+    <div class="comp-row">
+      <div class="comp-head"><span>${c.n}</span><span>${c.v}%</span></div>
+      <div class="comp-bar"><div class="comp-fill" style="width:${c.v}%;background:${c.c}"></div></div>
+    </div>
+  `).join('');
+
+  const layerHtml = body.layers.map(l => `
+    <div class="layer">
+      <div class="layer-dot" style="background:${l.c};color:${l.c}"></div>
+      <div>
+        <div class="layer-n">${l.n}</div>
+        <div class="layer-v">${l.v}</div>
+      </div>
+    </div>
+  `).join('');
+
+  const extraHtml = body.extra.map(e => `
+    <div class="extra-row"><span class="k">${e.k}</span><span class="v">${e.v}</span></div>
+  `).join('');
+
+  const notesHtml = body.notes.map(n => `<li>${n}</li>`).join('');
+
+  detailEl.innerHTML = `
+    <div class="d-hero">
+      <div class="d-close" id="dClose">✕</div>
+      ${renderArt(body, 200)}
+    </div>
+    <div class="d-body">
+      <div class="d-cat">${body.cat}</div>
+      <div class="d-name">${body.name}</div>
+      <div class="d-en">${body.en}</div>
+      <div class="d-brief">${body.brief}</div>
+      <div class="d-intro">${body.intro}</div>
+
+      <div class="sec">关键数据</div>
+      <div class="stat-grid">${statHtml}</div>
+
+      <div class="sec">成分组成</div>
+      <div>${compHtml}</div>
+
+      <div class="sec">结构分层</div>
+      <div class="layers">${layerHtml}</div>
+
+      <div class="sec">补充信息</div>
+      <div class="extra">${extraHtml}</div>
+
+      <div class="sec">你知道吗</div>
+      <ul class="notes">${notesHtml}</ul>
+      <div class="d-footer"></div>
+    </div>
+  `;
+
+  detailEl.classList.add('open');
+  detailEl.scrollTop = 0;
+
+  document.getElementById('dClose').addEventListener('click', closeDetail);
+}
+
+function closeDetail() {
+  detailEl.classList.remove('open');
+}
+
+/* ============================================================
+   七、开屏动画控制
+============================================================ */
+(function initSplash() {
+  const splash = document.getElementById('splash');
+  const app = document.getElementById('app');
+  const skipBtn = document.getElementById('splashSkip');
+  const sky = document.getElementById('splashSky');
+
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'ss';
+    const sz = Math.random() * 2.2 + 0.6;
+    s.style.width = sz + 'px';
+    s.style.height = sz + 'px';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 3) + 's';
+    s.style.animationDuration = (2 + Math.random() * 3) + 's';
+    sky.appendChild(s);
+  }
+
+  let closed = false;
+
+  function closeSplash() {
+    if (closed) return;
+    closed = true;
+    splash.classList.add('hide');
+    app.classList.add('show');
+    setTimeout(() => {
+      splash.style.display = 'none';
+    }, 1200);
+  }
+
+  skipBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeSplash();
+  });
+  skipBtn.addEventListener('touchstart', (e) => {
+    e.stopPropagation();
+    closeSplash();
+  }, { passive: true });
+
+  const autoTimer = setTimeout(closeSplash, 8000);
+
+  skipBtn.addEventListener('click', () => clearTimeout(autoTimer));
+  skipBtn.addEventListener('touchstart', () => clearTimeout(autoTimer));
+})();
+
+/* ============================================================
+   八、背景星野
+============================================================ */
+(function buildStars() {
+  const el = document.getElementById('bgStars');
+  for (let i = 0; i < 150; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2.1 + 0.5;
+    s.style.width = sz + 'px';
+    s.style.height = sz + 'px';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 4) + 's';
+    s.style.animationDuration = (3 + Math.random() * 4) + 's';
+    el.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
