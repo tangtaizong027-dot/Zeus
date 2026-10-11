@@ -6,23 +6,17 @@
 <title>COSMOS · 宇宙百科</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{
-  font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
   background:#000;display:flex;align-items:center;justify-content:center;
-  min-height:100vh;padding:14px;color:#fff;overflow:hidden;
-}
-.phone{
-  position:relative;width:100%;max-width:420px;
-  height:min(880px,94vh);border-radius:38px;background:#05060A;
-  overflow:hidden;box-shadow:0 0 0 1px #1b1f2e,0 30px 90px rgba(0,0,0,.95);
-  display:flex;flex-direction:column;
-}
+  min-height:100vh;padding:14px;color:#fff;overflow:hidden}
+.phone{position:relative;width:100%;max-width:420px;height:min(880px,94vh);
+  border-radius:38px;background:#05060A;overflow:hidden;
+  box-shadow:0 0 0 1px #1b1f2e,0 30px 90px rgba(0,0,0,.95);display:flex;flex-direction:column}
 .bg-stars{position:absolute;inset:0;pointer-events:none;z-index:0}
 .star{position:absolute;border-radius:50%;background:#fff;animation:tw 4s infinite ease-in-out}
 @keyframes tw{0%,100%{opacity:.12;transform:scale(.85)}50%{opacity:.9;transform:scale(1.15)}}
 
 .app{position:relative;z-index:2;display:flex;flex-direction:column;height:100%}
-
 .topbar{padding:26px 20px 6px;display:flex;justify-content:space-between;align-items:flex-start;flex-shrink:0}
 .topbar h1{font-size:27px;letter-spacing:4px;font-weight:800;
   background:linear-gradient(120deg,#fff 10%,#a78bfa 70%,#7dd3fc);
@@ -35,7 +29,7 @@ body{
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex-shrink:0;padding:7px 15px;border-radius:999px;font-size:12px;color:#7d84a0;
   background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);
-  white-space:nowrap;transition:.22s;cursor:pointer}
+  white-space:nowrap;transition:.22s;cursor:pointer;user-select:none}
 .tab.on{color:#fff;background:linear-gradient(120deg,#6d5ce7,#9b6cf6);border-color:transparent;
   box-shadow:0 5px 18px rgba(109,92,231,.45)}
 
@@ -44,11 +38,11 @@ body{
 .grid::-webkit-scrollbar{display:none}
 .card{background:rgba(17,21,34,.75);border:1px solid rgba(255,255,255,.06);
   border-radius:20px;padding:12px 10px 13px;display:flex;flex-direction:column;
-  align-items:center;gap:7px;transition:transform .18s,border-color .18s,background .18s;cursor:pointer}
+  align-items:center;gap:7px;transition:transform .18s,border-color .18s,background .18s;
+  cursor:pointer;user-select:none}
 .card:active{transform:scale(.955);border-color:rgba(139,124,246,.55);background:rgba(30,26,60,.75)}
-.card .art{display:flex;justify-content:center;align-items:center}
-.card .nm{font-size:13.5px;font-weight:600;color:#e9ebf4;letter-spacing:.5px}
-.card .en{font-size:9px;color:#545b78;letter-spacing:1.5px;text-transform:uppercase}
+.card .nm{font-size:13.5px;font-weight:600;color:#e9ebf4;letter-spacing:.5px;text-align:center}
+.card .en{font-size:9px;color:#545b78;letter-spacing:1.5px;text-transform:uppercase;text-align:center}
 
 .detail{position:absolute;inset:0;z-index:30;background:#05060A;overflow-y:auto;
   transform:translateY(102%);transition:transform .38s cubic-bezier(.4,0,.2,1);scrollbar-width:none}
@@ -74,7 +68,8 @@ body{
   display:flex;align-items:center;gap:10px}
 .sec::before{content:'';width:3px;height:14px;border-radius:2px;
   background:linear-gradient(180deg,#a78bfa,#6366f1)}
-.sec::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(120,110,220,.35),transparent)}
+.sec::after{content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,rgba(120,110,220,.35),transparent)}
 
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .stat{background:rgba(19,23,38,.8);border:1px solid rgba(255,255,255,.055);
@@ -82,13 +77,12 @@ body{
 .stat .k{font-size:10px;color:#5b6382;letter-spacing:.5px}
 .stat .v{font-size:13px;color:#e3e6f2;font-weight:600;margin-top:4px}
 
-.comp{margin-top:2px}
 .comp-row{margin-bottom:11px}
 .comp-head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
 .comp-head span:first-child{color:#b6bcd2}
 .comp-head span:last-child{color:#6f7694;font-variant-numeric:tabular-nums}
 .comp-bar{height:6px;border-radius:3px;background:rgba(255,255,255,.055);overflow:hidden}
-.comp-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.22,1,.36,1)}
+.comp-fill{height:100%;border-radius:3px}
 
 .layers{display:flex;flex-direction:column;gap:9px}
 .layer{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;
@@ -102,20 +96,18 @@ body{
 .extra-row{display:flex;justify-content:space-between;gap:14px;padding:11px 14px;
   background:rgba(19,23,38,.7);border:1px solid rgba(255,255,255,.05);border-radius:13px}
 .extra-row .k{font-size:12px;color:#6a7190;flex-shrink:0}
-.extra-row .v{font-size:12.5px;color:#d8dcEB;text-align:right;line-height:1.5}
+.extra-row .v{font-size:12.5px;color:#d8dceb;text-align:right;line-height:1.5}
 
 .notes{list-style:none;display:flex;flex-direction:column;gap:10px}
 .notes li{position:relative;padding-left:20px;font-size:12.5px;line-height:1.7;color:#8d94ab}
 .notes li::before{content:'';position:absolute;left:4px;top:8px;width:5px;height:5px;
   border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa)}
-
 .d-footer{height:20px}
 </style>
 </head>
 <body>
 <div class="phone">
   <div class="bg-stars" id="bgStars"></div>
-
   <div class="app">
     <div class="topbar">
       <div>
@@ -127,14 +119,11 @@ body{
     <div class="tabs" id="tabs"></div>
     <div class="grid" id="grid"></div>
   </div>
-
   <div class="detail" id="detail"></div>
 </div>
 
 <script>
-/* ============================================================
-   一、颜色工具
-============================================================ */
+/* ============ 颜色工具 ============ */
 const hexToRgb = h => {
   h = h.replace('#','');
   if (h.length === 3) h = h.split('').map(c=>c+c).join('');
@@ -151,13 +140,11 @@ const darken = (h,p) => {
   return '#' + [m(c.r),m(c.g),m(c.b)].map(v=>v.toString(16).padStart(2,'0')).join('');
 };
 
-/* ============================================================
-   二、SVG 渲染器（每个天体都有独立的“照片级”示意图）
-============================================================ */
+/* ============ SVG 渲染器 ============ */
 let _uid = 0;
 const uid = () => 'u' + (++_uid);
 
-/* ---------- 恒星 ---------- */
+/* 恒星 */
 function svgStar(p, size) {
   const u = uid();
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
@@ -191,7 +178,7 @@ function svgStar(p, size) {
 </svg>`;
 }
 
-/* ---------- 岩质天体 ---------- */
+/* 岩质天体 */
 function svgRocky(p, size, o = {}) {
   const u = uid();
   let rnd = (o.seed || 7) * 9301 + 49297;
@@ -229,7 +216,7 @@ function svgRocky(p, size, o = {}) {
 </svg>`;
 }
 
-/* ---------- 地球 ---------- */
+/* 地球 */
 function svgEarth(p, size) {
   const u = uid();
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
@@ -270,7 +257,7 @@ function svgEarth(p, size) {
 </svg>`;
 }
 
-/* ---------- 气态 / 冰质巨行星 ---------- */
+/* 气态巨行星 */
 function svgGas(p, size, o = {}) {
   const u = uid();
   const soft = o.soft ? 0.55 : 1;
@@ -320,7 +307,7 @@ function svgGas(p, size, o = {}) {
 </svg>`;
 }
 
-/* ---------- 彗星 ---------- */
+/* 彗星 */
 function svgComet(p, size) {
   const u = uid();
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
@@ -353,7 +340,7 @@ function svgComet(p, size) {
 </svg>`;
 }
 
-/* ---------- 星云 ---------- */
+/* 星云 */
 function svgNebula(p, size) {
   const u = uid();
   let rnd = 12345;
@@ -391,7 +378,7 @@ function svgNebula(p, size) {
 </svg>`;
 }
 
-/* ---------- 星系 ---------- */
+/* 星系 */
 function svgGalaxy(p, size) {
   const u = uid();
   let rnd = 7777;
@@ -431,7 +418,7 @@ function svgGalaxy(p, size) {
 </svg>`;
 }
 
-/* ---------- 星际介质 ---------- */
+/* 星际介质 */
 function svgMedium(p, size) {
   const u = uid();
   let rnd = 4242;
@@ -451,4 +438,681 @@ function svgMedium(p, size) {
       <stop offset="0%" stop-color="${rgba(p.shadow,0.32)}"/>
       <stop offset="100%" stop-color="${rgba(p.shadow,0)}"/>
     </radialGradient>
-    <filter id="${u}bl
+    <filter id="${u}bl"><feGaussianBlur stdDeviation="9"/></filter>
+  </defs>
+  ${stars}
+  <g filter="url(#${u}bl)">
+    <circle cx="86" cy="80" r="80" fill="url(#${u}a)"/>
+    <circle cx="130" cy="130" r="70" fill="url(#${u}b)"/>
+  </g>
+</svg>`;
+}
+
+/* 分配渲染器 */
+function renderArt(body, size) {
+  const p = { base: body.color, shadow: body.color2 };
+  switch (body.shape) {
+    case 'star':   return svgStar(p, size);
+    case 'earth':  return svgEarth(p, size);
+    case 'gas':    return svgGas(p, size, body.opts || {});
+    case 'comet':  return svgComet(p, size);
+    case 'nebula': return svgNebula(p, size);
+    case 'galaxy': return svgGalaxy(p, size);
+    case 'medium': return svgMedium(p, size);
+    default:       return svgRocky(p, size, body.opts || {});
+  }
+}
+
+/* ============ 天体数据 ============ */
+const DATA = [
+
+/* ---------- 太阳 ---------- */
+{
+  id:'sun', name:'太阳', en:'Sun', cat:'恒星', shape:'star',
+  color:'#FDB813', color2:'#C2620A',
+  brief:'太阳系的中心恒星，占据系统总质量的 99.86%，通过核心的氢核聚变每秒将约 6 亿吨氢转化为氦，为地球输送光和热。',
+  intro:'太阳是一颗 G2V 型主序星（黄矮星），年龄约 46 亿年，正处于生命周期的中年阶段。它的能量来自核心的质子-质子链反应，每秒约有 6 亿吨氢聚变成 5.96 亿吨氦，亏损的约 400 万吨质量以 E=mc² 的形式转化为能量。这些能量需要经过约 10 万年才能从核心辐射到表面，再以 8 分 20 秒抵达地球。太阳的活动周期约为 11 年，期间黑子、耀斑和日冕物质抛射的强度会周期性变化，直接影响地球的极光与通信。',
+  stats:{ '直径':'1,392,700 km','质量':'1.989×10³⁰ kg','表面温度':'约 5,500 °C','核心温度':'约 1,500 万 °C','年龄':'约 46 亿年','光谱型':'G2V' },
+  comp:[
+    {n:'氢 (H)', v:73.5, c:'#7dd3fc'},
+    {n:'氦 (He)', v:24.9, c:'#a78bfa'},
+    {n:'氧 (O)', v:0.8, c:'#f472b6'},
+    {n:'碳 (C)', v:0.3, c:'#fbbf24'},
+    {n:'其他元素', v:0.5, c:'#94a3b8'}
+  ],
+  layers:[
+    {c:'#FEF3C7', n:'核心', v:'半径约 25% 太阳半径，温度 1,500 万°C，压力 2,500 亿大气压，进行氢核聚变。'},
+    {c:'#FCD34D', n:'辐射层', v:'0.25–0.7 太阳半径，能量以光子形式向外辐射，光子在此区穿行可达 10 万年。'},
+    {c:'#FB923C', n:'对流层', v:'0.7–1.0 太阳半径，等离子体对流翻涌，形成米粒组织与太阳黑子。'},
+    {c:'#FDE68A', n:'光球层', v:'我们看到的“太阳表面”，厚约 500 km，温度约 5,500°C，黑子出现在此。'},
+    {c:'#FCA5A5', n:'色球层', v:'厚约 2,000 km，温度反升至约 2 万°C，日珥和耀斑在此爆发。'},
+    {c:'#E0F2FE', n:'日冕', v:'最外层大气，温度高达 100 万–300 万°C，延伸数百万公里，太阳风由此发出。'}
+  ],
+  extra:[
+    {k:'自转周期', v:'赤道约 25 天 / 极区约 35 天'},
+    {k:'组成', v:'等离子体（非固态/液态/气态）'},
+    {k:'磁场', v:'产生于对流层，驱动 11 年活动周期'},
+    {k:'最终命运', v:'约 50 亿年后膨胀为红巨星，再坍缩成白矮星'}
+  ],
+  notes:[
+    '太阳每秒释放的能量约 3.8×10²⁶ 焦耳，地球仅接收到其中约 22 亿分之一。',
+    '太阳黑子温度比周围低约 1,500°C，因磁場抑制对流而形成。',
+    '日冕温度远高于光球层，这一“日冕加热问题”至今仍未完全解决。',
+    '太阳不是固体，不同纬度自转速度不同，称为“较差自转”。'
+  ]
+},
+
+/* ---------- 水星 ---------- */
+{
+  id:'mercury', name:'水星', en:'Mercury', cat:'行星', shape:'rocky',
+  color:'#B8B8B8', color2:'#5C5C5C', opts:{ craters:32, seed:3 },
+  brief:'距太阳最近、体积最小的行星，没有真正的大气层，昼夜温差高达 600°C，是太阳系温差最大的世界。',
+  intro:'水星的直径仅 4,879 km，比木卫三和土卫六还小。它每 88 天绕太阳一圈，但自转极慢——一个太阳日（日出到日出）长达 176 个地球日。由于几乎没有大气来保存热量，赤道白天可达 430°C，夜晚骤降至 -180°C。水星的表面布满环形山，与月球相似，其中卡洛里盆地直径达 1,550 km。科学家在它永久阴影的极区陨石坑中发现了水冰——这是太阳系中令人意外的发现。',
+  stats:{ '直径':'4,879 km','质量':'地球的 0.055 倍','公转周期':'88 地球日','自转周期':'58.6 地球日','表面温度':'-180 至 430 °C','卫星数':'0' },
+  comp:[
+    {n:'铁质核心（占体积）', v:55, c:'#ef4444'},
+    {n:'硅酸盐地幔', v:30, c:'#f97316'},
+    {n:'硅酸盐地壳', v:15, c:'#a3a3a3'}
+  ],
+  layers:[
+    {c:'#FCD34D', n:'地壳', v:'厚约 35 km，覆盖着厚达数公里的风化层（碎石和尘埃）。'},
+    {c:'#FB923C', n:'地幔', v:'厚约 600 km，主要由硅酸盐组成，质地较薄。'},
+    {c:'#EF4444', n:'液态外核', v:'巨大的铁核，半径约 2,020 km，占水星体积的 55%。'},
+    {c:'#B91C1C', n:'固态内核', v:'半径约 1,000 km，为固态铁镍。'}
+  ],
+  extra:[
+    {k:'核心占比', v:'全太阳系最高，约占体积 55%'},
+    {k:'磁场强度', v:'地球的约 1%（存在微弱全球磁场）'},
+    {k:'轨道倾角', v:'7.0°'},
+    {k:'表面特征', v:'卡洛里盆地（直径 1,550 km）、皱脊'},
+    {k:'探测者', v:'水手 10 号、信使号、BepiColombo'}
+  ],
+  notes:[
+    '水星的一天（太阳日）比它的一年还长：自转 3 圈才等于公转 2 圈。',
+    '极区永久阴影坑内发现水冰，来源可能是彗星撞击带来的。',
+    '水星拥有异常的巨大铁核，成因可能是早期被巨撞剥离了大部分地幔。',
+    '它正在缓慢收缩，表面的“皱脊”就是冷却收缩的证据。'
+  ]
+},
+
+/* ---------- 金星 ---------- */
+{
+  id:'venus', name:'金星', en:'Venus', cat:'行星', shape:'rocky',
+  color:'#E8C97A', color2:'#8C6A2A', opts:{ craters:8, seed:11 },
+  brief:'太阳系最热的行星，浓厚的二氧化碳大气造成剧烈温室效应，表面温度高达 465°C，比水星更热。',
+  intro:'金星的直径、质量和密度都与地球相近，被称为“地球的姐妹星”。但它的大气密度是地球的 92 倍，96% 是二氧化碳，表面气压相当于地球海洋 900 米深处。巨大的温室效应使它成为太阳系最热的行星，表面温度稳定在约 465°C，足以熔化铅。金星还拥有反转自转——它自东向西转，且一个金星日（243 地球日）比它的一年（225 地球日）还长。云层顶部终年笼罩硫酸云，反射率高，所以它是夜空中最亮的行星。',
+  stats:{ '直径':'12,104 km','质量':'地球的 0.815 倍','公转周期':'225 地球日','自转周期':'243 地球日（逆行）','表面温度':'约 465 °C','卫星数':'0' },
+  comp:[
+    {n:'二氧化碳 CO₂', v:96.5, c:'#fbbf24'},
+    {n:'氮气 N₂', v:3.5, c:'#60a5fa'},
+    {n:'二氧化硫 SO₂', v:0.015, c:'#f472b6'},
+    {n:'硫酸云', v:0.003, c:'#a78bfa'}
+  ],
+  layers:[
+    {c:'#FDE68A', n:'云层', v:'硫酸云层，高 45–70 km，反射阳光使金星异常明亮。'},
+    {c:'#FCD34D', n:'对流层', v:'厚约 65 km，二氧化碳对流剧烈，气压随高度骤变。'},
+    {c:'#F59E0B', n:'中层大气', v:'存在极端风速的“超级旋转”，4 天绕行行星一周。'},
+    {c:'#B45309', n:'地表', v:'玄武岩平原与高原，约 80% 被火山地貌覆盖。'},
+    {c:'#7C2D12', n:'岩石圈 / 地幔', v:'类似地球的硅酸盐地幔，但缺乏板块运动。'},
+    {c:'#991B1B', n:'铁镍核心', v:'半径约 3,000 km，可能为液态或部分液态。'}
+  ],
+  extra:[
+    {k:'大气压', v:'地球的 92 倍（约 9.2 MPa）'},
+    {k:'自转方向', v:'逆行（自东向西）'},
+    {k:'表面火山', v:'超过 1,600 座主要火山，数量超地球'},
+    {k:'云顶温度', v:'约 -45 °C（与地表差异极大）'},
+    {k:'探测者', v:'麦哲伦号、金星快车、拂晓号'}
+  ],
+  notes:[
+    '金星的一天比一年长，而且太阳从西边升起、东边落下。',
+    '表面 90% 被火山熔岩覆盖，可能仍存在活火山活动。',
+    '它是夜空中除月球外最亮的天体，被称为“启明星”或“长庚星”。',
+    '金星大气中含有微量磷化氢，其来源至今尚无定论。'
+  ]
+},
+
+/* ---------- 地球 ---------- */
+{
+  id:'earth', name:'地球', en:'Earth', cat:'行星', shape:'earth',
+  color:'#2563EB', color2:'#0A1F4E',
+  brief:'目前已知唯一存在生命的星球，71% 表面被液态水覆盖，拥有氮氧大气层和强大的全球磁场。',
+  intro:'地球是太阳系中密度最大的行星，也是唯一拥有板块构造活动的行星。它的大气层由 78% 的氮和 21% 的氧组成，臭氧层屏蔽了大部分紫外线。地球的液态外核产生的地磁场，形成了阻挡太阳风的磁层，保护了大气与水。地球的倾斜轴（23.44°）带来了四季，而月球的引力则稳定了这个倾角。地球内部仍然活跃——火山、地震、板块运动都在持续重塑这颗行星。',
+  stats:{ '直径':'12,742 km','质量':'5.972×10²⁴ kg','公转周期':'365.25 天','自转周期':'23 小时 56 分','平均温度':'15 °C','卫星数':'1（月球）' },
+  comp:[
+    {n:'氮气 N₂', v:78.08, c:'#60a5fa'},
+    {n:'氧气 O₂', v:20.95, c:'#34d399'},
+    {n:'氩气 Ar', v:0.93, c:'#a78bfa'},
+    {n:'二氧化碳 CO₂', v:0.04, c:'#fbbf24'},
+    {n:'其他气体', v:0.003, c:'#94a3b8'}
+  ],
+  layers:[
+    {c:'#BFDBFE', n:'大气层', v:'从地表延伸至约 100 km，氮氧为主，分对流层、平流层等。'},
+    {c:'#93C5FD', n:'地壳', v:'厚 5–70 km，大陆为花岗岩质，海洋为玄武岩质。'},
+    {c:'#FB923C', n:'地幔', v:'厚约 2,900 km，固态但可缓慢流动，驱动板块运动。'},
+    {c:'#F97316', n:'外核', v:'液态铁镍层，厚约 2,200 km，对流出产生地球磁场。'},
+    {c:'#EF4444', n:'内核', v:'固态铁镍球，半径约 1,220 km，温度约 5,400°C。'}
+  ],
+  extra:[
+    {k:'海洋', v:'覆盖 71% 表面，平均深 3,688 m'},
+    {k:'大气层', v:'分层：对流层、平流层、中间层、热层、散逸层'},
+    {k:'磁场', v:'由液态外核发电机效应产生'},
+    {k:'板块构造', v:'7 大板块 + 若干小板块，仍在运动'},
+    {k:'最高点', v:'珠穆朗玛峰 8,849 m'}
+  ],
+  notes:[
+    '地球是目前唯一已知存在液态水海洋和生命的行星。',
+    '地磁场正在缓慢减弱，且每隔数十万年会发生磁极倒转。',
+    '月球形成于约 45 亿年前的一次巨型撞击（大碰撞说）。',
+    '生命最早出现在至少 35 亿年前，光合作用改变了大气成分。'
+  ]
+},
+
+/* ---------- 火星 ---------- */
+{
+  id:'mars', name:'火星', en:'Mars', cat:'行星', shape:'rocky',
+  color:'#D65A31', color2:'#7C2D12', opts:{ craters:22, seed:19, cap:true },
+  brief:'因表面富含氧化铁而呈红色，拥有太阳系最高的火山与最大的峡谷，是人类探索最深入的行星。',
+  intro:'火星是太阳系第七大行星，直径约为地球的一半。它的表面布满氧化铁（赤铁矿）尘埃，因此呈铁锈红色。火星拥有太阳系最高的火山——奥林匹斯山（高约 22 km，是珠峰的三倍）和最长的峡谷——水手号峡谷（长 4,000 km）。极地存在水冰与干冰组成的冰盖。大量地质证据表明，火星远古时期曾有液态水流动，可能存在过湖泊与河流。今天，它的稀薄大气（气压仅为地球的 0.6%）无法维持液态水稳定存在。',
+  stats:{ '直径':'6,779 km','质量':'地球的 0.107 倍','公转周期':'687 地球日','自转周期':'24 小时 37 分','平均温度':'-63 °C','卫星数':'2（火卫一、火卫二）' },
+  comp:[
+    {n:'二氧化碳 CO₂', v:95.3, c:'#fbbf24'},
+    {n:'氮气 N₂', v:2.7, c:'#60a5fa'},
+    {n:'氩气 Ar', v:1.6, c:'#a78bfa'},
+    {n:'氧气 O₂', v:0.13, c:'#34d399'},
+    {n:'一氧化碳 CO', v:0.07, c:'#f472b6'}
+  ],
+  layers:[
+    {c:'#FCA5A5', n:'稀薄大气', v:'气压仅地球的 0.6%，主要成分为 CO₂，常有全球性沙尘暴。'},
+    {c:'#F87171', n:'地壳', v:'厚 30–80 km，富含氧化铁，是红色的来源。'},
+    {c:'#DC2626', n:'地幔', v:'硅酸盐地幔，可能存在局部熔融。'},
+    {c:'#991B1B', n:'核心', v:'铁镍硫核心，半径约 1,830 km，部分或全部为液态。'}
+  ],
+  extra:[
+    {k:'最高山峰', v:'奥林匹斯山，高约 22 km'},
+    {k:'最大峡谷', v:'水手号峡谷，长约 4,000 km'},
+    {k:'极地冰盖', v:'水冰 + 干冰（CO₂）'},
+    {k:'大气压', v:'约 610 Pa（地球的 0.6%）'},
+    {k:'探测者', v:'海盗号、好奇号、毅力号、天问一号'}
+  ],
+  notes:[
+    '火星上的日落是蓝色的，因为尘埃散射红光的方式与地球不同。',
+    '火卫一正以每百年 1.8 米的速度接近火星，最终会被撕碎成环。',
+    '火星曾存在液态水的证据包括三角洲、河谷和含水矿物。',
+    '火星尘暴可以持续数周并覆盖整个行星。'
+  ]
+},
+
+/* ---------- 木星 ---------- */
+{
+  id:'jupiter', name:'木星', en:'Jupiter', cat:'行星', shape:'gas',
+  color:'#E8B87A', color2:'#8C5A2A', opts:{ spot:{x:76,y:118,rx:22,ry:13} },
+  brief:'太阳系最大的行星，质量是其他所有行星总和的 2.5 倍。大红斑是一个持续数百年的巨型风暴。',
+  intro:'木星主要由氢和氦组成，没有明确的固体表面，气体向内逐渐过渡为液态金属氢。它的质量是地球的 318 倍，强大的引力在太阳系早期起到了“守门员”作用，影响了内行星和彗星的轨道。木星的自转速度极快——不到 10 小时就转一圈，这使它明显扁平化，并产生了强烈的带状云层。大红斑是一个反气旋风暴，直径约 1.3 万公里，已持续至少 190 年（可能超过 350 年）。木星还拥有 95 颗以上已确认的卫星，其中木卫二（欧罗巴）的冰下海洋是寻找地外生命的热点目标。',
+  stats:{ '直径':'139,820 km','质量':'地球的 318 倍','公转周期':'11.86 地球年','自转周期':'9 小时 56 分','云顶温度':'-145 °C','卫星数':'95 颗以上' },
+  comp:[
+    {n:'氢 H₂', v:89.8, c:'#7dd3fc'},
+    {n:'氦 He', v:10.2, c:'#a78bfa'},
+    {n:'甲烷 CH₄', v:0.3, c:'#34d399'},
+    {n:'氨 NH₃', v:0.026, c:'#f472b6'},
+    {n:'水蒸气 H₂O', v:0.004, c:'#60a5fa'}
+  ],
+  layers:[
+    {c:'#FDE68A', n:'云顶', v:'氨冰云，-145°C，带状结构明显，风速可达 500 km/h。'},
+    {c:'#FBBF24', n:'对流层', v:'厚约 50 km，氢氦气体逐渐升温加压。'},
+    {c:'#F59E0B', n:'液态氢层', v:'气体向液态氢过渡，温度约 2,000°C。'},
+    {c:'#B45309', n:'液态金属氢层', v:'压力超过 100 万大气压，氢呈金属态，导电产生强磁场。'},
+    {c:'#7C2D12', n:'核心', v:'可能是岩石-冰混合核心，质量约为地球的 10–20 倍。'}
+  ],
+  extra:[
+    {k:'大红斑', v:'持续至少 190 年，直径 1.3 万 km'},
+    {k:'磁场强度', v:'地球的约 2 万倍'},
+    {k:'自转速度', v:'太阳系最快，不到 10 小时'},
+    {k:'四大伽利略卫星', v:'木卫一艾奥、木卫二欧罗巴、木卫三盖尼米德、木卫四卡利斯托'},
+    {k:'探测者', v:'先驱者、旅行者、伽利略号、朱诺号'}
+  ],
+  notes:[
+    '木星的引力像“引力吸尘器”，减少了撞击地球的彗星数量。',
+    '木卫二欧罗巴的冰壳下可能存在液态海洋，水量是地球的两倍。',
+    '木卫三盖尼米德是太阳系最大的卫星，比水星还大。',
+    '木星有微弱的行星环，由尘埃组成，是旅行者一号发现的。'
+  ]
+},
+
+/* ---------- 土星 ---------- */
+{
+  id:'saturn', name:'土星', en:'Saturn', cat:'行星', shape:'gas',
+  color:'#E6D3A8', color2:'#8C7A4A', opts:{ ring:true, soft:true },
+  brief:'以壮观的环系统闻名，环主要由水冰颗粒组成。土星平均密度小于水，理论上可浮在水面上。',
+  intro:'土星是太阳系第二大行星，平均密度仅 0.687 g/cm³——比水还低，理论上可以浮在水面上。它最引人注目的是环系统，从内到外分为 D、C、B、A、F、G、E 七个主环，主要由水冰颗粒（尺寸从微米到米级）组成，总质量约是地球质量的百万分之一。土星的北极存在一个奇特的六边形风暴，边长约 13,800 km。土卫六（泰坦）是太阳系唯一拥有浓厚大气的卫星，表面有液态甲烷湖泊；土卫二（恩克拉多斯）的南极有冰喷泉，喷出含有机物的水汽。',
+  stats:{ '直径':'116,460 km','质量':'地球的 95 倍','公转周期':'29.46 地球年','自转周期':'10 小时 33 分','云顶温度':'-178 °C','卫星数':'146 颗以上' },
+  comp:[
+    {n:'氢 H₂', v:96.3, c:'#7dd3fc'},
+    {n:'氦 He', v:3.25, c:'#a78bfa'},
+    {n:'甲烷 CH₄', v:0.45, c:'#34d399'},
+    {n:'氨 NH₃', v:0.012, c:'#f472b6'},
+    {n:'水冰环', v:0.001, c:'#60a5fa'}
+  ],
+  layers:[
+    {c:'#FEF3C7', n:'云顶', v:'氨冰云，-178°C，有著名的六边形极涡。'},
+    {c:'#FDE68A', n:'对流层', v:'氢氦为主，风力可达 1,800 km/h。'},
+    {c:'#FCD34D', n:'液态氢层', v:'气体逐渐过渡为液态氢。'},
+    {c:'#B45309', n:'液态金属氢层', v:'产生磁场，虽然强度只有木星的几十分之一。'},
+    {c:'#7C2D12', n:'核心', v:'岩石-冰核心，质量约为地球的 15–20 倍。'}
+  ],
+  extra:[
+    {k:'环系统', v:'7 个主环，主要由水冰颗粒组成'},
+    {k:'环宽度', v:'约 282,000 km（但厚度仅几十米）'},
+    {k:'六边形风暴', v:'北极存在边长约 13,800 km 的六边形涡旋'},
+    {k:'重要卫星', v:'土卫六泰坦（有大气）、土卫二恩克拉多斯（冰喷泉）'},
+    {k:'探测者', v:'先驱者 11 号、旅行者 1/2 号、卡西尼-惠更斯号'}
+  ],
+  notes:[
+    '土星环正在缓慢向行星坠落，预计几亿年后将消失。',
+    '土卫六是太阳系唯一有浓厚大气层的卫星，大气以氮为主。',
+    '土卫二南极的冰喷泉含有有机分子和盐分，暗示地下海洋存在。',
+    '土星的密度比水低，是太阳系唯一“能浮起来”的行星。'
+  ]
+},
+
+/* ---------- 天王星 ---------- */
+{
+  id:'uranus', name:'天王星', en:'Uranus', cat:'行星', shape:'gas',
+  color:'#8FE3E8', color2:'#2A7A85', opts:{ soft:true },
+  brief:'冰巨星，自转轴倾斜 98°，几乎“躺着”绕太阳公转。大气中的甲烷使其呈青蓝色。',
+  intro:'天王星是第一颗使用望远镜发现的行星（1781 年威廉·赫歇尔发现）。它是太阳系中最“倾斜”的行星——自转轴倾斜约 98°，几乎躺在轨道面上滚动前进。这种极端倾角导致它的两极各有长达 42 年的极昼和极夜。天王星的大气中甲烷吸收了红光，使其呈现出独特的青蓝色。作为冰巨星，它的内部主要由水、氨和甲烷的“冰”组成，而非气态氢。它拥有 13 条暗淡的环和 28 颗卫星，卫星命名多取自莎士比亚和蒲柏的作品。',
+  stats:{ '直径':'50,724 km','质量':'地球的 14.5 倍','公转周期':'84 地球年','自转周期':'17 小时 14 分（逆行）','云顶温度':'-224 °C','卫星数':'28 颗' },
+  comp:[
+    {n:'氢 H₂', v:82.5, c:'#7dd3fc'},
+    {n:'氦 He', v:15.2, c:'#a78bfa'},
+    {n:'甲烷 CH₄', v:2.3, c:'#34d399'},
+    {n:'水/氨/甲烷冰', v:0.01, c:'#60a5fa'}
+  ],
+  layers:[
+    {c:'#CFFAFE', n:'云顶', v:'甲烷云，-224°C，太阳系最冷的大气层之一。'},
+    {c:'#A5F3FC', n:'对流层', v:'氢氦为主，风速可达 900 km/h。'},
+    {c:'#67E8F9', n:'冰幔', v:'水、氨、甲烷组成的高压“热冰”，温度约 2,000°C。'},
+    {c:'#0E7490', n:'岩石核心', v:'质量约为地球的 0.5–3 倍，可能为岩石与冰的混合。'}
+  ],
+  extra:[
+    {k:'自转轴倾角', v:'约 98°（几乎躺倒）'},
+    {k:'极端季节', v:'极区极昼/极夜各长达 42 年'},
+    {k:'环系统', v:'13 条暗环，1977 年发现'},
+    {k:'发现者', v:'威廉·赫歇尔，1781 年'},
+    {k:'探测者', v:'旅行者 2 号（1986 年唯一一次飞掠）'}
+  ],
+  notes:[
+    '天王星是第一颗用望远镜发现的行星，此前人们一直以为它是恒星。',
+    '它的倾角可能源自早期与一颗地球大小天体的剧烈碰撞。',
+    '天王星也有微弱磁场，但磁轴与自转轴的夹角接近 60°，非常奇特。',
+    '天王星 13 条环中，最外侧的 ε 环由牧羊卫星维持。'
+  ]
+},
+
+/* ---------- 海王星 ---------- */
+{
+  id:'neptune', name:'海王星', en:'Neptune', cat:'行星', shape:'gas',
+  color:'#4F6BE0', color2:'#1A2A6B', opts:{ soft:true, spot:{x:78,y:100,rx:16,ry:9} },
+  brief:'距太阳最远的行星，风速可达 2,100 km/h，是通过数学计算预测后被发现的行星。',
+  intro:'海王星是距太阳最远的行星，也是第一颗先通过数学计算预测、后被观测证实的行星。1846 年，天文学家勒维耶根据天王星轨道的异常，计算出海王星的位置，柏林天文台随后在预测位置附近发现了它。海王星拥有太阳系最狂暴的风，风速可达 2,100 km/h，远超地球任何风暴。它的深蓝色来自大气中的甲烷，以及某种尚未完全确定的成分。海卫一（崔顿）是太阳系最大的逆行卫星，表面有氮气间歇泉，可能是被捕获的柯伊伯带天体。',
+  stats:{ '直径':'49,244 km','质量':'地球的 17.1 倍','公转周期':'164.8 地球年','自转周期':'16 小时 6 分','云顶温度':'-214 °C','卫星数':'16 颗' },
+  comp:[
+    {n:'氢 H₂', v:80, c:'#7dd3fc'},
+    {n:'氦 He', v:19, c:'#a78bfa'},
+    {n:'甲烷 CH₄', v:1.5, c:'#34d399'},
+    {n:'乙烷/乙炔', v:0.0001, c:'#f472b6'}
+  ],
+  layers:[
+    {c:'#93C5FD', n:'云顶', v:'甲烷云，-214°C，偶有白色甲烷云团飘过。'},
+    {c:'#60A5FA', n:'对流层', v:'氢氦大气，风速达太阳系之最。'},
+    {c:'#3B82F6', n:'冰幔', v:'水、氨、甲烷的“热冰”层，温度约 2,000°C。'},
+    {c:'#1E3A8A', n:'岩石核心', v:'质量约为地球的 1–3 倍，可能为岩石-冰混合。'}
+  ],
+  extra:[
+    {k:'最大风速', v:'约 2,100 km/h（太阳系之最）'},
+    {k:'发现方式', v:'数学计算预测（1846 年）'},
+    {k:'大黑斑', v:'曾存在的巨型风暴，1994 年后消失'},
+    {k:'重要卫星', v:'海卫一崔顿（逆行轨道，有氮气间歇泉）'},
+    {k:'探测者', v:'旅行者 2 号（1989 年飞掠）'}
+  ],
+  notes:[
+    '海王星的一年相当于 164.8 个地球年，1846 年至今它才公转了一圈多。',
+    '海卫一是太阳系唯一大型逆行卫星，可能被海王星捕获自柯伊伯带。',
+    '海王星辐射出的能量是它从太阳接收的 2.6 倍，内部有热源。',
+    '它的名字来自罗马神话海神尼普顿，中文“海王星”由此意译而来。'
+  ]
+},
+
+/* ---------- 月球 ---------- */
+{
+  id:'moon', name:'月球', en:'Moon', cat:'卫星', shape:'rocky',
+  color:'#C9C9C9', color2:'#6B6B6B', opts:{ craters:34, seed:5 },
+  brief:'地球唯一的天然卫星，距离约 38.4 万公里。它稳定了地球的自转轴，并驱动着海洋潮汐。',
+  intro:'月球是太阳系中第五大卫星，直径约 3,475 km。它可能诞生于约 45 亿年前一次火星大小天体撞击地球的碎片。月球表面分为明亮的“月陆”（斜长岩高地）和较暗的“月海”（玄武岩熔岩平原）。由于几乎没有大气和液态水，月球表面的环形山保存得极为完整。1969 年阿波罗 11 号首次载人登月，共 12 名宇航员踏足月面，带回约 382 公斤月岩样本。月球正以每年约 3.8 厘米的速度远离地球。',
+  stats:{ '直径':'3,475 km','质量':'地球的 0.0123 倍','公转周期':'27.3 天','距地球':'约 384,400 km','表面重力':'地球的 1/6','表面温度':'-173 至 127 °C' },
+  comp:[
+    {n:'斜长岩（月陆）', v:45, c:'#a3a3a3'},
+    {n:'玄武岩（月海）', v:35, c:'#6b7280'},
+    {n:'橄榄石/辉石', v:15, c:'#84cc16'},
+    {n:'钛铁矿', v:5, c:'#78716c'}
+  ],
+  layers:[
+    {c:'#D1D5DB', n:'月壳', v:'厚 50–100 km，富含斜长石，月海区域较薄。'},
+    {c:'#9CA3AF', n:'月幔', v:'厚约 1,300 km，主要由橄榄石和辉石组成。'},
+    {c:'#4B5563', n:'部分熔融层', v:'月幔底部存在部分熔融的软流层。'},
+    {c:'#1F2937', n:'月核', v:'半径约 350 km，可能为固态或部分液态铁镍。'}
+  ],
+  extra:[
+    {k:'表面特征', v:'环形山、月海、月谷、辐射纹'},
+    {k:'重要环形山', v:'南极-艾特肯盆地（直径 2,500 km）'},
+    {k:'月海', v:'静海、雨海、澄海、危海等'},
+    {k:'月岩样本', v:'阿波罗任务带回约 382 kg'},
+    {k:'探测者', v:'阿波罗、月球号、嫦娥、月船'}
+  ],
+  notes:[
+    '月球总是同一面朝向地球，这是潮汐锁定的结果。',
+    '月球正在以每年约 3.8 厘米的速度远离地球。',
+    '阿波罗 11 号 1969 年首次载人登月，共 12 人踏足月面。',
+    '月海其实是巨大的撞击盆地，后被玄武岩熔岩填充。'
+  ]
+},
+
+/* ---------- 冥王星 ---------- */
+{
+  id:'pluto', name:'冥王星', en:'Pluto', cat:'矮行星', shape:'rocky',
+  color:'#C4A88B', color2:'#5C4A3A', opts:{ craters:14, seed:23 },
+  brief:'2006 年被重新归类为矮行星。拥有复杂的表面特征，包括氮冰平原和高达 3,500 米的水冰山脉。',
+  intro:'冥王星曾是太阳系第九大行星，2006 年国际天文学联合会将其重新定义为“矮行星”。它的直径仅 2,377 km，比月球还小。新视野号 2015 年飞掠冥王星时，发现了令人惊叹的表面细节：巨大的“斯普特尼克平原”（氮冰冰川）、高达 3,500 米的水冰山脉、以及大气中的雾霾层。冥王星与它最大的卫星冥卫一（卡戎）构成双星系统，两者围绕共同质心旋转。冥王星表面覆盖着氮冰、甲烷冰和一氧化碳冰，随季节升华与凝华。',
+  stats:{ '直径':'2,377 km','质量':'地球的 0.0022 倍','公转周期':'248 地球年','距太阳':'约 59 亿 km','表面温度':'约 -229 °C','卫星数':'5' },
+  comp:[
+    {n:'氮冰 N₂', v:60, c:'#a5b4fc'},
+    {n:'甲烷冰 CH₄', v:25, c:'#86efac'},
+    {n:'一氧化碳冰 CO', v:10, c:'#fcd34d'},
+    {n:'岩石/水冰', v:5, c:'#a8a29e'}
+  ],
+  layers:[
+    {c:'#E7E5E4', n:'氮冰表面', v:'斯普特尼克平原，氮冰冰川，表面极年轻。'},
+    {c:'#A8A29E', n:'水冰壳', v:'厚约 100 km，水冰构成的坚硬外壳。'},
+    {c:'#57534E', n:'岩石核心', v:'主要由硅酸盐岩石构成，占质量的大部分。'}
+  ],
+  extra:[
+    {k:'最大卫星', v:'冥卫一卡戎，直径 1,212 km'},
+    {k:'著名地貌', v:'斯普特尼克平原、水冰山脉、克苏鲁区'},
+    {k:'大气', v:'稀薄的氮气、甲烷、一氧化碳'},
+    {k:'发现者', v:'克莱德·汤博，1930 年'},
+    {k:'探测者', v:'新视野号（2015 年飞掠）'}
+  ],
+  notes:[
+    '冥王星和卡戎互相潮汐锁定，像一对“双矮行星”。',
+    '冥王星的轨道倾角 17°，有时会比海王星更靠近太阳。',
+    '斯普特尼克平原是一个巨大的氮冰冰川，仍在缓慢对流。',
+    '2006 年之前，冥王星被视为第九大行星，后改列为矮行星。'
+  ]
+},
+
+/* ---------- 彗星 ---------- */
+{
+  id:'comet', name:'彗星', en:'Comet', cat:'彗星', shape:'comet',
+  color:'#B0E0FF', color2:'#3A6BA5',
+  brief:'由冰、尘埃和岩石组成的“脏雪球”，靠近太阳时升华出彗发和彗尾，是太阳系早期的活化石。',
+  intro:'彗星是太阳系形成时遗留的冰质天体，主要来自柯伊伯带和更遥远的奥尔特云。它们的核心（彗核）直径通常只有几公里，由水冰、干冰、氨冰、甲烷冰和尘埃、岩石颗粒混合而成，被形象地称为“脏雪球”。当彗星靠近太阳时，冰物质升华成气体，在核周围形成明亮的彗发（coma），并受太阳风和辐射压作用形成两条彗尾：蓝色的离子尾（受太阳风推动，笔直背向太阳）和白色的尘埃尾（受辐射压推动，略弯曲）。著名的哈雷彗星每 76 年回归一次，下次将在 2061 年出现。',
+  stats:{ '彗核直径':'几百米 – 几十公里','彗发直径':'可达 10 万公里以上','彗尾长度':'可达 1 亿公里以上','轨道周期':'几年 – 数百万年','主要来源':'柯伊伯带、奥尔特云','著名彗星':'哈雷、海尔-波普、67P' },
+  comp:[
+    {n:'水冰 H₂O', v:80, c:'#7dd3fc'},
+    {n:'干冰 CO₂', v:10, c:'#a78bfa'},
+    {n:'甲烷/氨冰', v:6, c:'#34d399'},
+    {n:'尘埃/岩石', v:4, c:'#a8a29e'}
+  ],
+  layers:[
+    {c:'#F0F9FF', n:'彗核', v:'冰-尘混合物，直径几公里，太阳系最古老物质之一。'},
+    {c:'#BAE6FD', n:'彗发', v:'气体与尘埃云，直径可达 10 万公里以上，反射阳光。'},
+    {c:'#60A5FA', n:'离子尾', v:'受太阳风推动，笔直背向太阳，呈蓝色。'},
+    {c:'#E0F2FE', n:'尘埃尾', v:'受辐射压推动，弯曲呈黄色或白色。'},
+    {c:'#A5B4FC', n:'氢云', v:'巨大的中性氢包层，直径可达数百万公里。'}
+  ],
+  extra:[
+    {k:'来源', v:'柯伊伯带（短周期）、奥尔特云（长周期）'},
+    {k:'彗尾数量', v:'通常 2 条（离子尾 + 尘埃尾）'},
+    {k:'著名彗星', v:'哈雷彗星（76 年周期）、海尔-波普彗星'},
+    {k:'探测任务', v:'乔托号、星尘号、罗塞塔号（菲莱着陆）'},
+    {k:'彗星陨石', v:'部分陨石为彗星碎片'}
+  ],
+  notes:[
+    '彗星的彗尾总是指向背离太阳的方向，而不是运动的反方向。',
+    '哈雷彗星每 76 年回归一次，下次将在 2061 年出现。',
+    '罗塞塔号任务释放的菲莱着陆器，2014 年首次登陆彗核 67P。',
+    '彗星可能为早期地球带来了水和有机分子。'
+  ]
+},
+
+/* ---------- 星云 ---------- */
+{
+  id:'nebula', name:'星云', en:'Nebula', cat:'星云', shape:'nebula',
+  color:'#C084FC', color2:'#5B21B6',
+  brief:'星际空间中由气体和尘埃组成的云团，是恒星诞生与死亡的场所，也是宇宙中色彩最丰富的天体之一。',
+  intro:'星云是星际空间中由气体（主要是氢和氦）和尘埃组成的巨大云团，尺度从几光年到数百光年。按发光机制可分为发射星云（受年轻恒星紫外线激发而发光，呈红色）、反射星云（反射邻近恒星的光，呈蓝色）、暗星云（不发光、遮挡背景星光）和行星状星云（类太阳恒星死亡时抛出的外层气体）。星云是恒星的摇篮——猎户座大星云中就有数百颗正在形成的原恒星；同时也是恒星死亡的遗迹——超新星遗迹和行星状星云就是恒星抛出的物质。星云中的尘埃含有硅酸盐、碳质颗粒和冰，是形成行星的原材料。',
+  stats:{ '典型直径':'几光年 – 数百光年','主要成分':'氢、氦、尘埃','温度':'10 K – 10,000 K','密度':'每立方厘米 0.1 – 10,000 个粒子','类型':'发射、反射、暗、行星状、超新星遗迹','著名星云':'猎户座、蟹状、鹰状、猫眼' },
+  comp:[
+    {n:'氢 H', v:70, c:'#7dd3fc'},
+    {n:'氦 He', v:28, c:'#a78bfa'},
+    {n:'氧/氮/碳', v:1.5, c:'#f472b6'},
+    {n:'尘埃（硅酸盐/碳）', v:0.5, c:'#a8a29e'}
+  ],
+  layers:[
+    {c:'#F0ABFC', n:'发光区', v:'受年轻恒星紫外线激发，氢发出红色 Hα 光。'},
+    {c:'#C084FC', n:'反射区', v:'尘埃反射邻近恒星的光，呈蓝色（瑞利散射）。'},
+    {c:'#4C1D95', n:'暗区', v:'浓密尘埃遮挡背景星光，形成剪影。'},
+    {c:'#7E22CE', n:'分子云核', v:'寒冷致密，是恒星形成的场所，温度仅 10 K。'}
+  ],
+  extra:[
+    {k:'著名发射星云', v:'猎户座大星云、鹰状星云（创生之柱）'},
+    {k:'著名行星状星云', v:'猫眼星云、环状星云、螺旋星云'},
+    {k:'著名暗星云', v:'马头星云、煤袋星云'},
+    {k:'著名超新星遗迹', v:'蟹状星云（1054 年超新星）'},
+    {k:'探测者', v:'哈勃、韦伯、斯皮策太空望远镜'}
+  ],
+  notes:[
+    '星云是恒星的“摇篮”和“坟墓”，恒星在这里诞生，也在这里抛洒物质。',
+    '猎户座大星云距离约 1,344 光年，是肉眼可见的恒星诞生区。',
+    '鹰状星云的“创生之柱”是哈勃最著名的照片之一。',
+    '星云中的尘埃含有硅酸盐和碳颗粒，是形成岩石行星的原料。'
+  ]
+},
+
+/* ---------- 星系 ---------- */
+{
+  id:'galaxy', name:'仙女座星系', en:'Andromeda', cat:'星系', shape:'galaxy',
+  color:'#A78BFA', color2:'#4C1D95',
+  brief:'距银河系最近的大型星系，距离约 254 万光年。它正以每秒约 110 公里的速度向银河系靠近。',
+  intro:'仙女座星系（M31）是距银河系最近的大型旋涡星系，直径约 22 万光年，包含约 1 万亿颗恒星，是本星系群中最大的星系。它距离地球约 254 万光年，是肉眼可见最遥远的天体。仙女座星系正以每秒约 110 公里的速度接近银河系，预计约 45 亿年后两者将碰撞并合并，形成一个巨大的椭圆星系（有时被称为“银河仙女星系”）。仙女座星系拥有两个明显的伴星系：M32 和 M110，它们都是椭圆星系。它的中心有一个超大质量黑洞，质量约为太阳的 1 亿倍。',
+  stats:{ '直径':'约 22 万光年','距地球':'约 254 万光年','恒星数量':'约 1 万亿颗','类型':'旋涡星系（SA(s)b）','视星等':'3.44（肉眼可见）','中心黑洞':'约 1 亿倍太阳质量' },
+  comp:[
+    {n:'恒星（主序）', v:60, c:'#fbbf24'},
+    {n:'星际气体', v:25, c:'#7dd3fc'},
+    {n:'星际尘埃', v:10, c:'#a8a29e'},
+    {n:'暗物质', v:5, c:'#6d28d9'}
+  ],
+  layers:[
+    {c:'#FEF3C7', n:'核球', v:'明亮密集的恒星核心，包含超大质量黑洞。'},
+    {c:'#C084FC', n:'旋臂', v:'年轻恒星、气体和尘埃聚集的区域，恒星形成活跃。'},
+    {c:'#7E22CE', n:'星系盘', v:'直径约 22 万光年，包含大部分恒星和气体。'},
+    {c:'#4C1D95', n:'暗物质晕', v:'不可见的暗物质包围整个星系，质量是可见物质的数倍。'}
+  ],
+  extra:[
+    {k:'本星系群成员', v:'最大星系，银河系为第二大'},
+    {k:'伴星系', v:'M32、M110（均为椭圆星系）'},
+    {k:'与银河系碰撞', v:'预计约 45 亿年后合并'},
+    {k:'发现', v:'波斯天文学家苏菲，公元 964 年首次记录'},
+    {k:'探测者', v:'哈勃、韦伯太空望远镜'}
+  ],
+  notes:[
+    '仙女座星系是肉眼可见最远的天体，视星等 3.44。',
+    '它正接近银河系，45 亿年后两者将合并成“银河仙女星系”。',
+    '仙女座星系的直径约 22 万光年，是银河系的两倍。',
+    '它的中心黑洞质量约为太阳的 1 亿倍，比银河系中心黑洞大得多。'
+  ]
+},
+
+/* ---------- 星际介质 ---------- */
+{
+  id:'ism', name:'星际介质', en:'Interstellar Medium', cat:'星际介质', shape:'medium',
+  color:'#7DD3FC', color2:'#1E3A8A',
+  brief:'填充在恒星之间的气体和尘埃，主要由氢和氦组成，是恒星诞生和星系演化的关键物质循环。',
+  intro:'星际介质（ISM）是填充在星系中恒星之间空间的物质，包括气体（99%）和尘埃（1%）。气体以原子、分子和离子形式存在，主要成分是氢（约 70%）和氦（约 28%）。星际介质的密度极低——平均每立方厘米只有约 1 个原子（地球海平面大气是每立方厘米 2.5×10¹⁹ 个分子），但它占据了银河系可见体积的绝大部分。星际介质分为几个相：寒冷致密的分子云（恒星诞生地）、中性氢云、温暖的电离氢区（H II 区，由年轻恒星加热）和极热的稀薄气体（温度可达百万 K，由超新星加热）。星际尘埃含有硅酸盐、碳质颗粒、冰和有机分子，是形成岩石行星和生命前体的原材料。',
+  stats:{ '主要成分':'氢（70%）、氦（28%）','平均密度':'约 1 原子/cm³','温度范围':'10 K – 1,000,000 K','相态':'分子云、中性氢、电离氢、热气体','尘埃组成':'硅酸盐、碳、冰、有机物','质量占比':'约占银河系可见质量的 10–15%' },
+  comp:[
+    {n:'氢 H', v:70, c:'#7dd3fc'},
+    {n:'氦 He', v:28, c:'#a78bfa'},
+    {n:'氧 O / 碳 C', v:1.2, c:'#f472b6'},
+    {n:'氮 N / 氖 Ne', v:0.5, c:'#34d399'},
+    {n:'尘埃（硅酸盐/碳）', v:0.3, c:'#a8a29e'}
+  ],
+  layers:[
+    {c:'#312E81', n:'分子云', v:'寒冷（10–20 K）致密，是恒星形成的场所，氢气以 H₂ 形式存在。'},
+    {c:'#3B82F6', n:'中性氢区', v:'温度约 100 K，氢以中性原子形式存在，21 cm 射电辐射可探测。'},
+    {c:'#60A5FA', n:'电离氢区 (H II)', v:'温度约 10,000 K，被年轻恒星紫外辐射电离，发出红色光。'},
+    {c:'#C084FC', n:'热电离气体', v:'温度百万 K，由超新星遗迹和恒星风加热，发出 X 射线。'}
+  ],
+  extra:[
+    {k:'密度对比', v:'比地球实验室最佳真空还稀薄 1 万倍'},
+    {k:'主要探测方式', v:'射电 21 cm 线、红外、X 射线'},
+    {k:'尘埃作用', v:'屏蔽紫外线、催化 H₂ 形成、形成行星原料'},
+    {k:'元素来源', v:'大爆炸（H、He）+ 恒星核合成（重元素）'},
+    {k:'循环', v:'恒星诞生 → 核聚变 → 死亡抛洒 → 新恒星'}
+  ],
+  notes:[
+    '星际介质是银河系物质循环的枢纽，恒星从中诞生，也最终回归其中。',
+    '星际尘埃只占介质质量的 1%，却贡献了大部分消光和红外辐射。',
+    '星际介质中已探测到超过 200 种分子，包括水、氨和多种有机分子。',
+    '没有星际介质，就没有恒星形成，也就没有行星和生命。'
+  ]
+}
+
+];
+
+/* ============ 渲染首页 ============ */
+const CATS = ['全部','恒星','行星','卫星','矮行星','彗星','星云','星系','星际介质'];
+let currentCat = '全部';
+
+const tabsEl = document.getElementById('tabs');
+const gridEl = document.getElementById('grid');
+
+CATS.forEach(c => {
+  const t = document.createElement('div');
+  t.className = 'tab' + (c === '全部' ? ' on' : '');
+  t.textContent = c;
+  t.dataset.cat = c;
+  t.addEventListener('click', () => {
+    currentCat = c;
+    document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x.dataset.cat === c));
+    renderGrid();
+  });
+  tabsEl.appendChild(t);
+});
+
+function renderGrid() {
+  gridEl.innerHTML = '';
+  const list = currentCat === '全部' ? DATA : DATA.filter(d => d.cat === currentCat);
+  list.forEach(body => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="art">${renderArt(body, 78)}</div>
+      <div class="nm">${body.name}</div>
+      <div class="en">${body.en}</div>
+    `;
+    card.addEventListener('click', () => openDetail(body));
+    gridEl.appendChild(card);
+  });
+}
+renderGrid();
+
+/* ============ 详情页 ============ */
+const detailEl = document.getElementById('detail');
+
+function openDetail(body) {
+  const statHtml = Object.entries(body.stats).map(([k,v]) =>
+    `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`
+  ).join('');
+
+  const compHtml = body.comp.map(c => `
+    <div class="comp-row">
+      <div class="comp-head"><span>${c.n}</span><span>${c.v}%</span></div>
+      <div class="comp-bar"><div class="comp-fill" style="width:${c.v}%;background:${c.c}"></div></div>
+    </div>
+  `).join('');
+
+  const layerHtml = body.layers.map(l => `
+    <div class="layer">
+      <div class="layer-dot" style="background:${l.c};color:${l.c}"></div>
+      <div>
+        <div class="layer-n">${l.n}</div>
+        <div class="layer-v">${l.v}</div>
+      </div>
+    </div>
+  `).join('');
+
+  const extraHtml = body.extra.map(e => `
+    <div class="extra-row"><span class="k">${e.k}</span><span class="v">${e.v}</span></div>
+  `).join('');
+
+  const notesHtml = body.notes.map(n => `<li>${n}</li>`).join('');
+
+  detailEl.innerHTML = `
+    <div class="d-hero">
+      <div class="d-close" id="dClose">✕</div>
+      ${renderArt(body, 200)}
+    </div>
+    <div class="d-body">
+      <div class="d-cat">${body.cat}</div>
+      <div class="d-name">${body.name}</div>
+      <div class="d-en">${body.en}</div>
+      <div class="d-brief">${body.brief}</div>
+      <div class="d-intro">${body.intro}</div>
+
+      <div class="sec">关键数据</div>
+      <div class="stat-grid">${statHtml}</div>
+
+      <div class="sec">成分组成</div>
+      <div>${compHtml}</div>
+
+      <div class="sec">结构分层</div>
+      <div class="layers">${layerHtml}</div>
+
+      <div class="sec">补充信息</div>
+      <div class="extra">${extraHtml}</div>
+
+      <div class="sec">你知道吗</div>
+      <ul class="notes">${notesHtml}</ul>
+      <div class="d-footer"></div>
+    </div>
+  `;
+
+  detailEl.classList.add('open');
+  detailEl.scrollTop = 0;
+
+  document.getElementById('dClose').addEventListener('click', closeDetail);
+}
+
+function closeDetail() {
+  detailEl.classList.remove('open');
+}
+
+/* ============ 星野背景 ============ */
+(function buildStars() {
+  const el = document.getElementById('bgStars');
+  for (let i = 0; i < 150; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2.1 + 0.5;
+    s.style.width = sz + 'px';
+    s.style.height = sz + 'px';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 4) + 's';
+    s.style.animationDuration = (3 + Math.random() * 4) + 's';
+    el.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
