@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>COSMOS · 宇宙百科</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  background:#000;display:flex;align-items:center;justify-content:center;
+  min-height:100vh;padding:14px;color:#fff;overflow:hidden;
+}
+.phone{
+  position:relative;width:100%;max-width:420px;
+  height:min(880px,94vh);border-radius:38px;background:#05060A;
+  overflow:hidden;box-shadow:0 0 0 1px #1b1f2e,0 30px 90px rgba(0,0,0,.95);
+  display:flex;flex-direction:column;
+}
+.bg-stars{position:absolute;inset:0;pointer-events:none;z-index:0}
+.star{position:absolute;border-radius:50%;background:#fff;animation:tw 4s infinite ease-in-out}
+@keyframes tw{0%,100%{opacity:.12;transform:scale(.85)}50%{opacity:.9;transform:scale(1.15)}}
+
+.app{position:relative;z-index:2;display:flex;flex-direction:column;height:100%}
+
+.topbar{padding:26px 20px 6px;display:flex;justify-content:space-between;align-items:flex-start;flex-shrink:0}
+.topbar h1{font-size:27px;letter-spacing:4px;font-weight:800;
+  background:linear-gradient(120deg,#fff 10%,#a78bfa 70%,#7dd3fc);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.topbar .sub{display:block;font-size:10px;letter-spacing:2.5px;color:#4d5470;margin-top:5px}
+.icon-btn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:rgba(108,92,231,.12);border:1px solid rgba(108,92,231,.25);color:#a78bfa;font-size:19px}
+
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:10px 20px 14px;flex-shrink:0;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:7px 15px;border-radius:999px;font-size:12px;color:#7d84a0;
+  background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);
+  white-space:nowrap;transition:.22s;cursor:pointer}
+.tab.on{color:#fff;background:linear-gradient(120deg,#6d5ce7,#9b6cf6);border-color:transparent;
+  box-shadow:0 5px 18px rgba(109,92,231,.45)}
+
+.grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  padding:0 20px 30px;scrollbar-width:none;align-content:start}
+.grid::-webkit-scrollbar{display:none}
+.card{background:rgba(17,21,34,.75);border:1px solid rgba(255,255,255,.06);
+  border-radius:20px;padding:12px 10px 13px;display:flex;flex-direction:column;
+  align-items:center;gap:7px;transition:transform .18s,border-color .18s,background .18s;cursor:pointer}
+.card:active{transform:scale(.955);border-color:rgba(139,124,246,.55);background:rgba(30,26,60,.75)}
+.card .art{display:flex;justify-content:center;align-items:center}
+.card .nm{font-size:13.5px;font-weight:600;color:#e9ebf4;letter-spacing:.5px}
+.card .en{font-size:9px;color:#545b78;letter-spacing:1.5px;text-transform:uppercase}
+
+.detail{position:absolute;inset:0;z-index:30;background:#05060A;overflow-y:auto;
+  transform:translateY(102%);transition:transform .38s cubic-bezier(.4,0,.2,1);scrollbar-width:none}
+.detail::-webkit-scrollbar{display:none}
+.detail.open{transform:translateY(0)}
+
+.d-hero{position:relative;padding:34px 0 18px;display:flex;justify-content:center;align-items:center;
+  background:radial-gradient(circle at 50% 45%,rgba(80,70,180,.16),transparent 68%)}
+.d-close{position:absolute;top:16px;right:18px;width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#9aa0b8;
+  font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5}
+.d-body{padding:0 22px 40px}
+.d-cat{display:inline-block;font-size:10px;letter-spacing:2px;color:#a78bfa;
+  background:rgba(139,124,246,.13);border:1px solid rgba(139,124,246,.28);
+  padding:4px 11px;border-radius:999px;margin-bottom:12px}
+.d-name{font-size:29px;font-weight:800;letter-spacing:1px;color:#fff;line-height:1.1}
+.d-en{font-size:11px;letter-spacing:4px;color:#4f5673;margin-top:6px;text-transform:uppercase}
+.d-brief{font-size:14px;line-height:1.65;color:#b9bfd4;margin:16px 0 20px;
+  padding-left:13px;border-left:2px solid #7c6cf0}
+.d-intro{font-size:13.5px;line-height:1.85;color:#969db5;margin:14px 0 6px;text-align:justify}
+
+.sec{font-size:14px;font-weight:700;color:#fff;letter-spacing:1px;margin:28px 0 14px;
+  display:flex;align-items:center;gap:10px}
+.sec::before{content:'';width:3px;height:14px;border-radius:2px;
+  background:linear-gradient(180deg,#a78bfa,#6366f1)}
+.sec::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(120,110,220,.35),transparent)}
+
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.stat{background:rgba(19,23,38,.8);border:1px solid rgba(255,255,255,.055);
+  border-radius:14px;padding:11px 13px}
+.stat .k{font-size:10px;color:#5b6382;letter-spacing:.5px}
+.stat .v{font-size:13px;color:#e3e6f2;font-weight:600;margin-top:4px}
+
+.comp{margin-top:2px}
+.comp-row{margin-bottom:11px}
+.comp-head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
+.comp-head span:first-child{color:#b6bcd2}
+.comp-head span:last-child{color:#6f7694;font-variant-numeric:tabular-nums}
+.comp-bar{height:6px;border-radius:3px;background:rgba(255,255,255,.055);overflow:hidden}
+.comp-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.22,1,.36,1)}
+
+.layers{display:flex;flex-direction:column;gap:9px}
+.layer{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;
+  background:rgba(19,23,38,.7);border:1px solid rgba(255,255,255,.05);border-radius:14px}
+.layer-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px;
+  box-shadow:0 0 10px currentColor}
+.layer-n{font-size:12.5px;font-weight:600;color:#dfe3f0;margin-bottom:3px}
+.layer-v{font-size:11.5px;line-height:1.55;color:#7b8299}
+
+.extra{display:flex;flex-direction:column;gap:8px}
+.extra-row{display:flex;justify-content:space-between;gap:14px;padding:11px 14px;
+  background:rgba(19,23,38,.7);border:1px solid rgba(255,255,255,.05);border-radius:13px}
+.extra-row .k{font-size:12px;color:#6a7190;flex-shrink:0}
+.extra-row .v{font-size:12.5px;color:#d8dcEB;text-align:right;line-height:1.5}
+
+.notes{list-style:none;display:flex;flex-direction:column;gap:10px}
+.notes li{position:relative;padding-left:20px;font-size:12.5px;line-height:1.7;color:#8d94ab}
+.notes li::before{content:'';position:absolute;left:4px;top:8px;width:5px;height:5px;
+  border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa)}
+
+.d-footer{height:20px}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="bg-stars" id="bgStars"></div>
+
+  <div class="app">
+    <div class="topbar">
+      <div>
+        <h1>COSMOS</h1>
+        <span class="sub">宇宙百科 · 全景图鉴</span>
+      </div>
+      <div class="icon-btn">✦</div>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="detail" id="detail"></div>
+</div>
+
+<script>
+/* ============================================================
+   一、颜色工具
+============================================================ */
+const hexToRgb = h => {
+  h = h.replace('#','');
+  if (h.length === 3) h = h.split('').map(c=>c+c).join('');
+  const n = parseInt(h,16);
+  return { r:(n>>16)&255, g:(n>>8)&255, b:n&255 };
+};
+const rgba = (h,a) => { const c = hexToRgb(h); return `rgba(${c.r},${c.g},${c.b},${a})`; };
+const lighten = (h,p) => {
+  const c = hexToRgb(h), f = p/100, m = v => Math.round(v + (255-v)*f);
+  return '#' + [m(c.r),m(c.g),m(c.b)].map(v=>v.toString(16).padStart(2,'0')).join('');
+};
+const darken = (h,p) => {
+  const c = hexToRgb(h), f = p/100, m = v => Math.round(v*(1-f));
+  return '#' + [m(c.r),m(c.g),m(c.b)].map(v=>v.toString(16).padStart(2,'0')).join('');
+};
+
+/* ============================================================
+   二、SVG 渲染器（每个天体都有独立的“照片级”示意图）
+============================================================ */
+let _uid = 0;
+const uid = () => 'u' + (++_uid);
+
+/* ---------- 恒星 ---------- */
+function svgStar(p, size) {
+  const u = uid();
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
+  <defs>
+    <radialGradient id="${u}h" cx="50%" cy="50%" r="50%">
+      <stop offset="35%" stop-color="${rgba(p.base,0.4)}"/>
+      <stop offset="100%" stop-color="${rgba(p.base,0)}"/>
+    </radialGradient>
+    <radialGradient id="${u}c" cx="38%" cy="33%" r="74%">
+      <stop offset="0%" stop-color="#FFFEF8"/>
+      <stop offset="26%" stop-color="#FFEDA8"/>
+      <stop offset="56%" stop-color="${p.base}"/>
+      <stop offset="100%" stop-color="${p.shadow}"/>
+    </radialGradient>
+    <radialGradient id="${u}r" cx="42%" cy="38%" r="72%">
+      <stop offset="62%" stop-color="rgba(0,0,0,0)"/>
+      <stop offset="100%" stop-color="rgba(146,64,14,.6)"/>
+    </radialGradient>
+  </defs>
+  <circle cx="100" cy="100" r="97" fill="url(#${u}h)"/>
+  <circle cx="100" cy="100" r="67" fill="url(#${u}c)"/>
+  <circle cx="100" cy="100" r="67" fill="url(#${u}r)"/>
+  <g fill="#FFFBEA" opacity=".33">
+    <circle cx="79" cy="82" r="5"/>
+    <circle cx="119" cy="103" r="7.5" opacity=".7"/>
+    <circle cx="92" cy="123" r="4"/>
+    <circle cx="113" cy="71" r="3.6"/>
+    <circle cx="69" cy="111" r="3.2"/>
+    <circle cx="104" cy="92" r="2.4"/>
+  </g>
+</svg>`;
+}
+
+/* ---------- 岩质天体 ---------- */
+function svgRocky(p, size, o = {}) {
+  const u = uid();
+  let rnd = (o.seed || 7) * 9301 + 49297;
+  const rand = () => { rnd = (rnd*9301+49297) % 233280; return rnd/233280; };
+  const n = o.craters != null ? o.craters : 18;
+  let cr = '';
+  for (let i = 0; i < n; i++) {
+    const a = rand()*Math.PI*2;
+    const d = Math.sqrt(rand())*0.86;
+    const x = 100 + Math.cos(a)*d*60;
+    const y = 100 + Math.sin(a)*d*60;
+    const r = 1.6 + rand()*7.4;
+    cr += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${rgba(p.shadow,0.26+rand()*0.24)}"/>`;
+    cr += `<circle cx="${(x+r*0.28).toFixed(1)}" cy="${(y+r*0.28).toFixed(1)}" r="${(r*0.72).toFixed(1)}" fill="${rgba(lighten(p.base,62),0.13)}"/>`;
+  }
+  const cap = o.cap ? `<ellipse cx="100" cy="40" rx="34" ry="11" fill="#ffffff" opacity=".55"/>
+                       <ellipse cx="100" cy="161" rx="30" ry="9" fill="#ffffff" opacity=".4"/>` : '';
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
+  <defs>
+    <radialGradient id="${u}g" cx="34%" cy="30%" r="78%">
+      <stop offset="0%" stop-color="${lighten(p.base,45)}"/>
+      <stop offset="38%" stop-color="${p.base}"/>
+      <stop offset="100%" stop-color="${darken(p.shadow,32)}"/>
+    </radialGradient>
+    <radialGradient id="${u}s" cx="30%" cy="26%" r="86%">
+      <stop offset="0%" stop-color="rgba(255,255,255,.24)"/>
+      <stop offset="44%" stop-color="rgba(255,255,255,0)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,.62)"/>
+    </radialGradient>
+    <clipPath id="${u}c"><circle cx="100" cy="100" r="66"/></clipPath>
+  </defs>
+  <circle cx="100" cy="100" r="67" fill="url(#${u}g)"/>
+  <g clip-path="url(#${u}c)">${cr}${cap}</g>
+  <circle cx="100" cy="100" r="67" fill="url(#${u}s)"/>
+</svg>`;
+}
+
+/* ---------- 地球 ---------- */
+function svgEarth(p, size) {
+  const u = uid();
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
+  <defs>
+    <radialGradient id="${u}o" cx="36%" cy="31%" r="76%">
+      <stop offset="0%" stop-color="#7CB8FF"/>
+      <stop offset="40%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0A1F4E"/>
+    </radialGradient>
+    <radialGradient id="${u}s" cx="30%" cy="26%" r="86%">
+      <stop offset="0%" stop-color="rgba(255,255,255,.28)"/>
+      <stop offset="44%" stop-color="rgba(255,255,255,0)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,.68)"/>
+    </radialGradient>
+    <radialGradient id="${u}a" cx="50%" cy="50%" r="50%">
+      <stop offset="60%" stop-color="rgba(96,165,250,0)"/>
+      <stop offset="100%" stop-color="rgba(96,165,250,.42)"/>
+    </radialGradient>
+    <clipPath id="${u}c"><circle cx="100" cy="100" r="66"/></clipPath>
+  </defs>
+  <circle cx="100" cy="100" r="76" fill="url(#${u}a)"/>
+  <circle cx="100" cy="100" r="66" fill="url(#${u}o)"/>
+  <g clip-path="url(#${u}c)">
+    <path d="M58 54 Q78 40 97 52 Q110 61 101 78 Q92 95 73 89 Q56 82 58 54 Z" fill="#2F7D32" opacity=".92"/>
+    <path d="M117 80 Q137 72 152 88 Q163 105 149 120 Q132 133 117 119 Q104 104 117 80 Z" fill="#3A8E3F" opacity=".9"/>
+    <path d="M74 108 Q92 99 105 112 Q114 127 101 140 Q86 150 75 135 Q66 120 74 108 Z" fill="#2F7D32" opacity=".86"/>
+    <path d="M50 103 Q63 95 70 108 Q75 123 64 131 Q51 135 47 120 Z" fill="#43A047" opacity=".82"/>
+    <path d="M136 50 Q151 46 158 61 Q161 78 148 83 Q135 81 133 66 Z" fill="#388E3C" opacity=".82"/>
+    <path d="M40 78 Q52 70 60 80 Q65 92 54 98 Q42 99 39 88 Z" fill="#43A047" opacity=".7"/>
+    <g fill="#fff" opacity=".4">
+      <ellipse cx="76" cy="64" rx="23" ry="6.5"/>
+      <ellipse cx="133" cy="98" rx="27" ry="7.5"/>
+      <ellipse cx="87" cy="133" rx="19" ry="5.5"/>
+      <ellipse cx="120" cy="58" rx="15" ry="5"/>
+    </g>
+  </g>
+  <circle cx="100" cy="100" r="66" fill="url(#${u}s)"/>
+</svg>`;
+}
+
+/* ---------- 气态 / 冰质巨行星 ---------- */
+function svgGas(p, size, o = {}) {
+  const u = uid();
+  const soft = o.soft ? 0.55 : 1;
+  const rows = [
+    { y:32, h:14, l:30, o:.34 }, { y:48, h:18, l:46, o:.48 },
+    { y:68, h:22, l:56, o:.62 }, { y:92, h:24, l:62, o:.54 },
+    { y:118, h:20, l:50, o:.44 }, { y:140, h:16, l:38, o:.34 },
+    { y:158, h:12, l:28, o:.24 },
+  ];
+  let bands = '';
+  rows.forEach((r,i) => {
+    bands += `<rect x="18" y="${r.y}" width="164" height="${r.h}"
+      fill="${i%2===0 ? lighten(p.base,r.l) : darken(p.base,r.l*0.7)}"
+      opacity="${(r.o*soft).toFixed(2)}"/>`;
+  });
+  let spot = '';
+  if (o.spot) {
+    spot = `<ellipse cx="${o.spot.x}" cy="${o.spot.y}" rx="${o.spot.rx}" ry="${o.spot.ry}" fill="${darken(p.shadow,10)}" opacity=".82"/>
+            <ellipse cx="${o.spot.x}" cy="${o.spot.y}" rx="${o.spot.rx*0.55}" ry="${o.spot.ry*0.55}" fill="${lighten(p.base,22)}" opacity=".38"/>`;
+  }
+  let ring = '';
+  if (o.ring) {
+    ring = `<g transform="rotate(-17 100 100)">
+      <ellipse cx="100" cy="100" rx="106" ry="29" fill="none" stroke="${rgba(p.base,0.42)}" stroke-width="9"/>
+      <ellipse cx="100" cy="100" rx="96" ry="25" fill="none" stroke="${rgba(p.base,0.28)}" stroke-width="5"/>
+      <ellipse cx="100" cy="100" rx="115" ry="33" fill="none" stroke="${rgba(p.base,0.16)}" stroke-width="6"/>
+    </g>`;
+  }
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
+  <defs>
+    <radialGradient id="${u}g" cx="34%" cy="30%" r="78%">
+      <stop offset="0%" stop-color="${lighten(p.base,42)}"/>
+      <stop offset="40%" stop-color="${p.base}"/>
+      <stop offset="100%" stop-color="${darken(p.shadow,34)}"/>
+    </radialGradient>
+    <radialGradient id="${u}s" cx="30%" cy="26%" r="86%">
+      <stop offset="0%" stop-color="rgba(255,255,255,.22)"/>
+      <stop offset="46%" stop-color="rgba(255,255,255,0)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,.66)"/>
+    </radialGradient>
+    <clipPath id="${u}c"><circle cx="100" cy="100" r="66"/></clipPath>
+  </defs>
+  ${ring}
+  <circle cx="100" cy="100" r="66" fill="url(#${u}g)"/>
+  <g clip-path="url(#${u}c)">${bands}${spot}</g>
+  <circle cx="100" cy="100" r="66" fill="url(#${u}s)"/>
+</svg>`;
+}
+
+/* ---------- 彗星 ---------- */
+function svgComet(p, size) {
+  const u = uid();
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
+  <defs>
+    <radialGradient id="${u}coma" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(226,248,255,.96)"/>
+      <stop offset="30%" stop-color="rgba(150,215,245,.6)"/>
+      <stop offset="65%" stop-color="rgba(90,160,225,.22)"/>
+      <stop offset="100%" stop-color="rgba(70,140,215,0)"/>
+    </radialGradient>
+    <linearGradient id="${u}t1" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(180,232,255,.7)"/>
+      <stop offset="100%" stop-color="rgba(180,232,255,0)"/>
+    </linearGradient>
+    <linearGradient id="${u}t2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(140,215,255,.5)"/>
+      <stop offset="100%" stop-color="rgba(140,215,255,0)"/>
+    </linearGradient>
+    <filter id="${u}b"><feGaussianBlur stdDeviation="5"/></filter>
+  </defs>
+  <path d="M100 100 L194 26 L182 54 Z" fill="url(#${u}t1)" opacity=".55"/>
+  <path d="M100 100 L199 52 L190 74 Z" fill="url(#${u}t2)" opacity=".4"/>
+  <path d="M100 100 L200 76 L196 92 Z" fill="#9AE6FF" opacity=".26" filter="url(#${u}b)"/>
+  <circle cx="100" cy="100" r="50" fill="url(#${u}coma)"/>
+  <circle cx="100" cy="100" r="11.5" fill="#EEF8FF"/>
+  <circle cx="96" cy="96" r="4.2" fill="#fff" opacity=".9"/>
+  <circle cx="106" cy="104" r="3.2" fill="${rgba(p.shadow,0.7)}"/>
+  <circle cx="101" cy="94.5" r="2.2" fill="${rgba(p.shadow,0.6)}"/>
+  <circle cx="94" cy="105" r="2" fill="${rgba(p.shadow,0.5)}"/>
+</svg>`;
+}
+
+/* ---------- 星云 ---------- */
+function svgNebula(p, size) {
+  const u = uid();
+  let rnd = 12345;
+  const rand = () => { rnd = (rnd*9301+49297)%233280; return rnd/233280; };
+  let stars = '';
+  for (let i = 0; i < 46; i++) {
+    stars += `<circle cx="${(rand()*200).toFixed(1)}" cy="${(rand()*200).toFixed(1)}"
+      r="${(rand()*1.4+0.28).toFixed(1)}" fill="#fff" opacity="${(rand()*0.72+0.28).toFixed(2)}"/>`;
+  }
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
+  <defs>
+    <radialGradient id="${u}a" cx="46%" cy="44%" r="53%">
+      <stop offset="0%" stop-color="${rgba(lighten(p.base,26),0.92)}"/>
+      <stop offset="40%" stop-color="${rgba(p.base,0.44)}"/>
+      <stop offset="100%" stop-color="${rgba(p.base,0)}"/>
+    </radialGradient>
+    <radialGradient id="${u}b" cx="67%" cy="63%" r="43%">
+      <stop offset="0%" stop-color="${rgba(p.shadow,0.78)}"/>
+      <stop offset="100%" stop-color="${rgba(p.shadow,0)}"/>
+    </radialGradient>
+    <radialGradient id="${u}c" cx="33%" cy="67%" r="39%">
+      <stop offset="0%" stop-color="${rgba(lighten(p.base,48),0.55)}"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+    <filter id="${u}bl"><feGaussianBlur stdDeviation="6.5"/></filter>
+  </defs>
+  ${stars}
+  <g filter="url(#${u}bl)">
+    <circle cx="92" cy="88" r="76" fill="url(#${u}a)"/>
+    <circle cx="128" cy="118" r="60" fill="url(#${u}b)"/>
+    <circle cx="72" cy="126" r="50" fill="url(#${u}c)"/>
+  </g>
+  <circle cx="100" cy="100" r="4" fill="#fff" opacity=".95"/>
+  <circle cx="100" cy="100" r="10" fill="${rgba('#ffffff',0.22)}"/>
+</svg>`;
+}
+
+/* ---------- 星系 ---------- */
+function svgGalaxy(p, size) {
+  const u = uid();
+  let rnd = 7777;
+  const rand = () => { rnd = (rnd*9301+49297)%233280; return rnd/233280; };
+  let stars = '';
+  for (let i = 0; i < 66; i++) {
+    const a = rand()*Math.PI*2;
+    const d = Math.pow(rand(),0.55)*86;
+    const x = 100 + Math.cos(a)*d;
+    const y = 100 + Math.sin(a)*d*0.46;
+    stars += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}"
+      r="${(rand()*1.15+0.28).toFixed(1)}" fill="#fff" opacity="${(rand()*0.78+0.22).toFixed(2)}"/>`;
+  }
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
+  <defs>
+    <radialGradient id="${u}h" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="${rgba(lighten(p.base,32),0.6)}"/>
+      <stop offset="55%" stop-color="${rgba(p.base,0.18)}"/>
+      <stop offset="100%" stop-color="${rgba(p.base,0)}"/>
+    </radialGradient>
+    <radialGradient id="${u}c" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="28%" stop-color="#FFF4DA"/>
+      <stop offset="100%" stop-color="${rgba(p.base,0)}"/>
+    </radialGradient>
+    <filter id="${u}bl"><feGaussianBlur stdDeviation="4.2"/></filter>
+  </defs>
+  <g transform="rotate(-22 100 100)">
+    <ellipse cx="100" cy="100" rx="90" ry="40" fill="url(#${u}h)" filter="url(#${u}bl)"/>
+    <ellipse cx="100" cy="100" rx="73" ry="31" fill="none"
+      stroke="${rgba(lighten(p.base,22),0.42)}" stroke-width="12" filter="url(#${u}bl)"/>
+    <ellipse cx="100" cy="100" rx="53" ry="21" fill="none"
+      stroke="${rgba(lighten(p.base,45),0.46)}" stroke-width="8" filter="url(#${u}bl)"/>
+  </g>
+  <ellipse cx="100" cy="100" rx="30" ry="17" fill="url(#${u}c)"/>
+  ${stars}
+</svg>`;
+}
+
+/* ---------- 星际介质 ---------- */
+function svgMedium(p, size) {
+  const u = uid();
+  let rnd = 4242;
+  const rand = () => { rnd = (rnd*9301+49297)%233280; return rnd/233280; };
+  let stars = '';
+  for (let i = 0; i < 76; i++) {
+    stars += `<circle cx="${(rand()*200).toFixed(1)}" cy="${(rand()*200).toFixed(1)}"
+      r="${(rand()*1.5+0.22).toFixed(1)}" fill="#fff" opacity="${(rand()*0.86+0.14).toFixed(2)}"/>`;
+  }
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
+  <defs>
+    <radialGradient id="${u}a" cx="42%" cy="38%" r="56%">
+      <stop offset="0%" stop-color="${rgba(p.base,0.34)}"/>
+      <stop offset="100%" stop-color="${rgba(p.base,0)}"/>
+    </radialGradient>
+    <radialGradient id="${u}b" cx="68%" cy="70%" r="46%">
+      <stop offset="0%" stop-color="${rgba(p.shadow,0.32)}"/>
+      <stop offset="100%" stop-color="${rgba(p.shadow,0)}"/>
+    </radialGradient>
+    <filter id="${u}bl
