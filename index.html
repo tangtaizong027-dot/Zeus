@@ -16,7 +16,6 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .star{position:absolute;border-radius:50%;background:#fff;animation:tw 4s infinite ease-in-out}
 @keyframes tw{0%,100%{opacity:.12;transform:scale(.85)}50%{opacity:.9;transform:scale(1.15)}}
 
-/* ============ 开场动画 ============ */
 .splash{position:absolute;inset:0;z-index:999;overflow:hidden;
   background:radial-gradient(ellipse at 50% 60%, #0c1130 0%, #05060A 65%);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -27,39 +26,26 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .splash-sky .ss{position:absolute;border-radius:50%;background:#fff;
   animation:splashTw 3s infinite ease-in-out}
 @keyframes splashTw{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1.15)}}
-
 .shooting{position:absolute;top:22%;left:-30%;width:200px;height:2px;
   background:linear-gradient(90deg, rgba(180,220,255,0) 0%, rgba(180,220,255,.4) 50%, #fff 100%);
   border-radius:2px;filter:drop-shadow(0 0 8px #8ec5ff);
   animation:shoot 3s cubic-bezier(.5,.1,.5,.9) infinite;transform:rotate(14deg)}
 .shooting.s2{top:60%;left:-40%;animation-delay:1.2s;transform:rotate(10deg)}
 .shooting.s3{top:78%;left:-25%;animation-delay:2.1s;transform:rotate(18deg)}
-@keyframes shoot{
-  0%{left:-30%;opacity:0}
-  10%{opacity:1}
-  70%{opacity:1}
-  100%{left:130%;opacity:0}
-}
-
+@keyframes shoot{0%{left:-30%;opacity:0}10%{opacity:1}70%{opacity:1}100%{left:130%;opacity:0}}
 .splash-glow{position:absolute;width:340px;height:340px;border-radius:50%;
   background:radial-gradient(circle, rgba(124,92,231,.32) 0%, rgba(124,92,231,0) 70%);
   animation:glowPulse 4s ease-in-out infinite;top:50%;left:50%;
   transform:translate(-50%,-50%)}
-@keyframes glowPulse{
-  0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(1)}
-  50%{opacity:1;transform:translate(-50%,-50%) scale(1.16)}
-}
-
+@keyframes glowPulse{0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:1;transform:translate(-50%,-50%) scale(1.16)}}
 .splash-content{position:relative;z-index:2;text-align:center;padding:0 30px}
-
 .splash-bus-wrap{opacity:0;transform:translateY(24px);
   animation:fadeUp 1.3s .5s cubic-bezier(.2,.9,.25,1) forwards}
 .bus-svg{filter:drop-shadow(0 0 22px rgba(140,120,255,.65))}
-
 .splash-welcome{font-size:15px;letter-spacing:8px;color:#9aa5d8;
   opacity:0;transform:translateY(16px);margin-top:22px;padding-left:8px;
   animation:fadeUp 1.2s 1.5s cubic-bezier(.2,.9,.25,1) forwards}
-
 .splash-bus{font-size:38px;font-weight:900;letter-spacing:5px;margin-top:10px;
   opacity:0;transform:translateY(20px) scale(.94);
   background:linear-gradient(120deg,#ffffff 5%,#a78bfa 45%,#7dd3fc 80%,#ffffff 100%);
@@ -67,43 +53,37 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
   -webkit-background-clip:text;background-clip:text;color:transparent;
   animation:fadeUpBus 1.5s 2.1s cubic-bezier(.2,.9,.25,1) forwards,
             shimmer 4s 3.4s linear infinite}
-
 @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
 @keyframes fadeUpBus{to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-60% 0}}
-
 .splash-divider{width:0;height:1px;margin:22px auto 0;
   background:linear-gradient(90deg,transparent,#7c6cf0,transparent);
   animation:divGrow 1.4s 3s cubic-bezier(.2,.9,.25,1) forwards}
 @keyframes divGrow{to{width:200px}}
-
 .splash-sub{font-size:11px;letter-spacing:4px;color:#5e6690;margin-top:18px;
   opacity:0;animation:fadeUp 1.2s 3.4s cubic-bezier(.2,.9,.25,1) forwards}
-
 .splash-skip{position:absolute;bottom:34px;right:28px;font-size:11px;color:#4d5470;
-  letter-spacing:1px;padding:6px 12px;border:1px solid #1f2438;border-radius:999px;
-  z-index:1000;opacity:0;animation:fadeUp 1s 1.2s forwards;cursor:pointer;
-  pointer-events:auto !important}
+  letter-spacing:1px;padding:8px 14px;border:1px solid #1f2438;border-radius:999px;
+  z-index:1001;opacity:0;animation:fadeUp 1s 1.2s forwards;cursor:pointer;
+  pointer-events:auto !important;user-select:none;-webkit-tap-highlight-color:transparent}
 .splash-skip:active{background:rgba(255,255,255,.08);color:#8b94b8}
 
-/* ============ 主应用 ============ */
 .app{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;
   opacity:0;transition:opacity 1s .3s ease}
 .app.show{opacity:1}
-
 .topbar{padding:26px 20px 6px;display:flex;justify-content:space-between;align-items:flex-start;flex-shrink:0}
 .topbar h1{font-size:27px;letter-spacing:4px;font-weight:800;
   background:linear-gradient(120deg,#fff 10%,#a78bfa 70%,#7dd3fc);
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .topbar .sub{display:block;font-size:10px;letter-spacing:2.5px;color:#4d5470;margin-top:5px}
 .icon-btn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  background:rgba(108,92,231,.12);border:1px solid rgba(108,92,231,.25);color:#a78bfa;font-size:19px}
-
+  background:rgba(108,92,231,.12);border:1px solid rgba(108,92,231,.25);color:#a78bfa;
+  font-size:19px;cursor:pointer;transition:.18s;flex-shrink:0}
+.icon-btn:active{background:rgba(108,92,231,.28);transform:scale(.94)}
 .view{flex:1;overflow-y:auto;padding:0 20px 30px;scrollbar-width:none;display:none}
 .view.active{display:block}
 .view::-webkit-scrollbar{display:none}
 
-/* 分类卡片 */
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-top:8px}
 .cat-card{background:rgba(17,21,34,.75);border:1px solid rgba(255,255,255,.06);
   border-radius:22px;padding:18px 12px 16px;display:flex;flex-direction:column;
@@ -114,7 +94,6 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .cat-card .cat-name{font-size:15px;font-weight:700;color:#e9ebf4;letter-spacing:1px}
 .cat-card .cat-count{font-size:11px;color:#5e6690;letter-spacing:1px}
 
-/* 列表页顶部 */
 .list-header{display:flex;align-items:center;gap:12px;padding:18px 0 14px;position:sticky;top:0;
   background:linear-gradient(180deg,#05060A 70%,transparent);z-index:5}
 .back-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
@@ -123,8 +102,6 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .back-btn:active{background:rgba(255,255,255,.12)}
 .list-title{font-size:19px;font-weight:700;color:#fff;letter-spacing:1px}
 .list-count{font-size:11px;color:#5e6690;margin-left:auto}
-
-/* 季节筛选 */
 .season-bar{display:flex;gap:8px;overflow-x:auto;padding:2px 0 14px;scrollbar-width:none}
 .season-bar::-webkit-scrollbar{display:none}
 .season-tab{flex-shrink:0;padding:5px 14px;border-radius:999px;font-size:11px;color:#7d84a0;
@@ -132,7 +109,6 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
   white-space:nowrap;cursor:pointer;transition:.2s}
 .season-tab.on{color:#fff;background:linear-gradient(120deg,#6d5ce7,#9b6cf6);border-color:transparent}
 
-/* 子列表卡片 */
 .sub-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .sub-card{background:rgba(17,21,34,.75);border:1px solid rgba(255,255,255,.06);
   border-radius:20px;padding:12px 10px 13px;display:flex;flex-direction:column;
@@ -143,12 +119,40 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .sub-card .nm{font-size:13.5px;font-weight:600;color:#e9ebf4;letter-spacing:.5px;text-align:center}
 .sub-card .en{font-size:9px;color:#545b78;letter-spacing:1.5px;text-transform:uppercase;text-align:center}
 
-/* 详情页（保持不变） */
+.search-bar{display:flex;align-items:center;gap:12px;padding:8px 0 14px;position:sticky;top:0;
+  background:linear-gradient(180deg,#05060A 82%,transparent);z-index:5}
+.search-box{flex:1;display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:9px 12px;transition:border-color .2s,background .2s}
+.search-box:focus-within{border-color:rgba(139,124,246,.6);background:rgba(139,124,246,.08)}
+.search-box-icon{color:#6b7394;flex-shrink:0;display:flex;align-items:center}
+.search-box input{flex:1;background:transparent;border:none;outline:none;
+  color:#e9ebf4;font-size:14px;font-family:inherit;letter-spacing:.5px}
+.search-box input::placeholder{color:#4d5470;letter-spacing:.5px}
+.search-clear-btn{width:20px;height:20px;border-radius:50%;display:none;
+  align-items:center;justify-content:center;background:rgba(255,255,255,.12);
+  color:#9aa0b8;font-size:11px;border:none;cursor:pointer;flex-shrink:0}
+.search-clear-btn:active{background:rgba(255,255,255,.22)}
+.search-cancel{font-size:13px;color:#9aa0b8;letter-spacing:1px;cursor:pointer;
+  padding:4px 2px;flex-shrink:0;user-select:none}
+.search-cancel:active{color:#a78bfa}
+.search-hint{padding-top:8px}
+.hint-title{font-size:12px;color:#5e6690;letter-spacing:2px;margin-bottom:12px}
+.hint-chips{display:flex;flex-wrap:wrap;gap:8px}
+.hint-chip{padding:6px 14px;border-radius:999px;font-size:12px;color:#a5adc8;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  cursor:pointer;transition:.18s;user-select:none}
+.hint-chip:active{background:rgba(139,124,246,.2);color:#fff;border-color:rgba(139,124,246,.4)}
+.search-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:60px 20px;text-align:center}
+.search-empty .empty-icon{font-size:44px;margin-bottom:18px;opacity:.55}
+.search-empty .empty-text{font-size:15px;color:#a5adc8;font-weight:600;margin-bottom:8px}
+.search-empty .empty-sub{font-size:12px;color:#5e6690;letter-spacing:.5px}
+
 .detail{position:absolute;inset:0;z-index:30;background:#05060A;overflow-y:auto;
   transform:translateY(102%);transition:transform .38s cubic-bezier(.4,0,.2,1);scrollbar-width:none}
 .detail::-webkit-scrollbar{display:none}
 .detail.open{transform:translateY(0)}
-
 .d-hero{position:relative;padding:34px 0 18px;display:flex;justify-content:center;align-items:center;
   background:radial-gradient(circle at 50% 45%,rgba(80,70,180,.16),transparent 68%)}
 .d-hero img{width:200px;height:200px;object-fit:cover;border-radius:50%;
@@ -165,27 +169,23 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .d-brief{font-size:14px;line-height:1.65;color:#b9bfd4;margin:16px 0 20px;
   padding-left:13px;border-left:2px solid #7c6cf0}
 .d-intro{font-size:13.5px;line-height:1.85;color:#969db5;margin:14px 0 6px;text-align:justify}
-
 .sec{font-size:14px;font-weight:700;color:#fff;letter-spacing:1px;margin:28px 0 14px;
   display:flex;align-items:center;gap:10px}
 .sec::before{content:'';width:3px;height:14px;border-radius:2px;
   background:linear-gradient(180deg,#a78bfa,#6366f1)}
 .sec::after{content:'';flex:1;height:1px;
   background:linear-gradient(90deg,rgba(120,110,220,.35),transparent)}
-
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .stat{background:rgba(19,23,38,.8);border:1px solid rgba(255,255,255,.055);
   border-radius:14px;padding:11px 13px}
 .stat .k{font-size:10px;color:#5b6382;letter-spacing:.5px}
 .stat .v{font-size:13px;color:#e3e6f2;font-weight:600;margin-top:4px}
-
 .comp-row{margin-bottom:11px}
 .comp-head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
 .comp-head span:first-child{color:#b6bcd2}
 .comp-head span:last-child{color:#6f7694;font-variant-numeric:tabular-nums}
 .comp-bar{height:6px;border-radius:3px;background:rgba(255,255,255,.055);overflow:hidden}
 .comp-fill{height:100%;border-radius:3px}
-
 .layers{display:flex;flex-direction:column;gap:9px}
 .layer{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;
   background:rgba(19,23,38,.7);border:1px solid rgba(255,255,255,.05);border-radius:14px}
@@ -193,13 +193,11 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
   box-shadow:0 0 10px currentColor}
 .layer-n{font-size:12.5px;font-weight:600;color:#dfe3f0;margin-bottom:3px}
 .layer-v{font-size:11.5px;line-height:1.55;color:#7b8299}
-
 .extra{display:flex;flex-direction:column;gap:8px}
 .extra-row{display:flex;justify-content:space-between;gap:14px;padding:11px 14px;
   background:rgba(19,23,38,.7);border:1px solid rgba(255,255,255,.05);border-radius:13px}
 .extra-row .k{font-size:12px;color:#6a7190;flex-shrink:0}
 .extra-row .v{font-size:12.5px;color:#d8dceb;text-align:right;line-height:1.5}
-
 .notes{list-style:none;display:flex;flex-direction:column;gap:10px}
 .notes li{position:relative;padding-left:20px;font-size:12.5px;line-height:1.7;color:#8d94ab}
 .notes li::before{content:'';position:absolute;left:4px;top:8px;width:5px;height:5px;
@@ -211,14 +209,12 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 <div class="phone">
   <div class="bg-stars" id="bgStars"></div>
 
-  <!-- 开场动画 -->
   <div class="splash" id="splash">
     <div class="splash-sky" id="splashSky"></div>
     <div class="splash-glow"></div>
     <div class="shooting"></div>
     <div class="shooting s2"></div>
     <div class="shooting s3"></div>
-
     <div class="splash-content">
       <div class="splash-bus-wrap">
         <svg class="bus-svg" width="86" height="86" viewBox="0 0 100 100">
@@ -253,32 +249,33 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
           <path d="M 15 56 Q 4 54 1 58 Q 7 60 15 58 Z" fill="#60a5fa" opacity=".3"/>
         </svg>
       </div>
-
       <div class="splash-welcome">欢 迎 搭 乘</div>
       <div class="splash-bus">星际大巴车</div>
       <div class="splash-divider"></div>
       <div class="splash-sub">穿越 138 亿年 · 抵达星辰大海</div>
     </div>
-
     <div class="splash-skip" id="splashSkip">跳过</div>
   </div>
 
-  <!-- 主应用 -->
   <div class="app" id="app">
     <div class="topbar">
       <div>
         <h1>COSMOS</h1>
         <span class="sub">宇宙百科 · 全景图鉴</span>
       </div>
-      <div class="icon-btn">✦</div>
+      <div class="icon-btn" id="searchBtn" title="搜索">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="16.8" y1="16.8" x2="21" y2="21"/>
+        </svg>
+      </div>
     </div>
 
-    <!-- 首页分类视图 -->
     <div class="view active" id="homeView">
       <div class="cat-grid" id="catGrid"></div>
     </div>
 
-    <!-- 子列表视图 -->
     <div class="view" id="listView">
       <div class="list-header">
         <div class="back-btn" id="backBtn">←</div>
@@ -288,12 +285,75 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
       <div class="season-bar" id="seasonBar" style="display:none"></div>
       <div class="sub-grid" id="subGrid"></div>
     </div>
+
+    <div class="view" id="searchView">
+      <div class="search-bar">
+        <div class="search-box">
+          <span class="search-box-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"/>
+              <line x1="16.8" y1="16.8" x2="21" y2="21"/>
+            </svg>
+          </span>
+          <input type="text" id="searchInput" placeholder="搜索天体、星座、星系…" autocomplete="off"/>
+          <button class="search-clear-btn" id="searchClearBtn" type="button">✕</button>
+        </div>
+        <div class="search-cancel" id="searchCancel">取消</div>
+      </div>
+      <div class="search-hint" id="searchHint">
+        <div class="hint-title">热 门 搜 索</div>
+        <div class="hint-chips" id="hintChips"></div>
+      </div>
+      <div class="sub-grid" id="searchResults"></div>
+      <div class="search-empty" id="searchEmpty" style="display:none">
+        <div class="empty-icon">🔭</div>
+        <div class="empty-text">没有找到相关天体</div>
+        <div class="empty-sub">试试「大熊座」「木星」或「猎户」</div>
+      </div>
+    </div>
   </div>
 
   <div class="detail" id="detail"></div>
 </div>
 
 <script>
+/* ============================================================
+   零、开屏动画控制
+============================================================ */
+(function() {
+  function closeSplash() {
+    var splash = document.getElementById('splash');
+    var app = document.getElementById('app');
+    if (!splash || splash.dataset.closed === '1') return;
+    splash.dataset.closed = '1';
+    splash.classList.add('hide');
+    if (app) app.classList.add('show');
+    setTimeout(function() {
+      if (splash) splash.style.display = 'none';
+    }, 1200);
+  }
+  function bindSkip() {
+    var skipBtn = document.getElementById('splashSkip');
+    if (!skipBtn) return;
+    skipBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      closeSplash();
+    });
+    skipBtn.addEventListener('touchstart', function(e) {
+      e.stopPropagation();
+      closeSplash();
+    }, { passive: true });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindSkip);
+  } else {
+    bindSkip();
+  }
+  setTimeout(closeSplash, 7000);
+  window.__closeSplash = closeSplash;
+})();
+
 /* ============================================================
    一、颜色工具
 ============================================================ */
@@ -352,7 +412,8 @@ function svgStar(p, size) {
 </svg>`;
 }
 
-function svgRocky(p, size, o = {}) {
+function svgRocky(p, size, o) {
+  o = o || {};
   const u = uid();
   let rnd = (o.seed || 7) * 9301 + 49297;
   const rand = () => { rnd = (rnd*9301+49297) % 233280; return rnd/233280; };
@@ -429,7 +490,8 @@ function svgEarth(p, size) {
 </svg>`;
 }
 
-function svgGas(p, size, o = {}) {
+function svgGas(p, size, o) {
+  o = o || {};
   const u = uid();
   const soft = o.soft ? 0.55 : 1;
   const rows = [
@@ -619,7 +681,6 @@ function svgConstellation(p, size, seed, starCount) {
   const u = uid();
   let rnd = (seed || 1) * 7919 + 104729;
   const rand = () => { rnd = (rnd * 9301 + 49297) % 233280; return rnd / 233280; };
-
   const pts = [];
   for (let i = 0; i < starCount; i++) {
     pts.push({
@@ -629,7 +690,6 @@ function svgConstellation(p, size, seed, starCount) {
       big: rand() > 0.72
     });
   }
-
   let lines = '';
   for (let i = 0; i < pts.length - 1; i++) {
     if (rand() > 0.32) {
@@ -638,7 +698,6 @@ function svgConstellation(p, size, seed, starCount) {
         stroke="${rgba(lighten(p.base, 30), 0.6)}" stroke-width="0.9" stroke-linecap="round"/>`;
     }
   }
-
   let dots = '';
   pts.forEach(pt => {
     const halo = pt.big ? 3.2 : 2.2;
@@ -647,7 +706,6 @@ function svgConstellation(p, size, seed, starCount) {
     dots += `<circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="${pt.r.toFixed(1)}"
       fill="#ffffff" opacity="${(0.75 + rand()*0.25).toFixed(2)}"/>`;
   });
-
   return `<svg viewBox="0 0 200 200" width="${size}" height="${size}">
   <defs>
     <radialGradient id="${u}bg" cx="50%" cy="50%" r="60%">
@@ -662,7 +720,6 @@ function svgConstellation(p, size, seed, starCount) {
 </svg>`;
 }
 
-/* 仅生成 SVG，用于首页和列表页，保证稳定 */
 function renderSVGOnly(body, size) {
   const p = { base: body.color, shadow: body.color2 };
   switch (body.shape) {
@@ -678,7 +735,6 @@ function renderSVGOnly(body, size) {
   }
 }
 
-/* NASA 图片映射（仅详情页使用） */
 const NASA_IMAGES = {
   sun:       'https://images-assets.nasa.gov/image/PIA03149/PIA03149~medium.jpg',
   mercury:   'https://images-assets.nasa.gov/image/PIA15162/PIA15162~medium.jpg',
@@ -696,7 +752,6 @@ const NASA_IMAGES = {
   galaxy:    'https://images-assets.nasa.gov/image/PIA04921/PIA04921~medium.jpg'
 };
 
-/* 详情页渲染：优先 NASA 图片，失败回退 SVG */
 function renderDetailArt(body, size) {
   const imgUrl = NASA_IMAGES[body.id];
   const svgStr = renderSVGOnly(body, size);
@@ -708,10 +763,9 @@ function renderDetailArt(body, size) {
 }
 
 /* ============================================================
-   三、天体主数据
+   三、天体主数据（与之前完全一致）
 ============================================================ */
 const DATA = [
-/* 太阳 */
 {
   id:'sun', name:'太阳', en:'Sun', cat:'恒星', shape:'star',
   color:'#FDB813', color2:'#C2620A',
@@ -746,7 +800,6 @@ const DATA = [
     '太阳不是固体，不同纬度自转速度不同，称为"较差自转"。'
   ]
 },
-/* 水星 */
 {
   id:'mercury', name:'水星', en:'Mercury', cat:'行星', shape:'rocky',
   color:'#B8B8B8', color2:'#5C5C5C', opts:{ craters:32, seed:3 },
@@ -778,7 +831,6 @@ const DATA = [
     '它正在缓慢收缩，表面的"皱脊"就是冷却收缩的证据。'
   ]
 },
-/* 金星 */
 {
   id:'venus', name:'金星', en:'Venus', cat:'行星', shape:'rocky',
   color:'#E8C97A', color2:'#8C6A2A', opts:{ craters:8, seed:11 },
@@ -813,7 +865,6 @@ const DATA = [
     '金星大气中含有微量磷化氢，其来源至今尚无定论。'
   ]
 },
-/* 地球 */
 {
   id:'earth', name:'地球', en:'Earth', cat:'行星', shape:'earth',
   color:'#2563EB', color2:'#0A1F4E',
@@ -848,7 +899,6 @@ const DATA = [
     '生命最早出现在至少 35 亿年前，光合作用改变了大气成分。'
   ]
 },
-/* 火星 */
 {
   id:'mars', name:'火星', en:'Mars', cat:'行星', shape:'rocky',
   color:'#D65A31', color2:'#7C2D12', opts:{ craters:22, seed:19, cap:true },
@@ -882,7 +932,6 @@ const DATA = [
     '火星尘暴可以持续数周并覆盖整个行星。'
   ]
 },
-/* 木星 */
 {
   id:'jupiter', name:'木星', en:'Jupiter', cat:'行星', shape:'gas',
   color:'#E8B87A', color2:'#8C5A2A', opts:{ spot:{x:76,y:118,rx:22,ry:13} },
@@ -917,7 +966,6 @@ const DATA = [
     '木星有微弱的行星环，由尘埃组成，是旅行者一号发现的。'
   ]
 },
-/* 土星 */
 {
   id:'saturn', name:'土星', en:'Saturn', cat:'行星', shape:'gas',
   color:'#E6D3A8', color2:'#8C7A4A', opts:{ ring:true, soft:true },
@@ -952,7 +1000,6 @@ const DATA = [
     '土星的密度比水低，是太阳系唯一"能浮起来"的行星。'
   ]
 },
-/* 天王星 */
 {
   id:'uranus', name:'天王星', en:'Uranus', cat:'行星', shape:'gas',
   color:'#8FE3E8', color2:'#2A7A85', opts:{ soft:true },
@@ -985,7 +1032,6 @@ const DATA = [
     '天王星 13 条环中，最外侧的 ε 环由牧羊卫星维持。'
   ]
 },
-/* 海王星 */
 {
   id:'neptune', name:'海王星', en:'Neptune', cat:'行星', shape:'gas',
   color:'#4F6BE0', color2:'#1A2A6B', opts:{ soft:true, spot:{x:78,y:100,rx:16,ry:9} },
@@ -1018,7 +1064,6 @@ const DATA = [
     '它的名字来自罗马神话海神尼普顿，中文"海王星"由此意译而来。'
   ]
 },
-/* 月球 */
 {
   id:'moon', name:'月球', en:'Moon', cat:'卫星', shape:'rocky',
   color:'#C9C9C9', color2:'#6B6B6B', opts:{ craters:34, seed:5 },
@@ -1051,7 +1096,6 @@ const DATA = [
     '月海其实是巨大的撞击盆地，后被玄武岩熔岩填充。'
   ]
 },
-/* 冥王星 */
 {
   id:'pluto', name:'冥王星', en:'Pluto', cat:'矮行星', shape:'rocky',
   color:'#C4A88B', color2:'#5C4A3A', opts:{ craters:14, seed:23 },
@@ -1083,7 +1127,6 @@ const DATA = [
     '2006 年之前，冥王星被视为第九大行星，后改列为矮行星。'
   ]
 },
-/* 彗星 */
 {
   id:'comet', name:'彗星', en:'Comet', cat:'彗星', shape:'comet',
   color:'#B0E0FF', color2:'#3A6BA5',
@@ -1117,7 +1160,6 @@ const DATA = [
     '彗星可能为早期地球带来了水和有机分子。'
   ]
 },
-/* 星云 */
 {
   id:'nebula', name:'星云', en:'Nebula', cat:'星云', shape:'nebula',
   color:'#C084FC', color2:'#5B21B6',
@@ -1150,7 +1192,6 @@ const DATA = [
     '星云中的尘埃含有硅酸盐和碳颗粒，是形成岩石行星的原料。'
   ]
 },
-/* 仙女座星系 */
 {
   id:'galaxy', name:'仙女座星系', en:'Andromeda', cat:'星系', shape:'galaxy',
   color:'#A78BFA', color2:'#4C1D95',
@@ -1183,7 +1224,6 @@ const DATA = [
     '它的中心黑洞质量约为太阳的 1 亿倍，比银河系中心黑洞大得多。'
   ]
 },
-/* 星际介质 */
 {
   id:'ism', name:'星际介质', en:'Interstellar Medium', cat:'星际介质', shape:'medium',
   color:'#7DD3FC', color2:'#1E3A8A',
@@ -1358,15 +1398,15 @@ const ALL_BODIES = [...DATA, ...CONSTELLATION_BODIES];
    五、分类元数据
 ============================================================ */
 const CATEGORIES = [
-  { id:'恒星', name:'恒星', desc:'燃烧自身发光的气体球' },
-  { id:'行星', name:'行星', desc:'环绕恒星运行的天体' },
-  { id:'卫星', name:'卫星', desc:'环绕行星运行的天体' },
-  { id:'矮行星', name:'矮行星', desc:'介于行星和小行星之间' },
-  { id:'彗星', name:'彗星', desc:'冰与尘埃组成的脏雪球' },
-  { id:'星云', name:'星云', desc:'星际气体和尘埃云' },
-  { id:'星系', name:'星系', desc:'由恒星、气体和暗物质组成' },
-  { id:'星际介质', name:'星际介质', desc:'恒星之间的气体和尘埃' },
-  { id:'星座', name:'星座', desc:'88 个标准天区划分' }
+  { id:'恒星', name:'恒星' },
+  { id:'行星', name:'行星' },
+  { id:'卫星', name:'卫星' },
+  { id:'矮行星', name:'矮行星' },
+  { id:'彗星', name:'彗星' },
+  { id:'星云', name:'星云' },
+  { id:'星系', name:'星系' },
+  { id:'星际介质', name:'星际介质' },
+  { id:'星座', name:'星座' }
 ];
 
 /* ============================================================
@@ -1374,19 +1414,35 @@ const CATEGORIES = [
 ============================================================ */
 const homeView = document.getElementById('homeView');
 const listView = document.getElementById('listView');
+const searchView = document.getElementById('searchView');
 const catGrid = document.getElementById('catGrid');
 const subGrid = document.getElementById('subGrid');
 const listTitle = document.getElementById('listTitle');
 const listCount = document.getElementById('listCount');
 const seasonBar = document.getElementById('seasonBar');
 const backBtn = document.getElementById('backBtn');
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+const searchHint = document.getElementById('searchHint');
+const searchEmpty = document.getElementById('searchEmpty');
+const searchClearBtn = document.getElementById('searchClearBtn');
+const searchCancel = document.getElementById('searchCancel');
+const searchBtn = document.getElementById('searchBtn');
+const hintChips = document.getElementById('hintChips');
 
 let currentCat = null;
 let currentSeason = '全部';
+let previousView = 'home';
+
+function hideAllViews() {
+  homeView.classList.remove('active');
+  listView.classList.remove('active');
+  searchView.classList.remove('active');
+}
 
 function showHome() {
+  hideAllViews();
   homeView.classList.add('active');
-  listView.classList.remove('active');
   currentCat = null;
   renderHome();
 }
@@ -1394,12 +1450,38 @@ function showHome() {
 function showList(cat) {
   currentCat = cat;
   currentSeason = '全部';
-  homeView.classList.remove('active');
+  hideAllViews();
   listView.classList.add('active');
   renderList();
+  listView.scrollTop = 0;
 }
 
-/* 首页分类卡片 */
+function showSearch() {
+  const active = document.querySelector('.view.active');
+  if (active) {
+    if (active.id === 'homeView') previousView = 'home';
+    else if (active.id === 'listView') previousView = 'list';
+  }
+  hideAllViews();
+  searchView.classList.add('active');
+  renderHintChips();
+  setTimeout(() => searchInput.focus(), 120);
+}
+
+function closeSearch() {
+  searchView.classList.remove('active');
+  if (previousView === 'list' && currentCat) {
+    listView.classList.add('active');
+  } else {
+    homeView.classList.add('active');
+  }
+  searchInput.value = '';
+  searchResults.innerHTML = '';
+  searchHint.style.display = 'block';
+  searchEmpty.style.display = 'none';
+  searchClearBtn.style.display = 'none';
+}
+
 function renderHome() {
   catGrid.innerHTML = '';
   CATEGORIES.forEach(cat => {
@@ -1418,13 +1500,11 @@ function renderHome() {
   });
 }
 
-/* 列表页 */
 function renderList() {
   const items = ALL_BODIES.filter(b => b.cat === currentCat);
   listTitle.textContent = currentCat;
   listCount.textContent = items.length + ' 个';
 
-  // 星座显示季节筛选
   if (currentCat === '星座') {
     seasonBar.style.display = 'flex';
     const seasons = ['全部', '春季', '夏季', '秋季', '冬季', '全年'];
@@ -1462,10 +1542,80 @@ function renderList() {
   });
 }
 
-backBtn.addEventListener('click', showHome);
+/* ============================================================
+   七、搜索功能
+============================================================ */
+const HOT_KEYWORDS = ['大熊座', '猎户座', '木星', '仙女座', '土星', '月球', '天狼星', '北斗七星'];
+
+function renderHintChips() {
+  hintChips.innerHTML = '';
+  HOT_KEYWORDS.forEach(kw => {
+    const chip = document.createElement('div');
+    chip.className = 'hint-chip';
+    chip.textContent = kw;
+    chip.addEventListener('click', () => {
+      searchInput.value = kw;
+      doSearch();
+    });
+    hintChips.appendChild(chip);
+  });
+}
+
+function matchBody(body, kw) {
+  const k = kw.toLowerCase().trim();
+  if (!k) return false;
+  if (body.name && body.name.toLowerCase().includes(k)) return true;
+  if (body.en && body.en.toLowerCase().includes(k)) return true;
+  if (body.cat && body.cat.toLowerCase().includes(k)) return true;
+  if (body.intro && body.intro.toLowerCase().includes(k)) return true;
+  return false;
+}
+
+function doSearch() {
+  const kw = searchInput.value.trim();
+  if (!kw) {
+    searchHint.style.display = 'block';
+    searchResults.innerHTML = '';
+    searchEmpty.style.display = 'none';
+    searchClearBtn.style.display = 'none';
+    return;
+  }
+  searchHint.style.display = 'none';
+  searchClearBtn.style.display = 'flex';
+
+  const results = ALL_BODIES.filter(b => matchBody(b, kw));
+
+  searchResults.innerHTML = '';
+  if (results.length === 0) {
+    searchEmpty.style.display = 'flex';
+    return;
+  }
+  searchEmpty.style.display = 'none';
+
+  results.forEach(body => {
+    const card = document.createElement('div');
+    card.className = 'sub-card';
+    card.innerHTML = `
+      <div class="art">${renderSVGOnly(body, 78)}</div>
+      <div class="nm">${body.name}</div>
+      <div class="en">${body.en}</div>
+    `;
+    card.addEventListener('click', () => openDetail(body));
+    searchResults.appendChild(card);
+  });
+}
+
+searchBtn.addEventListener('click', showSearch);
+searchCancel.addEventListener('click', closeSearch);
+searchInput.addEventListener('input', doSearch);
+searchClearBtn.addEventListener('click', () => {
+  searchInput.value = '';
+  searchInput.focus();
+  doSearch();
+});
 
 /* ============================================================
-   七、详情页
+   八、详情页
 ============================================================ */
 const detailEl = document.getElementById('detail');
 
@@ -1473,14 +1623,12 @@ function openDetail(body) {
   const statHtml = Object.entries(body.stats).map(([k,v]) =>
     `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`
   ).join('');
-
   const compHtml = body.comp.map(c => `
     <div class="comp-row">
       <div class="comp-head"><span>${c.n}</span><span>${c.v}%</span></div>
       <div class="comp-bar"><div class="comp-fill" style="width:${c.v}%;background:${c.c}"></div></div>
     </div>
   `).join('');
-
   const layerHtml = body.layers.map(l => `
     <div class="layer">
       <div class="layer-dot" style="background:${l.c};color:${l.c}"></div>
@@ -1490,11 +1638,9 @@ function openDetail(body) {
       </div>
     </div>
   `).join('');
-
   const extraHtml = body.extra.map(e => `
     <div class="extra-row"><span class="k">${e.k}</span><span class="v">${e.v}</span></div>
   `).join('');
-
   const notesHtml = body.notes.map(n => `<li>${n}</li>`).join('');
 
   detailEl.innerHTML = `
@@ -1508,28 +1654,21 @@ function openDetail(body) {
       <div class="d-en">${body.en}</div>
       <div class="d-brief">${body.brief}</div>
       <div class="d-intro">${body.intro}</div>
-
       <div class="sec">关键数据</div>
       <div class="stat-grid">${statHtml}</div>
-
       <div class="sec">成分组成</div>
       <div>${compHtml}</div>
-
       <div class="sec">结构分层</div>
       <div class="layers">${layerHtml}</div>
-
       <div class="sec">补充信息</div>
       <div class="extra">${extraHtml}</div>
-
       <div class="sec">你知道吗</div>
       <ul class="notes">${notesHtml}</ul>
       <div class="d-footer"></div>
     </div>
   `;
-
   detailEl.classList.add('open');
   detailEl.scrollTop = 0;
-
   document.getElementById('dClose').addEventListener('click', closeDetail);
 }
 
@@ -1538,18 +1677,47 @@ function closeDetail() {
 }
 
 /* ============================================================
-   八、开屏动画控制
+   九、初始化
 ============================================================ */
-(function initSplash() {
-  const splash = document.getElementById('splash');
-  const app = document.getElementById('app');
-  const skipBtn = document.getElementById('splashSkip');
-  const sky = document.getElementById('splashSky');
+try { renderHome(); } catch(e) { console.error('renderHome error:', e); }
 
-  for (let i = 0; i < 80; i++) {
-    const s = document.createElement('div');
-    s.className = 'ss';
-    const sz = Math.random() * 2.2 + 0.6;
-    s.style.width = sz + 'px';
-    s.style.height = sz + 'px';
-    s.style.left = Math.random() *
+(function buildStars() {
+  try {
+    const el = document.getElementById('bgStars');
+    if (!el) return;
+    for (let i = 0; i < 150; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const sz = Math.random() * 2.1 + 0.5;
+      s.style.width = sz + 'px';
+      s.style.height = sz + 'px';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 100 + '%';
+      s.style.animationDelay = (Math.random() * 4) + 's';
+      s.style.animationDuration = (3 + Math.random() * 4) + 's';
+      el.appendChild(s);
+    }
+  } catch(e) { console.error('buildStars error:', e); }
+})();
+
+(function buildSplashStars() {
+  try {
+    const sky = document.getElementById('splashSky');
+    if (!sky) return;
+    for (let i = 0; i < 80; i++) {
+      const s = document.createElement('div');
+      s.className = 'ss';
+      const sz = Math.random() * 2.2 + 0.6;
+      s.style.width = sz + 'px';
+      s.style.height = sz + 'px';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 100 + '%';
+      s.style.animationDelay = (Math.random() * 3) + 's';
+      s.style.animationDuration = (2 + Math.random() * 3) + 's';
+      sky.appendChild(s);
+    }
+  } catch(e) { console.error('buildSplashStars error:', e); }
+})();
+</script>
+</body>
+</html>
