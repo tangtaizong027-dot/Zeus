@@ -80,7 +80,6 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .splash-sub{font-size:11px;letter-spacing:4px;color:#5e6690;margin-top:18px;
   opacity:0;animation:fadeUp 1.2s 3.4s cubic-bezier(.2,.9,.25,1) forwards}
 
-/* 跳过按钮始终可点击 */
 .splash-skip{position:absolute;bottom:34px;right:28px;font-size:11px;color:#4d5470;
   letter-spacing:1px;padding:6px 12px;border:1px solid #1f2438;border-radius:999px;
   z-index:1000;opacity:0;animation:fadeUp 1s 1.2s forwards;cursor:pointer;
@@ -100,26 +99,51 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
 .icon-btn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
   background:rgba(108,92,231,.12);border:1px solid rgba(108,92,231,.25);color:#a78bfa;font-size:19px}
 
-.tabs{display:flex;gap:8px;overflow-x:auto;padding:10px 20px 14px;flex-shrink:0;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex-shrink:0;padding:7px 15px;border-radius:999px;font-size:12px;color:#7d84a0;
-  background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);
-  white-space:nowrap;transition:.22s;cursor:pointer;user-select:none}
-.tab.on{color:#fff;background:linear-gradient(120deg,#6d5ce7,#9b6cf6);border-color:transparent;
-  box-shadow:0 5px 18px rgba(109,92,231,.45)}
+.view{flex:1;overflow-y:auto;padding:0 20px 30px;scrollbar-width:none;display:none}
+.view.active{display:block}
+.view::-webkit-scrollbar{display:none}
 
-.grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px;
-  padding:0 20px 30px;scrollbar-width:none;align-content:start}
-.grid::-webkit-scrollbar{display:none}
-.card{background:rgba(17,21,34,.75);border:1px solid rgba(255,255,255,.06);
+/* 分类卡片 */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-top:8px}
+.cat-card{background:rgba(17,21,34,.75);border:1px solid rgba(255,255,255,.06);
+  border-radius:22px;padding:18px 12px 16px;display:flex;flex-direction:column;
+  align-items:center;gap:10px;cursor:pointer;transition:transform .18s,border-color .18s,background .18s;
+  user-select:none}
+.cat-card:active{transform:scale(.955);border-color:rgba(139,124,246,.55);background:rgba(30,26,60,.75)}
+.cat-card .cat-icon{width:68px;height:68px;display:flex;align-items:center;justify-content:center}
+.cat-card .cat-name{font-size:15px;font-weight:700;color:#e9ebf4;letter-spacing:1px}
+.cat-card .cat-count{font-size:11px;color:#5e6690;letter-spacing:1px}
+
+/* 列表页顶部 */
+.list-header{display:flex;align-items:center;gap:12px;padding:18px 0 14px;position:sticky;top:0;
+  background:linear-gradient(180deg,#05060A 70%,transparent);z-index:5}
+.back-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#9aa0b8;
+  font-size:16px;cursor:pointer;flex-shrink:0}
+.back-btn:active{background:rgba(255,255,255,.12)}
+.list-title{font-size:19px;font-weight:700;color:#fff;letter-spacing:1px}
+.list-count{font-size:11px;color:#5e6690;margin-left:auto}
+
+/* 季节筛选 */
+.season-bar{display:flex;gap:8px;overflow-x:auto;padding:2px 0 14px;scrollbar-width:none}
+.season-bar::-webkit-scrollbar{display:none}
+.season-tab{flex-shrink:0;padding:5px 14px;border-radius:999px;font-size:11px;color:#7d84a0;
+  background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);
+  white-space:nowrap;cursor:pointer;transition:.2s}
+.season-tab.on{color:#fff;background:linear-gradient(120deg,#6d5ce7,#9b6cf6);border-color:transparent}
+
+/* 子列表卡片 */
+.sub-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sub-card{background:rgba(17,21,34,.75);border:1px solid rgba(255,255,255,.06);
   border-radius:20px;padding:12px 10px 13px;display:flex;flex-direction:column;
   align-items:center;gap:7px;transition:transform .18s,border-color .18s,background .18s;
   cursor:pointer;user-select:none;overflow:hidden}
-.card:active{transform:scale(.955);border-color:rgba(139,124,246,.55);background:rgba(30,26,60,.75)}
-.card .nm{font-size:13.5px;font-weight:600;color:#e9ebf4;letter-spacing:.5px;text-align:center}
-.card .en{font-size:9px;color:#545b78;letter-spacing:1.5px;text-transform:uppercase;text-align:center}
-.card img{width:78px;height:78px;object-fit:cover;border-radius:50%}
+.sub-card:active{transform:scale(.955);border-color:rgba(139,124,246,.55);background:rgba(30,26,60,.75)}
+.sub-card .art{width:78px;height:78px;display:flex;align-items:center;justify-content:center}
+.sub-card .nm{font-size:13.5px;font-weight:600;color:#e9ebf4;letter-spacing:.5px;text-align:center}
+.sub-card .en{font-size:9px;color:#545b78;letter-spacing:1.5px;text-transform:uppercase;text-align:center}
 
+/* 详情页（保持不变） */
 .detail{position:absolute;inset:0;z-index:30;background:#05060A;overflow-y:auto;
   transform:translateY(102%);transition:transform .38s cubic-bezier(.4,0,.2,1);scrollbar-width:none}
 .detail::-webkit-scrollbar{display:none}
@@ -230,7 +254,7 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
         </svg>
       </div>
 
-      <div class="splash-welcome">欢迎黄雅琪、黄晓松小朋友搭乘</div>
+      <div class="splash-welcome">欢 迎 搭 乘</div>
       <div class="splash-bus">星际大巴车</div>
       <div class="splash-divider"></div>
       <div class="splash-sub">穿越 138 亿年 · 抵达星辰大海</div>
@@ -248,8 +272,22 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
       </div>
       <div class="icon-btn">✦</div>
     </div>
-    <div class="tabs" id="tabs"></div>
-    <div class="grid" id="grid"></div>
+
+    <!-- 首页分类视图 -->
+    <div class="view active" id="homeView">
+      <div class="cat-grid" id="catGrid"></div>
+    </div>
+
+    <!-- 子列表视图 -->
+    <div class="view" id="listView">
+      <div class="list-header">
+        <div class="back-btn" id="backBtn">←</div>
+        <div class="list-title" id="listTitle">行星</div>
+        <div class="list-count" id="listCount"></div>
+      </div>
+      <div class="season-bar" id="seasonBar" style="display:none"></div>
+      <div class="sub-grid" id="subGrid"></div>
+    </div>
   </div>
 
   <div class="detail" id="detail"></div>
@@ -276,7 +314,7 @@ const darken = (h,p) => {
 };
 
 /* ============================================================
-   二、SVG 渲染器（图片加载失败时的回退）
+   二、SVG 渲染器
 ============================================================ */
 let _uid = 0;
 const uid = () => 'u' + (++_uid);
@@ -624,7 +662,23 @@ function svgConstellation(p, size, seed, starCount) {
 </svg>`;
 }
 
-/* ============ NASA 真实图片映射表 ============ */
+/* 仅生成 SVG，用于首页和列表页，保证稳定 */
+function renderSVGOnly(body, size) {
+  const p = { base: body.color, shadow: body.color2 };
+  switch (body.shape) {
+    case 'star':          return svgStar(p, size);
+    case 'earth':         return svgEarth(p, size);
+    case 'gas':           return svgGas(p, size, body.opts || {});
+    case 'comet':         return svgComet(p, size);
+    case 'nebula':        return svgNebula(p, size);
+    case 'galaxy':        return svgGalaxy(p, size);
+    case 'medium':        return svgMedium(p, size);
+    case 'constellation': return svgConstellation(p, size, body.seed || 1, body.starCount || 8);
+    default:              return svgRocky(p, size, body.opts || {});
+  }
+}
+
+/* NASA 图片映射（仅详情页使用） */
 const NASA_IMAGES = {
   sun:       'https://images-assets.nasa.gov/image/PIA03149/PIA03149~medium.jpg',
   mercury:   'https://images-assets.nasa.gov/image/PIA15162/PIA15162~medium.jpg',
@@ -642,30 +696,15 @@ const NASA_IMAGES = {
   galaxy:    'https://images-assets.nasa.gov/image/PIA04921/PIA04921~medium.jpg'
 };
 
-/* ---- 分发器：优先 NASA 真实图片，失败回退 SVG ---- */
-function renderArt(body, size) {
-  const p = { base: body.color, shadow: body.color2 };
+/* 详情页渲染：优先 NASA 图片，失败回退 SVG */
+function renderDetailArt(body, size) {
   const imgUrl = NASA_IMAGES[body.id];
-  const svgFallback = (() => {
-    switch (body.shape) {
-      case 'star':          return svgStar(p, size);
-      case 'earth':         return svgEarth(p, size);
-      case 'gas':           return svgGas(p, size, body.opts || {});
-      case 'comet':         return svgComet(p, size);
-      case 'nebula':        return svgNebula(p, size);
-      case 'galaxy':        return svgGalaxy(p, size);
-      case 'medium':        return svgMedium(p, size);
-      case 'constellation': return svgConstellation(p, size, body.seed || 1, body.starCount || 8);
-      default:              return svgRocky(p, size, body.opts || {});
-    }
-  })();
-
-  if (!imgUrl) return svgFallback;
-
+  const svgStr = renderSVGOnly(body, size);
+  if (!imgUrl) return svgStr;
   return `<img src="${imgUrl}" width="${size}" height="${size}"
-    style="object-fit:cover;border-radius:50%;box-shadow:0 0 30px ${rgba(body.color,0.35)}"
+    style="object-fit:cover;border-radius:50%;box-shadow:0 0 50px ${rgba(body.color,0.35)}"
     alt="${body.name}"
-    onerror="this.outerHTML='${svgFallback.replace(/'/g, "\\'")}'" />`;
+    onerror="this.outerHTML='${svgStr.replace(/'/g, "\\'")}'" />`;
 }
 
 /* ============================================================
@@ -1274,7 +1313,6 @@ const CONSTELLATIONS = [
   {id:'vul', name:'狐狸座', en:'Vulpecula', lat:'赤道', q:'夏季', star:'狐狸座α', area:'268'}
 ];
 
-/* 将星座转换为天体卡片格式 */
 const CONSTELLATION_BODIES = CONSTELLATIONS.map((c, i) => ({
   id: 'con_' + c.id,
   name: c.name,
@@ -1285,6 +1323,7 @@ const CONSTELLATION_BODIES = CONSTELLATIONS.map((c, i) => ({
   color2: '#1E293B',
   seed: i + 1,
   starCount: 6 + (i % 7),
+  season: c.q,
   brief: `${c.name}位于${c.lat}，是${c.q}季的代表星座。主要亮星为${c.star}，天区面积约 ${c.area} 平方度。`,
   intro: `${c.name}（${c.en}）是国际天文学联合会（IAU）正式划分的 88 个星座之一，位于${c.lat}。它是${c.q}季夜空中最容易辨认的星座之一。${c.name}的主要亮星是${c.star}，整个星座覆盖天区约 ${c.area} 平方度。在古希腊神话中，${c.name}有着丰富的传说背景，这些故事跨越数千年，将星空与人类文明紧密相连。`,
   stats: { '所属天区': c.lat, '最佳观测季节': c.q + '季', '主要亮星': c.star, '天区面积': c.area + ' 平方度' },
@@ -1313,50 +1352,120 @@ const CONSTELLATION_BODIES = CONSTELLATIONS.map((c, i) => ({
   ]
 }));
 
-/* 合并所有卡片数据 */
 const ALL_BODIES = [...DATA, ...CONSTELLATION_BODIES];
 
 /* ============================================================
-   五、渲染首页
+   五、分类元数据
 ============================================================ */
-const CATS = ['全部','恒星','行星','卫星','矮行星','彗星','星云','星系','星际介质','星座'];
-let currentCat = '全部';
+const CATEGORIES = [
+  { id:'恒星', name:'恒星', desc:'燃烧自身发光的气体球' },
+  { id:'行星', name:'行星', desc:'环绕恒星运行的天体' },
+  { id:'卫星', name:'卫星', desc:'环绕行星运行的天体' },
+  { id:'矮行星', name:'矮行星', desc:'介于行星和小行星之间' },
+  { id:'彗星', name:'彗星', desc:'冰与尘埃组成的脏雪球' },
+  { id:'星云', name:'星云', desc:'星际气体和尘埃云' },
+  { id:'星系', name:'星系', desc:'由恒星、气体和暗物质组成' },
+  { id:'星际介质', name:'星际介质', desc:'恒星之间的气体和尘埃' },
+  { id:'星座', name:'星座', desc:'88 个标准天区划分' }
+];
 
-const tabsEl = document.getElementById('tabs');
-const gridEl = document.getElementById('grid');
+/* ============================================================
+   六、视图控制
+============================================================ */
+const homeView = document.getElementById('homeView');
+const listView = document.getElementById('listView');
+const catGrid = document.getElementById('catGrid');
+const subGrid = document.getElementById('subGrid');
+const listTitle = document.getElementById('listTitle');
+const listCount = document.getElementById('listCount');
+const seasonBar = document.getElementById('seasonBar');
+const backBtn = document.getElementById('backBtn');
 
-CATS.forEach(c => {
-  const t = document.createElement('div');
-  t.className = 'tab' + (c === '全部' ? ' on' : '');
-  t.textContent = c;
-  t.dataset.cat = c;
-  t.addEventListener('click', () => {
-    currentCat = c;
-    document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x.dataset.cat === c));
-    renderGrid();
+let currentCat = null;
+let currentSeason = '全部';
+
+function showHome() {
+  homeView.classList.add('active');
+  listView.classList.remove('active');
+  currentCat = null;
+  renderHome();
+}
+
+function showList(cat) {
+  currentCat = cat;
+  currentSeason = '全部';
+  homeView.classList.remove('active');
+  listView.classList.add('active');
+  renderList();
+}
+
+/* 首页分类卡片 */
+function renderHome() {
+  catGrid.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const items = ALL_BODIES.filter(b => b.cat === cat.id);
+    const count = items.length;
+    const rep = items[0];
+    const card = document.createElement('div');
+    card.className = 'cat-card';
+    card.innerHTML = `
+      <div class="cat-icon">${rep ? renderSVGOnly(rep, 68) : ''}</div>
+      <div class="cat-name">${cat.name}</div>
+      <div class="cat-count">${count} 个天体</div>
+    `;
+    card.addEventListener('click', () => showList(cat.id));
+    catGrid.appendChild(card);
   });
-  tabsEl.appendChild(t);
-});
+}
 
-function renderGrid() {
-  gridEl.innerHTML = '';
-  const list = currentCat === '全部' ? ALL_BODIES : ALL_BODIES.filter(d => d.cat === currentCat);
+/* 列表页 */
+function renderList() {
+  const items = ALL_BODIES.filter(b => b.cat === currentCat);
+  listTitle.textContent = currentCat;
+  listCount.textContent = items.length + ' 个';
+
+  // 星座显示季节筛选
+  if (currentCat === '星座') {
+    seasonBar.style.display = 'flex';
+    const seasons = ['全部', '春季', '夏季', '秋季', '冬季', '全年'];
+    seasonBar.innerHTML = '';
+    seasons.forEach(s => {
+      const t = document.createElement('div');
+      t.className = 'season-tab' + (s === currentSeason ? ' on' : '');
+      t.textContent = s;
+      t.addEventListener('click', () => {
+        currentSeason = s;
+        renderList();
+      });
+      seasonBar.appendChild(t);
+    });
+  } else {
+    seasonBar.style.display = 'none';
+  }
+
+  let list = items;
+  if (currentCat === '星座' && currentSeason !== '全部') {
+    list = items.filter(b => b.season === currentSeason);
+  }
+
+  subGrid.innerHTML = '';
   list.forEach(body => {
     const card = document.createElement('div');
-    card.className = 'card';
+    card.className = 'sub-card';
     card.innerHTML = `
-      <div class="art">${renderArt(body, 78)}</div>
+      <div class="art">${renderSVGOnly(body, 78)}</div>
       <div class="nm">${body.name}</div>
       <div class="en">${body.en}</div>
     `;
     card.addEventListener('click', () => openDetail(body));
-    gridEl.appendChild(card);
+    subGrid.appendChild(card);
   });
 }
-renderGrid();
+
+backBtn.addEventListener('click', showHome);
 
 /* ============================================================
-   六、详情页
+   七、详情页
 ============================================================ */
 const detailEl = document.getElementById('detail');
 
@@ -1391,7 +1500,7 @@ function openDetail(body) {
   detailEl.innerHTML = `
     <div class="d-hero">
       <div class="d-close" id="dClose">✕</div>
-      ${renderArt(body, 200)}
+      ${renderDetailArt(body, 200)}
     </div>
     <div class="d-body">
       <div class="d-cat">${body.cat}</div>
@@ -1429,7 +1538,7 @@ function closeDetail() {
 }
 
 /* ============================================================
-   七、开屏动画控制
+   八、开屏动画控制
 ============================================================ */
 (function initSplash() {
   const splash = document.getElementById('splash');
@@ -1443,58 +1552,4 @@ function closeDetail() {
     const sz = Math.random() * 2.2 + 0.6;
     s.style.width = sz + 'px';
     s.style.height = sz + 'px';
-    s.style.left = Math.random() * 100 + '%';
-    s.style.top = Math.random() * 100 + '%';
-    s.style.animationDelay = (Math.random() * 3) + 's';
-    s.style.animationDuration = (2 + Math.random() * 3) + 's';
-    sky.appendChild(s);
-  }
-
-  let closed = false;
-
-  function closeSplash() {
-    if (closed) return;
-    closed = true;
-    splash.classList.add('hide');
-    app.classList.add('show');
-    setTimeout(() => {
-      splash.style.display = 'none';
-    }, 1200);
-  }
-
-  skipBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    closeSplash();
-  });
-  skipBtn.addEventListener('touchstart', (e) => {
-    e.stopPropagation();
-    closeSplash();
-  }, { passive: true });
-
-  const autoTimer = setTimeout(closeSplash, 8000);
-
-  skipBtn.addEventListener('click', () => clearTimeout(autoTimer));
-  skipBtn.addEventListener('touchstart', () => clearTimeout(autoTimer));
-})();
-
-/* ============================================================
-   八、背景星野
-============================================================ */
-(function buildStars() {
-  const el = document.getElementById('bgStars');
-  for (let i = 0; i < 150; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const sz = Math.random() * 2.1 + 0.5;
-    s.style.width = sz + 'px';
-    s.style.height = sz + 'px';
-    s.style.left = Math.random() * 100 + '%';
-    s.style.top = Math.random() * 100 + '%';
-    s.style.animationDelay = (Math.random() * 4) + 's';
-    s.style.animationDuration = (3 + Math.random() * 4) + 's';
-    el.appendChild(s);
-  }
-})();
-</script>
-</body>
-</html>
+    s.style.left = Math.random() *
